@@ -1,0 +1,262 @@
+<template>
+  <div>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">YOU ARE HERE</li>
+      <li class="breadcrumb-item active">Banner Dashboard - {{data.id}}</li>
+    </ol>
+
+
+    <b-row>
+
+      <b-col lg='8' xs='12'>
+        <Widget
+          customHeader 
+        >
+          <b-form>
+            <fieldset>
+   <legend> Information</legend>
+                 <b-form-group
+                horizontal
+                :label-cols="3"
+                label-breakpoint="md"
+                label-for="username"
+              >
+                <div slot="label">
+                  Banner ID
+                </div>
+                <input
+                  data-vv-validate-on="change"
+                  v-validate="'required|min:5'"
+                  name="minlength"
+                  :class="{ 'form-control': true, 'is-invalid': errors.has('minlength')}"
+                  type="text"
+                v-model="data.id"
+                 disabled 
+                />
+              </b-form-group>
+             
+            </fieldset>
+            <div class="form-action">
+             
+              <b-button type="button" variant="default" class="btn-rounded" @click="navigateToUpdate()" >
+               Edit Banner
+              </b-button>
+            </div>
+          </b-form>
+        </Widget>
+     
+ <Widget
+          customHeader 
+        >
+   <legend>Images</legend>
+<h3> Cover Image </h3>
+ <b-carousel id="carousel2" indicators controls :interval="10000">
+          <b-carousel-slide v-for="img in cover_image" :key="img" :img-src="img" />
+        </b-carousel>
+<br><br>
+
+        </Widget>
+          <Widget
+          customHeader 
+        >
+          <b-form>
+            <fieldset>
+   <legend>Banner Status </legend>
+     <b-badge variant="success" v-if="data.status==1">STATUS : ACTIVE BANNER</b-badge><b-badge variant="danger" v-if="data.status==0">STATUS : BANNER SUSPENDED</b-badge> <br><br>
+       <b-button type="button" variant="success" class="btn-rounded" @click="activateService()" v-if="data.status==0">
+           Activate Banner   
+        </b-button>      
+        <b-button type="button" variant="danger" class="btn-rounded" @click="suspendService()" v-if="data.status==1">
+          Suspend Banner    
+        </b-button> 
+      &nbsp;                            
+            </fieldset>
+            <div class="form-action">
+            
+            </div>
+          </b-form>
+        </Widget>
+      </b-col>
+    </b-row>
+    
+  </div>
+</template>
+
+<script>
+import 'imports-loader?$=jquery,this=>window!messenger/build/js/messenger'; // eslint-disable-line
+import Widget from '@/components/Widget/Widget';
+
+const { Messenger } = window;
+
+/* eslint-disable */
+function initializationMessengerCode() {
+  (function () {
+    let $,
+      FlatMessage,
+      spinner_template,
+      __hasProp = {}.hasOwnProperty,
+      __extends = function (child, parent) {
+        for (const key in parent) {
+          if (__hasProp.call(parent, key)) child[key] = parent[key];
+        }
+
+        function ctor() {
+          this.constructor = child;
+        }
+
+        ctor.prototype = parent.prototype;
+        child.prototype = new ctor();
+        child.__super__ = parent.prototype;
+        return child;
+      };
+
+    $ = jQuery;
+
+    spinner_template = '<div class="messenger-spinner">\n    <span class="messenger-spinner-side messenger-spinner-side-left">\n        <span class="messenger-spinner-fill"></span>\n    </span>\n    <span class="messenger-spinner-side messenger-spinner-side-right">\n        <span class="messenger-spinner-fill"></span>\n    </span>\n</div>';
+
+    FlatMessage = (function (_super) {
+      __extends(FlatMessage, _super);
+
+      function FlatMessage() {
+        return FlatMessage.__super__.constructor.apply(this, arguments);
+      }
+
+      FlatMessage.prototype.template = function (opts) {
+        let $message;
+        $message = FlatMessage.__super__.template.apply(this, arguments);
+        $message.append($(spinner_template));
+        return $message;
+      };
+
+      return FlatMessage;
+    }(Messenger.Message));
+
+    Messenger.themes.air = {
+      Message: FlatMessage,
+    };
+  }).call(window);
+}
+/* eslint-enable */
+
+
+export default {
+  name: 'FormValidation',
+  components: { Widget },
+  data() {
+    return {
+      data:{},
+      bannerId: this.$route.params.bannerId,
+      isLoading:false,
+      locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
+      cover_image:[],
+   
+    };
+  },
+  methods: {
+    navigateToUpdate(){
+        this.$router.push({name:'BannersUpdate', params: { bannerId :this.bannerId}});
+    },
+    activateService(){
+         var self = this;
+       self.isLoading = true;
+      self.$validator.validateAll().then((result) => {
+		  if (result) {
+                self.axios.patch('https://backend.medicodesolution.com/staging/banners/status/'+this.bannerId, {
+                   status:1
+                })
+                .then(function (response) {
+                if(response.status == 200 && response.data.success){
+                self.isLoading = false;
+               self.getService();
+               return Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
+               
+                }
+                else {
+                  if(response.data.error){
+                    self.isLoading = false;
+                  return Messenger().post({ type:'error',message :response.data.error, hideAfter: 3,showCloseButton:true});
+          
+                  }
+                 else {
+                   self.isLoading = false;
+                 return Messenger().post({ type:'error',message :response.error, hideAfter: 3,showCloseButton:true});
+                   }
+                }
+                })
+                .catch(function (error) {
+                  self.isLoading = false;
+                  return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
+                });   
+		  }
+                  if(!result){
+                    self.isLoading = false;
+        	          return;
+                  }
+		});
+    },
+    suspendService(){
+         var self = this;
+       self.isLoading = true;
+      self.$validator.validateAll().then((result) => {
+		  if (result) {
+                self.axios.patch('https://backend.medicodesolution.com/staging/banners/status/'+this.bannerId, {
+                   status:0
+                })
+                .then(function (response) {
+                if(response.status == 200 && response.data.success){
+                self.isLoading = false;
+               self.getService();
+               return Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
+               
+                }
+                else {
+                  if(response.data.error){
+                    self.isLoading = false;
+                  return Messenger().post({ type:'error',message :response.data.error, hideAfter: 3,showCloseButton:true});
+          
+                  }
+                 else {
+                   self.isLoading = false;
+                 return Messenger().post({ type:'error',message :response.error, hideAfter: 3,showCloseButton:true});
+                   }
+                }
+                })
+                .catch(function (error) {
+                  self.isLoading = false;
+                  return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
+                });   
+		  }
+                  if(!result){
+                    self.isLoading = false;
+        	          return;
+                  }
+		});
+    },    
+    async getService() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/staging/banners/'+ this.bannerId)
+   this.data = response.data.bannerInfo[0];
+   this.cover_image[0] = response.data.bannerInfo[0].cover_image_url;
+ 
+  } catch (error) {
+    console.error(error);
+  }
+}
+  },
+   mounted(){
+     this.getService();
+     
+  
+      
+   },
+     created() {
+    initializationMessengerCode();
+    Messenger.options = {
+      extraClasses: this.locationClasses,
+      theme: 'air',
+      showCloseButton: true,
+    };
+  
+  },
+};
+</script>

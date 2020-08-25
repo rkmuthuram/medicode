@@ -1,0 +1,8 @@
+runtime: nodejs10
+
+env_variables:
+  GCLOUD_STORAGE_BUCKET: gv-live
+beta_settings:
+    cloud_sql_instances: node-mysql-test:asia-southeast1:node-mysql-test-intance
+
+  
