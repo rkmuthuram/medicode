@@ -34,13 +34,11 @@
                   data-vv-validate-on="change"
                   v-validate="'required'"
                   name="internalbar"
-                  :class="{ 'form-control': true, 'is-invalid': errors.has('internalbar')}"
+                  :class="{ 'form-control': true}"
                   type="text"
                 v-model="data.internal_barcode"
                 />
-                <span class="text-danger" v-if="errors.has('internalbar')">
-                  {{ errors.first('internalbar') }}
-                </span>
+               
               </b-form-group>
                   <b-form-group
                 horizontal
@@ -53,16 +51,13 @@
               Manufacturer Bar Code
                 </div>
                 <input
-                  data-vv-validate-on="change"
-                  v-validate="'required'"
+                 
                   name="manufacturerbar"
-                  :class="{ 'form-control': true, 'is-invalid': errors.has('manufacturerbar')}"
+                  :class="{ 'form-control': true}"
                   type="text"
                 v-model="data.manufacturer_barcode"
                 />
-                <span class="text-danger" v-if="errors.has('manufacturerbar')">
-                  {{ errors.first('manufacturerbar') }}
-                </span>
+              
               </b-form-group>
                    <b-form-group
                 horizontal
@@ -174,26 +169,26 @@
                   {{ errors.first('ingredient') }}
                 </span>
               </b-form-group>
-                        <b-form-group
-                horizontal
-                :label-cols="3"
-                label-breakpoint="md"
-                label-for="manufacturer"
-                description=""
-              >
-                <div slot="label">
-               Manufacturer
-                </div>
-                 <b-col md='9'>
+                       
+               <b-form-group
+              label="Manufacturer"
+              label-for="default-select"
+              :label-cols="3"
+              description=""
+            >
+              <b-row>
+                <b-col md='9'>
                     <v-select
-                        id="insurance"
+                    taggable
+                        id="insuranceSelect2"
                         class="mt-xs"
                         v-model="data.manufacturer"
                         :options="manufacturerTypes" 
                     />
                  
                 </b-col>
-              </b-form-group>
+              </b-row>
+            </b-form-group>     
                   <b-form-group
                 horizontal
                 :label-cols="3"
@@ -228,16 +223,13 @@
             Color
                 </div>
                 <input
-                  data-vv-validate-on="change"
-                  v-validate="'required|min:3'"
+                
                   name="color"
-                  :class="{ 'form-control': true, 'is-invalid': errors.has('color')}"
+                  :class="{ 'form-control': true}"
                   type="text"
                 v-model="data.color"
                 />
-                <span class="text-danger" v-if="errors.has('color')">
-                  {{ errors.first('color') }}
-                </span>
+               
               </b-form-group>
          
 
@@ -351,6 +343,7 @@ export default {
   try {
    const response = await this.axios.get('https://backend.medicodesolution.com/staging/packingTypes')
    this.packingTypes = response.data.packingTypes;
+   console.log(this.packingTypes);
  
   } catch (error) {
     console.error(error);
@@ -359,7 +352,9 @@ export default {
  async getManufacturerTypes() {
   try {
    const response = await this.axios.get('https://backend.medicodesolution.com/staging/manufacturerTypes')
-   this.manufacturerTypes = response.data.manufacturerTypes;
+   var list = response.data.manufacturerTypes;
+    this.manufacturerTypes = ['Favorex (Switzerland) / Thailand','Duopharma / Malaysia','Sanofi Aventis / France','Prime / Malaysia','Beaufour-Ipsen / France','Abbott / USA','DHA / Singapore','Pharmaniaga / Malaysia','Atlantic / Thailand','Arab Pharma / Jordan','Sanofi Aventis / UK','Aspen / Sweden','Glenmark / India','Galenium / Indonesia','GlaxoSmithKline / Philippines','Leo / Denmark','Hoe / Malaysia','GluStitch / Canada','Takeda / Germany','Novartis / Switzerland','Abbott / Australia','Pahang Pharmacy / Malaysia','Aspen / Holland','Pfizer / Belgium','LBS / Thailand','Bayer / Mexico','KRKA / Slovenia','Shin Poong / Korea','MSD / Belgium','LBS /  Thailand','Sandoz / Austria','Roche / Switzerland','Novartis / Italy','Serum Institute / India','Sanofi Pasteur / France','Japan BCG Lab / Japan','GlaxoSmithKline / Belgium','MSD / USA','Sanofi Pasteur / Korea','Abbott / Holland','GlaxoSmithKline / Italy','Pfizer / USA','Pfizer / Australia','Aspen / Australia','Aspen / France','Boehringer Ingelheim / Canada','Boehringer Ingelheim / Germany','GlaxoSmithKline / UK','AstraZeneca / Sweden','Cipla / India','GlaxoSmithKline / France','GlaxoSmithKline / Spain','GlaxoSmithKline / Australia','Abbott / Pakistan','Johnson & Johnson / Sweden','Roche / Germany','Roche / USA','Intercare / Korea','Johnson & Johnson / USA','Acro / USA','Allen Healthcare Products / Malaysi','Pahang Pharmacy / China','Becton Dickinson / USA','Intercare / Malaysia','Schmidt / China','Intercare / China','Xepa / Malaysia','Reckitt Benckiser / UK','Janssen / Belgium','Kotra / Malaysia','Sunward / Malaysia','iNova/India','iNova/Italy','iNova/Australia','Rowa / Ireland','DDD / UK','Reckitt Benckiser / Thailand','Biosis / Malaysia','MPI / Malaysia','CCM/DUOPHARMA/Malaysia','Prime/Malaysia','Hovid / Malaysia','Pfizer / UK','Menarini / Thailand','Torrent / India','Abbott / Malaysia','Sanofi Aventis / Italy','CCM/DUOPHARMA / Malaysia','Intas /  India','Eisai / Japan','Ranbaxy / Malaysia','Apotex / Canada','GlaxoSmithKline / China','Abbott / France','Abbott / Japan','DHA / Indonesia','Mayoly Spindler / France','Janssen / France','Sunward / Singapore','Sanofi Aventis / Germany','Meda / Germany','Kabi / Austria','Remedica/Cyprus','Biosis/Malaysia','Merck / Germany','Novo Nordisk / Denmark','Servier / France','Astra Zeneca / USA','Alphapharm / Australia','Actavis / Greece','Bayer / Germany','Merck / France','Merck  / France','MSD / Italy','Unam / Philippines','Pharmaton / Switzerland','Procter & Gamble / Austria','Pharmaton / Germany','Sanofi Aventis / Thailand','Pfizer / China','Novartis / UK','null','Abbott / Indonesia','Procter & Gamble / Indonesia','Reckitt Benkinser / UK','Actavis / Malta','Sandoz / India','Sanofi Aventis / Spain','Daiichi / Japan','Actavis / UK','Topridge / China','Aspen / Germany','SM Pharma / Malaysia','Janssen / Italy','Himalaya / India','Sanofi Aventis / Canada','AstraZeneca / Philippines','Roche / Italy','AstraZeneca / China','Menarini / UK','AstraZeneca / UK','Intas / India','Sandoz / Slovenia','Tanabe / Japan','Tanabe / Indonesia','Medochemie / Cyprus','Menarini / Sweden','Servier / Ireland','MSD / UK','MSD / Korea','Novartis / Spain','Sandoz / Iceland','Xepa  / Malaysia','Xepa /  Malaysia','SanofiAventis / Turkey','Boehringer Ingelheim / India','Sanofi Aventis/Czechoslavakia','AstraZeneca / USA','Pfizer / Ireland','Sanofi Aventis / Czechoslavakia','MSD / Singapore','GlaxoSmithKline / Switzerland','Rohto-Mentholatum / Australia','MSD / Canada','GlaxoSmithKline / Philipines','Galderma / USA','Reckitt Benckiser / Singapore','Sanofi Aventis / Vietnam','GlaxoSmithKline / Poland','Tena / Holland','Merz / Germany','Smith & Nephew / UK','Menarini / Switzerland','GlaxoSmithKline / Ireland','Almirall / Germany','Pfizer / Canada','Lilly / USA','GlaxoSmithKline / Germany','MSD / Australia','Shire / Italy','MSD / Holland','Bayer  / Germany','Gedeon Richter / Hungary','Remedica / Cyprus','Bayer / France','Pfizer / Italy','Bayer / Brazil','MSD / Ireland','Actavis / Singapore','Sandoz / Romania','Sandoz / Bangladesh','Ranbaxy/India','Pfizer / France','Abbott / UK','CCM/DUOPHARMA Duopharma / Malaysia','Hovid / Turkey','Pfizer / Japan','Unichem / India','Ain Medicare / Malaysia','B.Braun / Malaysia','Novartis / Turkey','Pfizer/ USA','Sandoz / Germany','Atnahs / Spain','Atnahs/Spain','Mylan / Ireland','Rohto-Mentholatum / China','Macro Phar / Thailand','Menarini / Italy','Actavis / Indonesia','iNova / India','Takeda / Thailand','Takeda / Spain','MSD / Spain','Walter Ritter / Germany','Medochemie/Cyprus','Cadila / India','Janssen / Korea','Pfizer / Germany','Zim Lab / India','GlaxoSmithKline / Malaysia','Boehringer Ingelheim/Italy','Boehringer Ingelheim/UK','Boehringer Ingelheim / UK','Sandoz / Turkey','AstraZeneca / Australia','Bayer / Belgium','Bayer/ Belgium','Sanofi Aventis / USA','Sanofi Aventis / Brazil','Mylan / Portugal','Bayer / Indonesia','Procter & Gamble / Germany','Alcon / Belgium','Alcon Cusi / Spain','Alcon / France','SMPharma / Malaysia','OM / Switzerland','Ursapharm / Germany','Pfizer / Indonesia','Madras Pharma / India','Prime / China','3M / USA','Urgo / France','Supermax / Malaysia','B.Braun / Vietnam','Terumo / China','Becton Dickinson / Singapore','Novo Nordisk / Japan','Terumo / Phillipines','Terumo / Korea','Terumo / Sweden','Banta / USA','Pal / UK','Sunbelt USA','B.Braun / Germany','Sunbelt / USA','YSP'];
+ 
   } catch (error) {
     console.error(error);
   }
@@ -368,10 +363,10 @@ export default {
        var self = this;
        
       e.preventDefault();
-    
+   
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-     
+      console.log(self.data)
                 self.axios.post('https://backend.medicodesolution.com/staging/medicine/', {
               
     company_name: self.data.company_name,
@@ -384,7 +379,7 @@ export default {
          packing_quantity:self.data.packing_quantity,
          manufacturer_barcode:self.data.manufacturer_barcode,
          internal_barcode:self.data.internal_barcode,
-          internal_qrcode:self.data.internal_qrcode
+        //  internal_qrcode:self.data.internal_qrcode
 
                 })
                 .then(function (response) {

@@ -26,13 +26,14 @@ import ClinicAccountUpdate from '@/pages/Accounts/ClinicAccountUpdate';
 import ClinicAccountCreateIP from '@/pages/Accounts/ClinicAccountIPCreate';
 import ClinicPreCheckIn from '@/pages/Accounts/ClinicPreCheckIn';
 import ClinicCheckIn from '@/pages/Accounts/ClinicCheckIn';
+import ClinicCheckOut from '@/pages/Accounts/ClinicCheckOut';
 
 import PreCheckInListing from '@/pages/Accounts/PreCheckInListing';
 import PreCheckInView from '@/pages/Accounts/PreCheckInView';
 import CheckInListing from '@/pages/Accounts/CheckInListing';
 import CheckInView from '@/pages/Accounts/CheckInView';
 import ClinicInventoryView from '@/pages/Accounts/ClinicInventoryView';
-
+import CheckOutView from '@/pages/Accounts/CheckOutView';
 // 4. Workforce
 import WorkforceListing from '@/pages/Workforce/WorkforceListing';
 import WorkforceCreate from '@/pages/Workforce/WorkforceCreate';
@@ -235,6 +236,14 @@ const router = new Router({
           }
         },
         {
+          path: 'checkout-view/:checkOutId',
+          name: 'CheckOutView',
+          component: CheckOutView,
+            meta:{
+            requiresAuth: true
+          }
+        },
+        {
           path: 'clinic-inventory-view/:clinicId/:inventoryId',
           name: 'ClinicInventoryView',
           component: ClinicInventoryView,
@@ -246,6 +255,14 @@ const router = new Router({
           path: 'checkin-clinic/:clinicId',
           name: 'ClinicCheckIn',
           component: ClinicCheckIn,
+            meta:{
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'checkout-clinic/:clinicId',
+          name: 'ClinicCheckOut',
+          component: ClinicCheckOut,
             meta:{
             requiresAuth: true
           }

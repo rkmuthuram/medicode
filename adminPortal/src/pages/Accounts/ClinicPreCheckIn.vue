@@ -32,9 +32,10 @@
           <b-button  slot="finish" variant="success" @click="submit" v-if="isLoading==false" >
             Proceed  <i class="fa fa-check" />
           </b-button>
-           <tab-content title="Purchase Order Info" :before-change="validOne">
+           <tab-content title="Purchase Order Info" :before-change="validOne"> 
+          
               <b-form>
-              
+                
              <b-form-group
                   label="Select Vendor"
                 >
@@ -100,6 +101,7 @@
               </b-form>
             </tab-content>
            <tab-content title="Add Products" :before-change="validTwo"> 
+      
             
               <b-form>
               
@@ -140,24 +142,539 @@
           <div class="mb-lg">
             <h3 class="text-success mb-0">{{selectedMedicine.packing_type}} | {{selectedMedicine.packing_quantity}} | {{selectedMedicine.color}}</h3>
           </div>
-           <b-form-group
-                  label="Quantity"
-                >
-               <input
-                  data-vv-validate-on="change"
-                  v-validate="'required'"
-                  name="qty"
-                  :class="{ 'form-control': true, 'is-invalid': errors.has('qty')}"
-                  type="number"
-               v-model="selectedMedicine.quantity"
-                />
-        </b-form-group>
-         <b-button type="button" variant="success" class="btn-rounded" @click="addToList()" >
+    
+                <div v-if="selectedMedicine.packing_type=='TABLETS'" :key="componentKey">
+
+     <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number"  @change="getTabletValue"  v-model="selectedMedicine.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Strips"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getTabletValue"  v-model="selectedMedicine.quantity_stripsperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+                  <tr>
+                  
+                  <td>       <b-form-group
+              label="Strips"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent" type="number"  @change="getTabletValue"  v-model="selectedMedicine.quantity_strips"></b-form-input>
+    </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Tablets"
+              label-for="append-field4"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field4" append="per strip">
+                <b-form-input class="input-transparent"  type="number" @change="getTabletValue"  v-model="selectedMedicine.quantity_tabletsperstrip"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+                 <tr>
+                  <td>       <b-form-group
+              label="Tablets"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent" type="number"   @change="getTabletValue"  v-model="selectedMedicine.quantity_tablets"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                                
+            </tr>
+                    
+                
+              </tbody>
+            </table> 
+                 
+  
+                </div>
+
+                 <div v-if="selectedMedicine.packing_type=='Per vial' || selectedMedicine.packing_type=='per vial' " :key="componentKey">
+ <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getVialValue"  v-model="selectedMedicine.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Vial"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_vialsperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td> 
+                <td> <b-form-group
+              label="Vial"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_vials"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>  
+                                      
+            </tr>
+                         <tr>
+                 
+            <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field4"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field4" append="per vial">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_mlpervial"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+              <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_mls"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+                   
+          <!--  <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="per dose">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_mlperdose"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      -->  
+         <!--   <td> <b-form-group
+              label="Doses"
+              label-for="append-field6"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field6" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_doses"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     -->                           
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+                            <div v-if="selectedMedicine.packing_type=='Vial / per cc' || selectedMedicine.packing_type=='Vial / per 0.5 cc' || selectedMedicine.packing_type=='vial per cc' " :key="componentKey">
+<table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                     <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getVialValue"  v-model="selectedMedicine.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Vial"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_vialsperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td> 
+                <td> <b-form-group
+              label="Vial"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_vials"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>  
+                                      
+            </tr>
+                         <tr>
+                 
+            <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field4"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field4" append="per vial">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_mlpervial"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+              <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_mls"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+                   
+          <!--  <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="per dose">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_mlperdose"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      -->  
+         <!--   <td> <b-form-group
+              label="Doses"
+              label-for="append-field6"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field6" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue"  v-model="selectedMedicine.quantity_doses"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     -->                           
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+  
+                </div>
+      <div v-if="selectedMedicine.packing_type=='per ampule'" :key="componentKey">
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number"  @change="getAmpuleValue"  v-model="selectedMedicine.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Ampules"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"   @change="getAmpuleValue"  v-model="selectedMedicine.quantity_ampuleperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>   
+                       <td> <b-form-group
+              label="Ampules"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"   @change="getAmpuleValue"  v-model="selectedMedicine.quantity_ampules"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      
+              <td> <b-form-group
+              label="ML"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="per ampule">
+                <b-form-input class="input-transparent"  type="number"   @change="getAmpuleValue"  v-model="selectedMedicine.quantity_mlperampule"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+                        <div v-if="selectedMedicine.packing_type=='BOTTLE'" :key="componentKey">
+       <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getBottleValue"  v-model="selectedMedicine.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Bottles"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue"  v-model="selectedMedicine.quantity_bottleperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>  </tr><tr> 
+                       <td> <b-form-group
+              label="Bottles"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue"  v-model="selectedMedicine.quantity_bottles"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>    
+                    
+              <td>
+               <v-select  
+                    class="mt-xs"
+                    :options="['L','ml','g','mg','mcg','doses','vials']"
+                      v-model="selectedMedicine.quantity_unitperbottle" />
+                 <b-form-group
+              label=""
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="per tube">
+                <b-form-input class="input-transparent"  type="number" @change="getBottleValue"  v-model="selectedMedicine.quantity_perbottle" ></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+            <tr>
+               <td> <b-form-group
+              :label="selectedMedicine.quantity_unitperbottle"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue"  v-model="selectedMedicine.quantity_unittotal"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>    
+              </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+
+                 <div v-if="selectedMedicine.packing_type=='TUBE'" :key="componentKey">
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getTubeValue"  v-model="selectedMedicine.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Tubes"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getTubeValue"  v-model="selectedMedicine.quantity_tubeperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>  </tr><tr> 
+                       <td> <b-form-group
+              label="Tubes"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getTubeValue"  v-model="selectedMedicine.quantity_tubes"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>    
+                    
+              <td>
+               <v-select  
+                    class="mt-xs"
+                    :options="['L','ml','g','mg','mcg','doses','vials']"
+                      v-model="selectedMedicine.quantity_unitpertube" />
+                 <b-form-group
+              label=""
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="per tube">
+                <b-form-input class="input-transparent"  type="number" @change="getTubeValue"  v-model="selectedMedicine.quantity_pertube" ></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+            <tr>
+               <td> <b-form-group
+              :label="selectedMedicine.quantity_unitpertube"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getTubeValue"  v-model="selectedMedicine.quantity_unittotal"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>    
+              </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+
+                  <div v-if="selectedMedicine.packing_type=='Per supp' || selectedMedicine.packing_type=='SACHET' || selectedMedicine.packing_type=='Sachet' || selectedMedicine.packing_type=='box' || selectedMedicine.packing_type=='Set' || selectedMedicine.packing_type=='ROLLS' || selectedMedicine.packing_type=='PIECES' || selectedMedicine.packing_type=='pack' || selectedMedicine.packing_type=='Diskus' "  :key="componentKey">
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number"  @change="getWholeValue"  v-model="selectedMedicine.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Units"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"   @change="getWholeValue"  v-model="selectedMedicine.quantity_unitperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>   
+                       <td> <b-form-group
+              label="Units"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"   @change="getWholeValue"  v-model="selectedMedicine.quantity_units"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      
+                            
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div> 
+                      
+                <b-button type="button" variant="success" class="btn-rounded" @click="addToList()" >
              Verify & Add to List
               </b-button> &nbsp;&nbsp;
                <b-button type="button" variant="danger" class="btn-rounded" @click="removeFromList()" >
              Remove Item
               </b-button>
+    
+    
 
                         
         </b-card>
@@ -181,7 +698,12 @@
                   <td> <b-badge variant="success" class="text-gray-dark">{{product.product_name}}</b-badge></td>
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
-                       <td>{{product.quantity}}</td>
+                             <td v-if="product.packing_type=='TABLETS'"> {{product.quantity_strips}} strips ({{product.quantity_tabletsperstrip}} per strip) | {{product.quantity_tablets}} tablets</td>
+                                       <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='per vial' || product.packing_type=='Per vial' || product.packing_type=='vial per cc'"> {{product.quantity_mlpervial}} ML/vial | {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_mlperampule}} ML/ampule | {{product.quantity_ampules}} ampules</td>
+                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_perbottle}}{{product.quantity_unitperbottle}}/bottle | {{product.quantity_bottles}} bottles | {{product.quantity_unittotal}}{{product.quantity_unitperbottle}} </td>
+                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_pertube}}{{product.quantity_unitpertube}}/tube | {{product.quantity_tubes}} tubes | {{product.quantity_unittotal}}{{product.quantity_unitpertube}} </td>
+                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
                        <td><b-button type="button" variant="danger" class="btn-rounded" @click="removeFromAllProducts(index)"> Remove Item </b-button></td>
                 </tr>
               </tbody>
@@ -205,12 +727,17 @@
                 </tr>
               </thead>
                      <tbody>
-                <tr v-for="(product,index) in allSelectedProducts" :key="product.product_name">
+                   <tr v-for="(product,index) in allSelectedProducts" :key="product.product_name">
                   <td>{{index+1}}</td>
                   <td> <b-badge variant="success" class="text-gray-dark">{{product.product_name}}</b-badge></td>
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
-                       <td>{{product.quantity}}</td>
+                             <td v-if="product.packing_type=='TABLETS'"> {{product.quantity_strips}} strips ({{product.quantity_tabletsperstrip}} per strip) | {{product.quantity_tablets}} tablets</td>
+                                       <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='per vial' || product.packing_type=='Per vial' || product.packing_type=='vial per cc'"> {{product.quantity_mlpervial}} ML/vial | {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_mlperampule}} ML/ampule | {{product.quantity_ampules}} ampules</td>
+                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_perbottle}}{{product.quantity_unitperbottle}}/bottle | {{product.quantity_bottles}} bottles | {{product.quantity_unittotal}}{{product.quantity_unitperbottle}} </td>
+                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_pertube}}{{product.quantity_unitpertube}}/tube | {{product.quantity_tubes}} tubes | {{product.quantity_unittotal}}{{product.quantity_unitpertube}} </td>
+                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
                    
                 </tr>
               </tbody>
@@ -321,6 +848,7 @@ export default {
   components: { Widget, vSelect,vueDropzone: vue2Dropzone},
   data() {
     return {
+      componentKey:0,
       allSelectedProducts:[],
         clinicId: this.$route.params.clinicId,
         loadingWizard: false,
@@ -359,6 +887,7 @@ export default {
   },
   watch: {
   selectedMedicine: function (medicine) {
+  
   }
 },
   methods: {
@@ -371,12 +900,26 @@ export default {
       return Messenger().post({type:'success',message:'Item removed!',hideAfter: 3,showCloseButton:true});
     },
     addToList(){
-      if(this.selectedMedicine.quantity==null || this.selectedMedicine.quantity==undefined || this.selectedMedicine.quantity==''){
-       return Messenger().post({type:'error',message:'Quantity required!',hideAfter: 3,showCloseButton:true});
+ 
+      if(this.selectedMedicine.packing_type=='TABLETS' && this.selectedMedicine.quantity_tablets<1){
+          return Messenger().post({type:'error',message:'Tablet Quantity required!',hideAfter: 3,showCloseButton:true});
+      }
+      
+  /*  else if(this.selectedMedicine.quantity_vials<1 && this.selectedMedicine.packing_type=='Vial / per cc' || this.selectedMedicine.packing_type=='Vial / per 0.5 cc' || this.selectedMedicine.packing_type=='per vial' || this.selectedMedicine.packing_type=='Per vial' || this.selectedMedicine.packing_type=='vial per cc' ){
+        return Messenger().post({type:'error',message:'Vial Quantity required!',hideAfter: 3,showCloseButton:true});
+      } */
+    else  if(this.selectedMedicine.packing_type=='per ampule' && this.selectedMedicine.quantity_ampules<1){
+          return Messenger().post({type:'error',message:'Ampule Quantity required!',hideAfter: 3,showCloseButton:true});
+      }
+    else if(this.selectedMedicine.packing_type=='BOTTLE' && this.selectedMedicine.quantity_bottles<1){
+          return Messenger().post({type:'error',message:'Bottle Quantity required!',hideAfter: 3,showCloseButton:true});
+      }
+      else if(this.selectedMedicine.packing_type=='TUBE' && this.selectedMedicine.quantity_tubes<1){
+          return Messenger().post({type:'error',message:'Tube Quantity required!',hideAfter: 3,showCloseButton:true});
       }
       this.allSelectedProducts.push(this.selectedMedicine);
       this.selectedMedicine=null;
-         console.log(this.allSelectedProducts);
+    //  console.log(this.allSelectedProducts);
       return Messenger().post({type:'success',message:'Item added to list!',hideAfter: 3,showCloseButton:true});
    
     },
@@ -475,7 +1018,150 @@ async onSearch(search, loading) {
      
      })
     },
+      getBottleValue(){
+         
+          if(this.selectedMedicine.quantity_boxes==undefined || this.selectedMedicine.quantity_boxes==''){
+    this.selectedMedicine.quantity_boxes = 0;
+  }
+      if(this.selectedMedicine.quantity_bottleperbox==undefined || this.selectedMedicine.quantity_bottleperbox==''){
+    this.selectedMedicine.quantity_bottleperbox = 0;
+  }
+     if(this.selectedMedicine.quantity_bottles==undefined || this.selectedMedicine.quantity_bottle==''){
+    this.selectedMedicine.quantity_bottles = 0;
+  }
+   if(this.selectedMedicine.quantity_unitperbottle==undefined || this.selectedMedicine.quantity_unitperbottle==''){
+    this.selectedMedicine.quantity_unitperbottle = 0;
+  }
+     if(this.selectedMedicine.quantity_perbottle==undefined || this.selectedMedicine.quantity_perbottle==''){
+    this.selectedMedicine.quantity_perbottle = 0;
+  }
+     if(this.selectedMedicine.quantity_unitperbottle==undefined || this.selectedMedicine.quantity_unitperbottle==''){
+    this.selectedMedicine.quantity__unitperbottle = 'ml';
+  }
+  this.selectedMedicine.quantity_bottles = parseInt(this.selectedMedicine.quantity_boxes) * parseInt(this.selectedMedicine.quantity_bottleperbox);
+  this.selectedMedicine.quantity_unittotal  = parseInt(this.selectedMedicine.quantity_bottles) * parseInt(this.selectedMedicine.quantity_perbottle);
+  
+  this.componentKey+=1;
 
+    },
+        getTubeValue(){
+        
+          if(this.selectedMedicine.quantity_boxes==undefined || this.selectedMedicine.quantity_boxes==''){
+    this.selectedMedicine.quantity_boxes = 0;
+  }
+      if(this.selectedMedicine.quantity_tubeperbox==undefined || this.selectedMedicine.quantity_tubeperbox==''){
+    this.selectedMedicine.quantity_tubeperbox = 0;
+  }
+     if(this.selectedMedicine.quantity_tubes==undefined || this.selectedMedicine.quantity_tubes==''){
+    this.selectedMedicine.quantity_tubes = 0;
+  }
+   if(this.selectedMedicine.quantity_unitpertube==undefined || this.selectedMedicine.quantity_unitpertube==''){
+    this.selectedMedicine.quantity_unitpertube = 0;
+  }
+     if(this.selectedMedicine.quantity_pertube==undefined || this.selectedMedicine.quantity_pertube==''){
+    this.selectedMedicine.quantity_pertube = 0;
+  }
+     if(this.selectedMedicine.quantity_unitpertube==undefined || this.selectedMedicine.quantity_unitpertube==''){
+    this.selectedMedicine.quantity__unitpertube = 'g';
+  }
+  this.selectedMedicine.quantity_tubes = parseInt(this.selectedMedicine.quantity_boxes) * parseInt(this.selectedMedicine.quantity_tubeperbox);
+  this.selectedMedicine.quantity_unittotal  = parseInt(this.selectedMedicine.quantity_tubes) * parseInt(this.selectedMedicine.quantity_pertube);
+  
+  this.componentKey+=1;
+
+    },
+    getAmpuleValue(){
+        if(this.selectedMedicine.quantity_boxes==undefined || this.selectedMedicine.quantity_boxes==''){
+    this.selectedMedicine.quantity_boxes = 0;
+  }
+    if(this.selectedMedicine.quantity_ampuleperbox==undefined || this.selectedMedicine.quantity_ampuleperbox==''){
+    this.selectedMedicine.quantity_ampuleperbox = 0;
+  }
+    if(this.selectedMedicine.quantity_ampules==undefined || this.selectedMedicine.quantity_ampules==''){
+    this.selectedMedicine.quantity_ampules = 0;
+  }
+      if(this.selectedMedicine.quantity_mlperampule==undefined || this.selectedMedicine.quantity_mlperampule==''){
+    this.selectedMedicine.quantity_mlperampule = 0;
+  }
+      this.selectedMedicine.quantity_ampules = parseInt(this.selectedMedicine.quantity_boxes) * parseInt(this.selectedMedicine.quantity_ampuleperbox);
+  
+  this.componentKey+=1;
+
+    },
+       getWholeValue(){
+        if(this.selectedMedicine.quantity_boxes==undefined || this.selectedMedicine.quantity_boxes==''){
+    this.selectedMedicine.quantity_boxes = 0;
+  }
+    if(this.selectedMedicine.quantity_unitperbox==undefined || this.selectedMedicine.quantity_unitperbox==''){
+    this.selectedMedicine.quantity_unitperbox = 0;
+  }
+    if(this.selectedMedicine.quantity_units==undefined || this.selectedMedicine.quantity_units==''){
+    this.selectedMedicine.quantity_units = 0;
+  }
+  
+      this.selectedMedicine.quantity_units = parseInt(this.selectedMedicine.quantity_boxes) * parseInt(this.selectedMedicine.quantity_unitperbox);
+  
+  this.componentKey+=1;
+
+    },
+    getVialValue(){
+
+  if(this.selectedMedicine.quantity_boxes==undefined || this.selectedMedicine.quantity_boxes==''){
+    this.selectedMedicine.quantity_boxes = 0;
+  }
+    if(this.selectedMedicine.quantity_vialsperbox==undefined || this.selectedMedicine.quantity_vialsperbox==''){
+    this.selectedMedicine.quantity_vialsperbox = 0;
+  }
+      if(this.selectedMedicine.quantity_vials==undefined || this.selectedMedicine.quantity_vials==''){
+    this.selectedMedicine.quantity_vials = 0;
+  }
+  if(this.selectedMedicine.quantity_mlpervial==undefined || this.selectedMedicine.quantity_mlpervial==''){
+    this.selectedMedicine.quantity_mlpervial = 0;
+  }
+     if(this.selectedMedicine.quantity_mls==undefined || this.selectedMedicine.quantity_mls==''){
+    this.selectedMedicine.quantity_mls = 0;
+  }
+ /* if(this.selectedMedicine.quantity_mlperdose==undefined || this.selectedMedicine.quantity_mlperdose==''){
+    this.selectedMedicine.quantity_mlperdose = 0;
+  }
+  
+  if(this.selectedMedicine.quantity_doses==undefined || this.selectedMedicine.quantity_doses==''){
+    this.selectedMedicine.quantity_doses = 0;
+  } */
+
+
+     this.selectedMedicine.quantity_vials = parseInt(this.selectedMedicine.quantity_boxes) * parseInt(this.selectedMedicine.quantity_vialsperbox);
+      this.selectedMedicine.quantity_mls = Number(this.selectedMedicine.quantity_mlpervial*this.selectedMedicine.quantity_vials);
+  this.componentKey+=1;
+
+
+
+    },
+getTabletValue(){
+ 
+  if(this.selectedMedicine.quantity_boxes==undefined || this.selectedMedicine.quantity_boxes==''){
+    this.selectedMedicine.quantity_boxes = 0;
+  }
+    if(this.selectedMedicine.quantity_stripsperbox==undefined || this.selectedMedicine.quantity_stripsperbox==''){
+    this.selectedMedicine.quantity_stripsperbox = 0;
+  }
+     if(this.selectedMedicine.quantity_stripsperbox==undefined || this.selectedMedicine.quantity_stripsperbox==''){
+    this.selectedMedicine.quantity_stripsperbox = 0;
+  }
+      if(this.selectedMedicine.quantity_strips==undefined || this.selectedMedicine.quantity_strips==''){
+    this.selectedMedicine.quantity_strips = 0;
+  }
+    if(this.selectedMedicine.quantity_tabletsperstrip==undefined || this.selectedMedicine.quantity_tabletsperstrip==''){
+    this.selectedMedicine.quantity_tabletsperstrip = 0;
+  }
+    if(this.selectedMedicine.quantity_tablets==undefined || this.selectedMedicine.quantity_tablets==''){
+    this.selectedMedicine.quantity_tablets = 0;
+  }
+
+   this.selectedMedicine.quantity_strips = parseInt(this.selectedMedicine.quantity_boxes) * parseInt(this.selectedMedicine.quantity_stripsperbox);
+   this.selectedMedicine.quantity_tablets = parseInt(this.selectedMedicine.quantity_strips) * parseInt(this.selectedMedicine.quantity_tabletsperstrip);
+  this.componentKey+=1;
+},
   submit(){
     var self=this;
      self.isLoading = true;

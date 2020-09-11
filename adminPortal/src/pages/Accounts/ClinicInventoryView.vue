@@ -140,7 +140,7 @@
                     
                     class="mt-xs"
                     v-model="data.packing_type"
-                    :options="['TABLETS','SOLUTION','PIECES','PASTE/GEL','LOZENGES']"
+                   
                   />
                 </b-col>
               </b-row>
@@ -260,13 +260,33 @@
          
 
           </b-tab>
-              <b-tab title="History">
+              <b-tab title="Check In History">
         
               <div class="table-responsive">
            <table class="table table-hover" id="clinicinventorydatatable">
              <thead>
                <tr>
                  <th>Check In </th>
+                  <th>Quantity</th>
+                  <th>Timestamp</th>
+                  <th>Actions</th>       
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
+
+
+          </b-tab>
+
+               <b-tab title="Check Out History">
+        
+              <div class="table-responsive">
+           <table class="table table-hover" id="clinicinventorydatatable2">
+             <thead>
+               <tr>
+                 <th>Check Out </th>
                   <th>Quantity</th>
                   <th>Timestamp</th>
                   <th>Actions</th>       
@@ -413,9 +433,33 @@ export default {
   } );
 
 
+    var table6 =  $('#clinicinventorydatatable2').DataTable( {
+		"processing": true,
+		"order": [[ 0, "id" ]],
+        "serverSide": true,
+          "dom": 'Bfrtip',
+		"ajax": "https://backend.medicodesolution.com/staging/inventory/clinic/product2/admin/"+clinicId+"/"+productId,
+		"columnDefs": [
+    {
+      "data": null,
+      "defaultContent": "<button class='btn' id='edit' title='Edit Member'><i class='fa fa-pencil'></i></button>",
+      "targets": -1,
+       "searchable": false,
+      "orderable": false,
+    }
+	
+  ]
+  } );
+
+
     $('#clinicinventorydatatable tbody').on( 'click', '#edit', function () {
 		var data = table5.row( $(this).parents('tr') ).data();
 		 window.open('http://localhost:8080/app/checkin-view/' + data[0]);
+    } );
+
+        $('#clinicinventorydatatable2 tbody').on( 'click', '#edit', function () {
+		var data = table6.row( $(this).parents('tr') ).data();
+		 window.open('http://localhost:8080/app/checkout-view/' + data[0]);
     } );
   
    

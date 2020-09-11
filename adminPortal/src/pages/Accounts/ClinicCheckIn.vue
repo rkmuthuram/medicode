@@ -32,8 +32,9 @@
           <b-button  slot="finish" variant="success" @click="submit" v-if="isLoading==false" >
             Proceed  <i class="fa fa-check" />
           </b-button>
-          <tab-content title="Invoice Info" :before-change="validOne"> 
-    
+       <!-- <tab-content title="Invoice Info" :before-change="validOne"> -->
+         <tab-content title="Invoice Info" >
+
               <b-form>
               
              <b-form-group
@@ -74,7 +75,12 @@
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
                         <td>{{product.color}}</td>
-                       <td>{{product.quantity}}</td>
+                     <td v-if="product.packing_type=='TABLETS'"> {{product.quantity_strips}} strips ({{product.quantity_tabletsperstrip}} per strip) | {{product.quantity_tablets}} tablets</td>
+                                       <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='per vial' || product.packing_type=='Per vial' || product.packing_type=='vial per cc'"> {{product.quantity_mlpervial}} ML/vial | {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_mlperampule}} ML/ampule | {{product.quantity_ampules}} ampules</td>
+                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_perbottle}}{{product.quantity_unitperbottle}}/bottle | {{product.quantity_bottles}} bottles | {{product.quantity_unittotal}}{{product.quantity_unitperbottle}} </td>
+                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_pertube}}{{product.quantity_unitpertube}}/tube | {{product.quantity_tubes}} tubes | {{product.quantity_unittotal}}{{product.quantity_unitpertube}} </td>
+                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
                            
                      
                 </tr>
@@ -89,10 +95,9 @@
                   label="Invoice Number"
                 >
                <input
-                  data-vv-validate-on="change"
-                  v-validate="'required|min:4'"       
+                       
                   name="invoiceId"
-                  :class="{ 'form-control': true, 'is-invalid': errors.has('invoiceId')}"
+                  :class="{ 'form-control': true}"
                   type="text"
                v-model="data.invoiceId"
                 />
@@ -102,11 +107,10 @@
                   label="Total Amount (RM)"
                 >
                <input
-                  data-vv-validate-on="change"
-                  v-validate="'required|min:2'"
+                
                   
                   name="totalAmount"
-                  :class="{ 'form-control': true, 'is-invalid': errors.has('totalAmount')}"
+                  :class="{ 'form-control': true}"
                   type="number"
                v-model="data.totalAmount"
                 />
@@ -126,7 +130,7 @@
                                 placeholder=""
                                 :min-height="45"
                                
-                                  v-validate="'required|min:4'"
+                                 
                              :class="{ 'form-control': true}"
                                 id="comments"
                                 name="comments"
@@ -138,7 +142,8 @@
                 
               </b-form>
             </tab-content>
-           <tab-content title="Scan Products" :before-change="validTwo"> 
+          <tab-content title="Scan Products" :before-change="validTwo">
+             
             
               <b-form>
               
@@ -175,13 +180,569 @@
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
                       <td>{{product.color}}</td>
-                       <td>{{product.quantity}}</td>
-                         
-                           <td><input type="number" v-model="product.delivered_quantity" v-if="product.delivered_quantity>0"><!--<b-badge v-if="product.delivered_quantity" :variant="getQuantityColor(product.quantity,product.delivered_quantity)" class="text-gray-dark">{{product.delivered_quantity}}</b-badge>--> <b-badge v-if="!product.delivered_quantity" variant="danger" class="text-gray-dark">NA</b-badge></td>
+                      <td v-if="product.packing_type=='TABLETS'"> {{product.quantity_strips}} strips ({{product.quantity_tabletsperstrip}} per strip) | {{product.quantity_tablets}} tablets</td>
+                                       <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='per vial' || product.packing_type=='Per vial' || product.packing_type=='vial per cc'"> {{product.quantity_mlpervial}} ML/vial | {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_mlperampule}} ML/ampule | {{product.quantity_ampules}} ampules</td>
+                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_perbottle}}{{product.quantity_unitperbottle}}/bottle | {{product.quantity_bottles}} bottles | {{product.quantity_unittotal}}{{product.quantity_unitperbottle}} </td>
+                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_pertube}}{{product.quantity_unitpertube}}/tube | {{product.quantity_tubes}} tubes | {{product.quantity_unittotal}}{{product.quantity_unitpertube}} </td>
+                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
+                    
 
 
-                               <td><input type="date" v-model="product.expiry_date" v-if="product.delivered_quantity>0"> <b-badge v-if="!product.delivered_quantity" variant="danger" class="text-gray-dark">NA</b-badge></td>
-                                <td><input type="text" v-model="product.batch_number" v-if="product.delivered_quantity>0"> <b-badge v-if="!product.delivered_quantity" variant="danger" class="text-gray-dark">NA</b-badge></td>
+                               <td>
+                                 <b-badge v-if="!product.delivered_quantity" variant="danger" class="text-gray-dark">NA</b-badge>
+                                         <div v-if="product.packing_type=='TABLETS' && product.delivered_quantity>0" :key="componentKey">
+
+     <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number"  @change="getTabletValue(index)"  v-model="product.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Strips"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getTabletValue(index)"  v-model="product.quantity_stripsperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+                  <tr>
+                  
+                  <td>       <b-form-group
+              label="Strips"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent" type="number"  @change="getTabletValue(index)"  v-model="product.quantity_strips"></b-form-input>
+    </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Tablets"
+              label-for="append-field4"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field4" append="per strip">
+                <b-form-input class="input-transparent"  type="number" @change="getTabletValue(index)"  v-model="product.quantity_tabletsperstrip"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+                 <tr>
+                  <td>       <b-form-group
+              label="Tablets"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent" type="number"   @change="getTabletValue(index)"  v-model="product.quantity_tablets"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                                
+            </tr>
+                    
+                
+              </tbody>
+            </table> 
+                 
+  
+                </div>
+                  <div v-if=" product.packing_type=='Per vial' || product.packing_type=='per vial'  && product.delivered_quantity>0 " :key="componentKey">
+ <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getVialValue(index)"  v-model="product.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Vial"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_vialsperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td> 
+                <td> <b-form-group
+              label="Vial"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_vials"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>  
+                                      
+            </tr>
+                         <tr>
+                 
+            <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field4"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field4" append="per vial">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_mlpervial"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+              <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_mls"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+                   
+          <!--  <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="per dose">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_mlperdose"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      -->  
+         <!--   <td> <b-form-group
+              label="Doses"
+              label-for="append-field6"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field6" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_doses"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     -->                           
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+                            <div v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='vial per cc'  && product.delivered_quantity>0 " :key="componentKey">
+<table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                     <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getVialValue(index)"  v-model="product.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Vial"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_vialsperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td> 
+                <td> <b-form-group
+              label="Vial"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_vials"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>  
+                                      
+            </tr>
+                         <tr>
+                 
+            <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field4"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field4" append="per vial">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_mlpervial"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+              <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_mls"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+                   
+          <!--  <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="per dose">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_mlperdose"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      -->  
+         <!--   <td> <b-form-group
+              label="Doses"
+              label-for="append-field6"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field6" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="product.quantity_doses"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     -->                           
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+  
+                </div>
+      <div v-if="product.delivered_quantity>0 && product.packing_type=='per ampule'" :key="componentKey">
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number"  @change="getAmpuleValue(index)"  v-model="product.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Ampules"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"   @change="getAmpuleValue(index)"  v-model="product.quantity_ampuleperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>   
+                       <td> <b-form-group
+              label="Ampules"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"   @change="getAmpuleValue(index)"  v-model="product.quantity_ampules"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      
+              <td> <b-form-group
+              label="ML"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="per ampule">
+                <b-form-input class="input-transparent"  type="number"   @change="getAmpuleValue(index)"  v-model="product.quantity_mlperampule"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+                        <div v-if="product.packing_type=='BOTTLE' && product.delivered_quantity>0" :key="componentKey">
+       <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getBottleValue(index)"  v-model="product.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Bottles"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue(index)"  v-model="product.quantity_bottleperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>  </tr><tr> 
+                       <td> <b-form-group
+              label="Bottles"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue(index)"  v-model="product.quantity_bottles"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>    
+                    
+              <td>
+               <v-select  
+                    class="mt-xs"
+                    :options="['L','ml','g','mg','mcg','doses','vials']"
+                      v-model="product.quantity_unitperbottle" />
+                 <b-form-group
+              label=""
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="per tube">
+                <b-form-input class="input-transparent"  type="number" @change="getBottleValue(index)"  v-model="product.quantity_perbottle" ></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+            <tr>
+               <td> <b-form-group
+              :label="product.quantity_unitperbottle"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue(index)"  v-model="product.quantity_unittotal"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>    
+              </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+
+                 <div v-if="product.packing_type=='TUBE' && product.delivered_quantity>0" :key="componentKey">
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getTubeValue(index)"  v-model="product.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Tubes"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getTubeValue(index)"  v-model="product.quantity_tubeperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>  </tr><tr> 
+                       <td> <b-form-group
+              label="Tubes"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getTubeValue(index)"  v-model="product.quantity_tubes"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>    
+                    
+              <td>
+               <v-select  
+                    class="mt-xs"
+                    :options="['L','ml','g','mg','mcg','doses','vials']"
+                      v-model="product.quantity_unitpertube" />
+                 <b-form-group
+              label=""
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="per tube">
+                <b-form-input class="input-transparent"  type="number" @change="getTubeValue(index)"  v-model="product.quantity_pertube" ></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+            <tr>
+               <td> <b-form-group
+              :label="product.quantity_unitpertube"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getTubeValue(index)"  v-model="product.quantity_unittotal"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>    
+              </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+
+                  <div v-if="product.delivered_quantity>0 && product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' "  :key="componentKey">
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                  <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number"  @change="getWholeValue(index)"  v-model="product.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Units"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"   @change="getWholeValue(index)"  v-model="product.quantity_unitperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>   
+                       <td> <b-form-group
+              label="Units"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"   @change="getWholeValue(index)"  v-model="product.quantity_units"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      
+                            
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div> 
+                </td>
+                                 <div v-if="product.delivered_quantity>0">
+                                <input
+                  data-vv-validate-on="change"
+                  v-validate="'required'"
+                  name="expirydate"
+                  :class="{ 'form-control': true, 'is-invalid': errors.has('expirydate')}"
+                  type="date"
+                v-model="product.expiry_date"
+                />
+                <span class="text-danger" v-if="errors.has('expirydate')">
+                  {{ errors.first('expirydate') }}
+                </span> 
+                </div>
+                               <b-badge v-if="!product.delivered_quantity" variant="danger" class="text-gray-dark">NA</b-badge></td>
+                                <td>
+                                   <div v-if="product.delivered_quantity>0">
+                                <input
+                  data-vv-validate-on="change"
+                  v-validate="'required'"
+                  name="batch_number"
+                  :class="{ 'form-control': true, 'is-invalid': errors.has('batch_number')}"
+                  type="text"
+                v-model="product.batch_number"
+                />
+                <span class="text-danger" v-if="errors.has('batch_number')">
+                  {{ errors.first('batch_number') }}
+                </span> 
+                </div>
+                                  <b-badge v-if="!product.delivered_quantity" variant="danger" class="text-gray-dark">NA</b-badge></td>
                                    
                                        <td><barcode v-bind:value="product.manufacturer_barcode" format="CODE128" :options="{ height:100 }" v-if="product.manufacturer_barcode">
   Show this if the rendering fails.
@@ -351,7 +912,7 @@ export default {
   components: { Widget, vSelect,vueDropzone: vue2Dropzone,barcode: VueBarcode,qrcode:VueQrcode},
   data() {
     return {
-
+      manufacturerBarcodes:[],
       showModal:false,
       selectedVendorInfo:{},
       unselectedProducts:[],
@@ -381,6 +942,7 @@ export default {
     data2:{
 
     },
+    componentKey:0,
     selectedMedicine:null,
     data3:{
 
@@ -441,6 +1003,150 @@ export default {
       return Messenger().post({type:'success',message:'Item added to list!',hideAfter: 3,showCloseButton:true});
    
     },
+      getBottleValue(index){
+         
+          if(this.selectedPreCheckIn.allProducts[index].quantity_boxes==undefined || this.selectedPreCheckIn.allProducts[index].quantity_boxes==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_boxes = 0;
+  }
+      if(this.selectedPreCheckIn.allProducts[index].quantity_bottleperbox==undefined || this.selectedPreCheckIn.allProducts[index].quantity_bottleperbox==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_bottleperbox = 0;
+  }
+     if(this.selectedPreCheckIn.allProducts[index].quantity_bottles==undefined || this.selectedPreCheckIn.allProducts[index].quantity_bottle==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_bottles = 0;
+  }
+   if(this.selectedPreCheckIn.allProducts[index].quantity_unitperbottle==undefined || this.selectedPreCheckIn.allProducts[index].quantity_unitperbottle==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_unitperbottle = 0;
+  }
+     if(this.selectedPreCheckIn.allProducts[index].quantity_perbottle==undefined || this.selectedPreCheckIn.allProducts[index].quantity_perbottle==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_perbottle = 0;
+  }
+     if(this.selectedPreCheckIn.allProducts[index].quantity_unitperbottle==undefined || this.selectedPreCheckIn.allProducts[index].quantity_unitperbottle==''){
+    this.selectedPreCheckIn.allProducts[index].quantity__unitperbottle = 'ml';
+  }
+  this.selectedPreCheckIn.allProducts[index].quantity_bottles = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_boxes) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_bottleperbox);
+  this.selectedPreCheckIn.allProducts[index].quantity_unittotal  = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_bottles) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_perbottle);
+  
+  this.componentKey+=1;
+
+    },
+        getTubeValue(index){
+        
+          if(this.selectedPreCheckIn.allProducts[index].quantity_boxes==undefined || this.selectedPreCheckIn.allProducts[index].quantity_boxes==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_boxes = 0;
+  }
+      if(this.selectedPreCheckIn.allProducts[index].quantity_tubeperbox==undefined || this.selectedPreCheckIn.allProducts[index].quantity_tubeperbox==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_tubeperbox = 0;
+  }
+     if(this.selectedPreCheckIn.allProducts[index].quantity_tubes==undefined || this.selectedPreCheckIn.allProducts[index].quantity_tubes==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_tubes = 0;
+  }
+   if(this.selectedPreCheckIn.allProducts[index].quantity_unitpertube==undefined || this.selectedPreCheckIn.allProducts[index].quantity_unitpertube==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_unitpertube = 0;
+  }
+     if(this.selectedPreCheckIn.allProducts[index].quantity_pertube==undefined || this.selectedPreCheckIn.allProducts[index].quantity_pertube==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_pertube = 0;
+  }
+     if(this.selectedPreCheckIn.allProducts[index].quantity_unitpertube==undefined || this.selectedPreCheckIn.allProducts[index].quantity_unitpertube==''){
+    this.selectedPreCheckIn.allProducts[index].quantity__unitpertube = 'g';
+  }
+  this.selectedPreCheckIn.allProducts[index].quantity_tubes = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_boxes) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_tubeperbox);
+  this.selectedPreCheckIn.allProducts[index].quantity_unittotal  = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_tubes) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_pertube);
+  
+  this.componentKey+=1;
+
+    },
+    getAmpuleValue(index){
+        if(this.selectedPreCheckIn.allProducts[index].quantity_boxes==undefined || this.selectedPreCheckIn.allProducts[index].quantity_boxes==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_boxes = 0;
+  }
+    if(this.selectedPreCheckIn.allProducts[index].quantity_ampuleperbox==undefined || this.selectedPreCheckIn.allProducts[index].quantity_ampuleperbox==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_ampuleperbox = 0;
+  }
+    if(this.selectedPreCheckIn.allProducts[index].quantity_ampules==undefined || this.selectedPreCheckIn.allProducts[index].quantity_ampules==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_ampules = 0;
+  }
+      if(this.selectedPreCheckIn.allProducts[index].quantity_mlperampule==undefined || this.selectedPreCheckIn.allProducts[index].quantity_mlperampule==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_mlperampule = 0;
+  }
+      this.selectedPreCheckIn.allProducts[index].quantity_ampules = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_boxes) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_ampuleperbox);
+  
+  this.componentKey+=1;
+
+    },
+       getWholeValue(index){
+        if(this.selectedPreCheckIn.allProducts[index].quantity_boxes==undefined || this.selectedPreCheckIn.allProducts[index].quantity_boxes==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_boxes = 0;
+  }
+    if(this.selectedPreCheckIn.allProducts[index].quantity_unitperbox==undefined || this.selectedPreCheckIn.allProducts[index].quantity_unitperbox==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_unitperbox = 0;
+  }
+    if(this.selectedPreCheckIn.allProducts[index].quantity_units==undefined || this.selectedPreCheckIn.allProducts[index].quantity_units==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_units = 0;
+  }
+  
+      this.selectedPreCheckIn.allProducts[index].quantity_units = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_boxes) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_unitperbox);
+  
+  this.componentKey+=1;
+
+    },
+    getVialValue(index){
+
+  if(this.selectedPreCheckIn.allProducts[index].quantity_boxes==undefined || this.selectedPreCheckIn.allProducts[index].quantity_boxes==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_boxes = 0;
+  }
+    if(this.selectedPreCheckIn.allProducts[index].quantity_vialsperbox==undefined || this.selectedPreCheckIn.allProducts[index].quantity_vialsperbox==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_vialsperbox = 0;
+  }
+      if(this.selectedPreCheckIn.allProducts[index].quantity_vials==undefined || this.selectedPreCheckIn.allProducts[index].quantity_vials==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_vials = 0;
+  }
+  if(this.selectedPreCheckIn.allProducts[index].quantity_mlpervial==undefined || this.selectedPreCheckIn.allProducts[index].quantity_mlpervial==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_mlpervial = 0;
+  }
+     if(this.selectedPreCheckIn.allProducts[index].quantity_mls==undefined || this.selectedPreCheckIn.allProducts[index].quantity_mls==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_mls = 0;
+  }
+ /* if(this.selectedPreCheckIn.allProducts[index].quantity_mlperdose==undefined || this.selectedPreCheckIn.allProducts[index].quantity_mlperdose==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_mlperdose = 0;
+  }
+  
+  if(this.selectedPreCheckIn.allProducts[index].quantity_doses==undefined || this.selectedPreCheckIn.allProducts[index].quantity_doses==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_doses = 0;
+  } */
+
+
+     this.selectedPreCheckIn.allProducts[index].quantity_vials = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_boxes) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_vialsperbox);
+      this.selectedPreCheckIn.allProducts[index].quantity_mls = Number(this.selectedPreCheckIn.allProducts[index].quantity_mlpervial*this.selectedPreCheckIn.allProducts[index].quantity_vials);
+  this.componentKey+=1;
+
+
+
+    },
+getTabletValue(index){
+
+  if(this.selectedPreCheckIn.allProducts[index].quantity_boxes==undefined || this.selectedPreCheckIn.allProducts[index].quantity_boxes==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_boxes = 0;
+  }
+    if(this.selectedPreCheckIn.allProducts[index].quantity_stripsperbox==undefined || this.selectedPreCheckIn.allProducts[index].quantity_stripsperbox==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_stripsperbox = 0;
+  }
+     if(this.selectedPreCheckIn.allProducts[index].quantity_stripsperbox==undefined || this.selectedPreCheckIn.allProducts[index].quantity_stripsperbox==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_stripsperbox = 0;
+  }
+      if(this.selectedPreCheckIn.allProducts[index].quantity_strips==undefined || this.selectedPreCheckIn.allProducts[index].quantity_strips==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_strips = 0;
+  }
+    if(this.selectedPreCheckIn.allProducts[index].quantity_tabletsperstrip==undefined || this.selectedPreCheckIn.allProducts[index].quantity_tabletsperstrip==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_tabletsperstrip = 0;
+  }
+    if(this.selectedPreCheckIn.allProducts[index].quantity_tablets==undefined || this.selectedPreCheckIn.allProducts[index].quantity_tablets==''){
+    this.selectedPreCheckIn.allProducts[index].quantity_tablets = 0;
+  }
+
+   this.selectedPreCheckIn.allProducts[index].quantity_strips = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_boxes) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_stripsperbox);
+   this.selectedPreCheckIn.allProducts[index].quantity_tablets = parseInt(this.selectedPreCheckIn.allProducts[index].quantity_strips) * parseInt(this.selectedPreCheckIn.allProducts[index].quantity_tabletsperstrip);
+  this.componentKey+=1;
+},
 async onSearch(search, loading) {
   if(escape(search)=='' || escape(search)==null || escape(search)==undefined){
    return this.medicineInfo;
@@ -549,9 +1255,9 @@ async onSearch(search, loading) {
  
 
    //no validation
- 
-    
-    self.axios.post('https://backend.medicodesolution.com/staging/checkin/submit', {
+   self.$validator.validateAll().then((result) => {
+		  if (result) {
+          self.axios.post('https://backend.medicodesolution.com/staging/checkin/submit', {
         clinicId:self.clinicId,
           preCheckInId:self.selectedPreCheckIn.preId,
           invoiceId:self.data.invoiceId,
@@ -586,6 +1292,14 @@ async onSearch(search, loading) {
                  Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true}); 
                      return self.navigateToDashboard();               
                 }); 
+		  }
+                  if(!result){
+                    self.isLoading = false;
+        	         return  Messenger().post({ type:'error',message :"Ensure Batch Number,Expiry Date & Quantity infos are correctly filled in Step 2 (Scan Products)", hideAfter: 3,showCloseButton:true});
+                  }
+		});
+    
+   
   },
  async getPreCheckIns() {
   try {
@@ -598,6 +1312,7 @@ async onSearch(search, loading) {
     console.error(error);
   }
 },
+
  async getPreSelectedVendor(id) {
   try {
    const response = await this.axios.get('https://backend.medicodesolution.com/staging/vendor/'+id);
@@ -609,7 +1324,16 @@ async onSearch(search, loading) {
     console.error(error);
   }
 },
+  async getManufacturerBarcodes() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/staging/manufacturerBarcodes')
+   this.manufacturerBarcodes = response.data.manufacturerBarcodes;
 
+   console.log(this.manufacturerBarcodes)
+  } catch (error) {
+    console.error(error);
+  }
+},
  onBarcodeScanned (barcode) {
        var index = 0; var selectedIndex;
        var self=this;
@@ -637,15 +1361,23 @@ if(selectedIndex!=null && selectedIndex!=undefined){
   return  Messenger().post({message:this.selectedPreCheckIn.allProducts[selectedIndex].product_name+' scanned!', hideAfter: 3,showCloseButton:true});
 }
 else {
+  if(this.manufacturerBarcodes.includes(barcode)){
+
+    return  Messenger().post({type:'error',message:'This barcode is tagged to product not in your precheckin list. Kindly ammend your precheckin info if you wish to add this product.', hideAfter: 3,showCloseButton:true});
+  }
+  else {
     this.unselectedBarcode = barcode;
     this.showModal=true;
     return  Messenger().post({type:'error',message:'Item not found', hideAfter: 3,showCloseButton:true});
+  }
+   
 }
       },
 
   },
      mounted(){
   this.getPreCheckIns();
+  this.getManufacturerBarcodes();
  
  
    },

@@ -468,6 +468,27 @@
 
 
           </b-tab>
+          <b-tab title="Check Out Listings">
+        
+           <div class="table-responsive">
+           <table class="table table-hover" id="checkoutdatatable">
+             <thead>
+               <tr>
+                  <th>ID</th>
+                  <th>Patient Id</th>
+                  <th>Total Amount</th>
+                  <th>Date</th>
+                  <th>Status</th> 
+                  <th>Actions</th>       
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
+
+       
+          </b-tab>
            <b-tab title="History">
         
               <div v-for="notification in mock.notifications"
@@ -574,6 +595,12 @@ export default {
           icon: 'fa-sign-in',
           function: 'navigateToCheckIn'
         },
+        {
+          name: 'CHECK-OUT',
+          color: '#FF0000',
+          icon: 'fa-sign-out',
+          function: 'navigateToCheckOut'
+        }
         
       ],
     };
@@ -594,6 +621,9 @@ export default {
     },
     navigateToPreCheckIn(){
     this.$router.push({name:'ClinicPreCheckIn', params: { clinicId :this.clinicId}});
+    },
+    navigateToCheckOut(){
+    this.$router.push({name:'ClinicCheckOut', params: { clinicId :this.clinicId}});
     },
     navigateToCheckIn(){
     this.$router.push({name:'ClinicCheckIn', params: { clinicId :this.clinicId}});
@@ -839,6 +869,31 @@ export default {
   } );
 
 
+   var table6 =  $('#checkoutdatatable').DataTable( {
+		"processing": true,
+		"order": [[ 0, "id" ]],
+        "serverSide": true,
+          "dom": 'Bfrtip',
+		"ajax": "https://backend.medicodesolution.com/staging/single/checkout/admin/"+clinicId,
+		"columnDefs": [
+    {
+      "data": null,
+      "defaultContent": "<button class='btn' id='edit' title='Edit'><i class='fa fa-pencil'></i></button>",
+      "targets": -1,
+       "searchable": false,
+      "orderable": false,
+    },
+	{ "targets" : 4,
+          "render" : function (data, type, row) {
+            if(data == 0) return 'Pending';
+           else if(data == 1) return 'Confirmed';
+           else if(data == -1) return 'Cancelled';
+            
+          },
+        }	
+  ]
+  } );
+  
     $('#checkindatatable tbody').on( 'click', '#edit', function () {
 		var data = table4.row( $(this).parents('tr') ).data();
 		 window.open('http://localhost:8080/app/checkin-view/' + data[0]);
@@ -854,6 +909,12 @@ export default {
      $('#inventorydatatable tbody').on( 'click', '#edit', function () {
     var data = table5.row( $(this).parents('tr') ).data();
     	  window.open('http://localhost:8080/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
+	
+    } );
+
+       $('#checkoutdatatable tbody').on( 'click', '#edit', function () {
+    var data = table6.row( $(this).parents('tr') ).data();
+    	  window.open('http://localhost:8080/app/checkout-view/'+ data[0]);
 	
     } );
    
