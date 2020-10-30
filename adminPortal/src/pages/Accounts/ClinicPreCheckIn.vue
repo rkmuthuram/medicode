@@ -110,7 +110,7 @@
                 >
             <v-select label="product_name" :filterable="false" :options="medicineInfo"  @search="onSearch"  v-model="selectedMedicine" change="" >
     <template slot="no-options">
-      type to search medicine by name / category / manufacturer..
+      type to search medicine by name / category / manufacturer / any barcodes..
     </template>
     <template slot="option" slot-scope="option">
       <div class="d-center">
@@ -848,6 +848,7 @@ export default {
   components: { Widget, vSelect,vueDropzone: vue2Dropzone},
   data() {
     return {
+      staffId:window.localStorage.getItem('id'),
       componentKey:0,
       allSelectedProducts:[],
         clinicId: this.$route.params.clinicId,
@@ -875,7 +876,7 @@ export default {
     },
     
             dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/staging/precheckin/attachments/upload',
+          url: 'https://backend.medicodesolution.com/development/precheckin/attachments/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 3,
@@ -928,7 +929,7 @@ async onSearch(search, loading) {
    return this.medicineInfo;
   }
     loading(true);
-    const response = await this.axios.get(`https://backend.medicodesolution.com/staging/search/medicines/${escape(search)}`);
+    const response = await this.axios.get(`https://backend.medicodesolution.com/development/search/medicines/${escape(search)}`);
     this.medicineInfo = response.data.medicineInfo;
     loading(false);
     },
@@ -1178,13 +1179,14 @@ getTabletValue(){
    //no validation
  
     
-    self.axios.post('https://backend.medicodesolution.com/staging/precheckin/submit', {
+    self.axios.post('https://backend.medicodesolution.com/development/precheckin/submit', {
           clinicId:self.clinicId,
           vendorId:self.data.vendor.id,
           orderId:self.data.order_number,
           comments:self.data.comments,
           attachments:self.data.attachments.join(),
-          allProducts:JSON.stringify(self.allSelectedProducts)
+          allProducts:JSON.stringify(self.allSelectedProducts),
+            staffId:self.staffId
 
     })
                 .then(function (response) {
@@ -1215,7 +1217,7 @@ getTabletValue(){
   },
  async getVendors() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/all/vendors');
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/all/vendors');
 
    this.vendorInfo = response.data.vendorInfo;
    

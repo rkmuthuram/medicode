@@ -463,7 +463,7 @@ export default {
       e.preventDefault();
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/staging/vendor', {
+                self.axios.post('https://backend.medicodesolution.com/development/vendor', {
                 
         name:self.data.name,
         pic_name:self.data.pic_name,

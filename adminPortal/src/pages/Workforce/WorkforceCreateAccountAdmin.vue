@@ -260,7 +260,7 @@ export default {
       locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
       isLoading:false,
        dropzoneOptions2: {
-          url: 'https://backend.medicodesolution.com/staging/workforce/photo/upload',
+          url: 'https://backend.medicodesolution.com/development/workforce/photo/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
           maxFiles: 1,
@@ -285,7 +285,7 @@ export default {
       e.preventDefault();
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/staging/workforce', {
+                self.axios.post('https://backend.medicodesolution.com/development/workforce', {
                     username: self.data.username,
                     email:self.data.email,
                     tel_no: self.data.tel_no,

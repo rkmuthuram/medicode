@@ -66,7 +66,9 @@
                                          <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_perbottle}}{{product.quantity_unitperbottle}}/bottle | {{product.quantity_bottles}} bottles | {{product.quantity_unittotal}}{{product.quantity_unitperbottle}} </td>
                                             <td v-if="product.packing_type=='TUBE'">  {{product.quantity_pertube}}{{product.quantity_unitpertube}}/tube | {{product.quantity_tubes}} tubes | {{product.quantity_unittotal}}{{product.quantity_unitpertube}} </td>
                                              <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
-                                             <td v-if="product.packing_type=='TABLETS'"> {{product.quantity_strips}} strips ({{product.quantity_tabletsperstrip}} per strip) | {{product.quantity_tablets}} tablets</td>
+                                          
+
+                                            <td v-if="product.packing_type=='TABLETS'"> {{product.quantity_strips}} strips ({{product.quantity_tabletsperstrip}} per strip) | {{product.quantity_tablets}} tablets</td>
                                        <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='per vial' || product.packing_type=='Per vial' || product.packing_type=='vial per cc'"> {{product.quantity_mlpervial}} ML/vial | {{product.quantity_vials}} vials</td>
                                          <td v-if="product.packing_type=='per ampule'"> {{product.quantity_mlperampule}} ML/ampule | {{product.quantity_ampules}} ampules</td>
                                          <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_perbottle}}{{product.quantity_unitperbottle}}/bottle | {{product.quantity_bottles}} bottles | {{product.quantity_unittotal}}{{product.quantity_unitperbottle}} </td>
@@ -192,7 +194,7 @@ export default {
   },
    async getCheckIn() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/checkin/'+ this.checkInId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/checkin/'+ this.checkInId)
    this.data = response.data.checkInInfo[0];
   this.data.allProducts = JSON.parse(this.data.allProducts);
  
@@ -222,7 +224,7 @@ export default {
      tabletsperstrip:Number(entry.quantity_tabletsperstrip),
      tablets:Number(entry.quantity_tablets)
    };
-   finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:quantity});
+ finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
    }
     if(entry.packing_type=='Per vial' || entry.packing_type=='per vial' || entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per 0.5 cc' || entry.packing_type=='vial per cc'){
   var quantity = {
@@ -232,7 +234,7 @@ export default {
      mlpervial:Number(entry.quantity_mlpervial),
      mls:Number(entry.quantity_mls)
    };
-   finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:quantity});
+ finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
    }
      if(entry.packing_type=='per ampule'){
   var quantity = {
@@ -241,29 +243,29 @@ export default {
      ampules:Number(entry.quantity_ampules),
      mlperampule:Number(entry.quantity_mlperampule),
    };
-   finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:quantity});
+ finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
    }
         if(entry.packing_type=='BOTTLE'){
   var quantity = {
      boxes:Number(entry.quantity_boxes),
      bottleperbox:Number(entry.quantity_bottleperbox),
      bottles:Number(entry.quantity_bottles),
-     unitperbottle:Number(entry.quantity_unitperbottle),
+     unitperbottle:entry.quantity_unitperbottle,
      perbottle:Number(entry.quantity_perbottle),
      unittotal:Number(entry.quantity_unittotal),
    };
-   finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:quantity});
+  finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
    }
      if(entry.packing_type=='TUBE'){
   var quantity = {
      boxes:Number(entry.quantity_boxes),
      tubeperbox:Number(entry.quantity_tubeperbox),
      tubes:Number(entry.quantity_tubes),
-     unitpertube:Number(entry.quantity_unitpertube),
+     unitpertube:entry.quantity_unitpertube,
      pertube:Number(entry.quantity_pertube),
      unittotal:Number(entry.quantity_unittotal),
    };
-   finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:quantity});
+ finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
    }
 
       if(entry.packing_type=='Per supp' || entry.packing_type=='SACHET' || entry.packing_type=='Sachet' || entry.packing_type=='box' || entry.packing_type=='Set' || entry.packing_type=='ROLLS' || entry.packing_type=='PIECES' || entry.packing_type=='pack' || entry.packing_type=='Diskus'){
@@ -272,7 +274,7 @@ export default {
      unitperbox:Number(entry.quantity_unitperbox),
      units:Number(entry.quantity_units),
    };
-   finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:quantity});
+ finalProducts.push({clinicId:parseInt(self.data.clinicId),checkInId:self.data.id,productId:entry.internal_qrcode,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
    }
 
 
@@ -287,11 +289,11 @@ export default {
 
      //no validation
    if(index==length){
- 
-    self.axios.post('https://backend.medicodesolution.com/staging/clinicInventory/approve/submit', {
+   
+    self.axios.post('https://backend.medicodesolution.com/development/clinicInventory/approve/submit', {
           
-        finalProducts:finalProducts
-
+        finalProducts:finalProducts,
+        clinicId:self.data.clinicId
     })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -330,7 +332,7 @@ export default {
 
 
   
-    self.axios.post('https://backend.medicodesolution.com/staging/clinicInventory/approve/reject/'+self.data.id, {
+    self.axios.post('https://backend.medicodesolution.com/development/clinicInventory/approve/reject/'+self.data.id, {
           
        
 

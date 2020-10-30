@@ -214,7 +214,7 @@ export default {
      isLoading:false,
      locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
         dropzoneOptions2: {
-          url: 'https://backend.medicodesolution.com/staging/workforce/photo/upload',
+          url: 'https://backend.medicodesolution.com/development/workforce/photo/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
           maxFiles: 1,
@@ -256,7 +256,7 @@ export default {
     },
     async getUser() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/workforce/'+ this.workforceId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/workforce/'+ this.workforceId)
    this.data= response.data.workforceInfo[0];
       this.cover_image[0] = response.data.workforceInfo[0].photoUrl;
         var access = response.data.workforceInfo[0].access;
@@ -274,7 +274,7 @@ export default {
      }
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.patch('https://backend.medicodesolution.com/staging/workforce/'+this.workforceId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/workforce/'+this.workforceId, {
                     username: self.data.username,
                     tel_no: self.data.tel_no,
                     position: self.data.position,

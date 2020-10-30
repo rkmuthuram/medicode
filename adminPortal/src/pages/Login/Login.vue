@@ -10,15 +10,15 @@
           <b-alert class="alert-sm" variant="danger" :show="!!errorMessage">
             {{errorMessage}}
           </b-alert>
-          <b-form-group label="Email" label-for="username-input">
+          <b-form-group label="Username" label-for="username-input">
             <b-input-group class="input-group-transparent">
               <b-input-group-text slot="prepend"><i class="fa fa-user text-white"></i></b-input-group-text>
               <b-form-input id="username-input"
                             class="input-transparent pl-0"
-                            type="email"
+                            type="text"
                             v-model="form.email"
                             required
-                            placeholder="Your Email" />
+                            placeholder="Your Username" />
             </b-input-group>
           </b-form-group>
           <b-form-group label="Password" label-for="password-input">
@@ -139,15 +139,44 @@ export default {
       if (email.length !== 0 && password.length !== 0) {
        var self = this;
        self.isLoading = true;
-       if(self.form.email=='administrator@medicodesolution.com' && self.form.password=='medicodeAdmin2021'){
+       if(self.form.email=='admin' && self.form.password=='medicodeAdmin2021'){
              self.isLoading = false;
     Messenger().post('Administrator login success!');
     window.localStorage.setItem('authenticated', true);
     window.localStorage.setItem('username', 'Medicode Administrator');
-    window.localStorage.setItem('SUPERADMIN',true );
+    window.localStorage.setItem('access','admin' );
+    window.localStorage.setItem('id','ADMIN' );
     return self.$router.push('/app/dashboard');
                  
        }
+    if(self.form.email=='sarah' && self.form.password=='n7aju1'){
+             self.isLoading = false;
+    Messenger().post('Staff login success!');
+    window.localStorage.setItem('authenticated', true);
+    window.localStorage.setItem('username', 'Sarah');
+    window.localStorage.setItem('access','staff' );
+    window.localStorage.setItem('id','SARAH' );
+    return self.$router.push('/app/dashboard');
+       }
+        if(self.form.email=='biela' && self.form.password=='lupfvl'){
+             self.isLoading = false;
+    Messenger().post('Staff login success!');
+    window.localStorage.setItem('authenticated', true);
+    window.localStorage.setItem('username', 'Biela');
+    window.localStorage.setItem('access','staff' );
+    window.localStorage.setItem('id','BIELA' );
+    return self.$router.push('/app/dashboard');
+       }
+        if(self.form.email=='ummi' && self.form.password=='4y3mxl'){
+             self.isLoading = false;
+    Messenger().post('Staff login success!');
+    window.localStorage.setItem('authenticated', true);
+    window.localStorage.setItem('username', 'Ummi');
+    window.localStorage.setItem('access','staff' );
+    window.localStorage.setItem('id','UMMI' );
+    return self.$router.push('/app/dashboard');         
+       }
+         
        else {
 
      self.isLoading = false;

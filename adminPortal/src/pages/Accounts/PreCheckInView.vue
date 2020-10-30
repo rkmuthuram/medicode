@@ -153,7 +153,7 @@ export default {
   methods: {
    async getPreCheckIn() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/precheckin/'+ this.preCheckInId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/precheckin/'+ this.preCheckInId)
    this.data = response.data.preCheckInInfo[0];
   this.data.allProducts = JSON.parse(this.data.allProducts);
   console.log(this.data);

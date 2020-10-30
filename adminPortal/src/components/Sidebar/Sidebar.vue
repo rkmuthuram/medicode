@@ -3,7 +3,7 @@
     <nav :class="{sidebar: true}">
       <header class="logo">
         <router-link to="/app/dashboard">
-          Admin
+          Admin 
           <span class="fw-semi-bold">Portal</span>
         </router-link>
       </header>
@@ -16,7 +16,8 @@
           index="dashboard"
           isHeader
         />
-        <NavLink
+       <NavLink
+       v-if="username=='Medicode Administrator'" 
           :activeItem="activeItem"
           header="Accounts"
           link="/app/account-listing"
@@ -25,6 +26,7 @@
           isHeader
         />
          <NavLink
+            v-if="username=='Medicode Administrator'" 
           :activeItem="activeItem"
           header="Vendors"
           link="/app/vendor-listing"
@@ -37,6 +39,7 @@
         />
         
           <NavLink
+           v-if="username=='Medicode Administrator'" 
           :activeItem="activeItem"
           header="Medicines"
           link="/app/medicine-listing"
@@ -45,6 +48,7 @@
           isHeader
         />
          <NavLink
+          v-if="username=='Medicode Administrator'"  
           :activeItem="activeItem"
           header="Pre Check Ins"
           link="/app/precheckin-listing"
@@ -53,6 +57,7 @@
           isHeader
         />
           <NavLink
+           v-if="username=='Medicode Administrator'"  
           :activeItem="activeItem"
           header="Check Ins"
           link="/app/checkin-listing"
@@ -61,6 +66,7 @@
           isHeader
         />
            <NavLink
+        v-if="username=='Medicode Administrator'" 
           :activeItem="activeItem"
           header="Settings"
           link="/app/settings"
@@ -90,7 +96,8 @@ export default {
   components: { NavLink },
   data() {
     return {
-     
+      username:window.localStorage.getItem('username'),
+      access:window.localStorage.getItem('access'),
   
     };
   },

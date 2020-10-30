@@ -299,7 +299,7 @@ export default {
        self.isLoading = true;
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.patch('https://backend.medicodesolution.com/staging/shop/status/'+this.shopId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/shop/status/'+this.shopId, {
                    status:1
                 })
                 .then(function (response) {
@@ -337,7 +337,7 @@ export default {
        self.isLoading = true;
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.patch('https://backend.medicodesolution.com/staging/shop/status/'+this.shopId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/shop/status/'+this.shopId, {
                    status:0
                 })
                 .then(function (response) {
@@ -372,7 +372,7 @@ export default {
     },    
     async getService() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/shop/'+ this.shopId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/shop/'+ this.shopId)
    this.data = response.data.shopInfo[0];
    this.images = response.data.shopInfo[0].images.split(',');
    this.cover_image[0] = response.data.shopInfo[0].cover_image_url;

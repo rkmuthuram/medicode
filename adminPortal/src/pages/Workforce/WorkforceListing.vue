@@ -70,7 +70,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/workforce/admin",
+		"ajax": "https://backend.medicodesolution.com/development/workforce/admin",
 		"columnDefs": [
     {
       "data": null,

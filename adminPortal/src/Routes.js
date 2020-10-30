@@ -27,6 +27,9 @@ import ClinicAccountCreateIP from '@/pages/Accounts/ClinicAccountIPCreate';
 import ClinicPreCheckIn from '@/pages/Accounts/ClinicPreCheckIn';
 import ClinicCheckIn from '@/pages/Accounts/ClinicCheckIn';
 import ClinicCheckOut from '@/pages/Accounts/ClinicCheckOut';
+import ClinicStockUpdate from '@/pages/Accounts/ClinicStockUpdate';
+import ClinicFileUpload from '@/pages/Accounts/ClinicFileUpload';
+import ClinicFileUpdate from '@/pages/Accounts/ClinicFileUpdate';
 
 import PreCheckInListing from '@/pages/Accounts/PreCheckInListing';
 import PreCheckInView from '@/pages/Accounts/PreCheckInView';
@@ -276,6 +279,30 @@ const router = new Router({
           }
         },
         {
+          path: 'stock-update-clinic/:clinicId',
+          name: 'ClinicStockUpdate',
+          component: ClinicStockUpdate,
+            meta:{
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'file-upload-clinic/:clinicId',
+          name: 'ClinicFileUpload',
+          component: ClinicFileUpload,
+            meta:{
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'file-update-clinic/:fileId',
+          name: 'ClinicFileUpdate',
+          component: ClinicFileUpdate,
+            meta:{
+            requiresAuth: true
+          }
+        },
+        {
           path: 'account-create-clinicIP/:clinicId',
           name: 'ClinicAccountCreateIP',
           component: ClinicAccountCreateIP,
@@ -362,11 +389,11 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  const currentUser = window.localStorage.getItem('SUPERADMIN');
+  const currentUser = window.localStorage.getItem('access');
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const requiresGuest = to.matched.some(record => record.meta.requiresGuest);
   if (requiresAuth){
-    if(currentUser=='false'){
+    if(currentUser!='staff' && currentUser!='admin'){
       next('/login');
     }
     else{
@@ -374,7 +401,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   else if(requiresGuest){
-    if(currentUser=='true'){
+    if(currentUser=='staff' || currentUser=='admin'){
       next('/app/dashboard');
     }
     else{

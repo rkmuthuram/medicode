@@ -142,7 +142,7 @@ export default {
   if (r == true) {
        window.localStorage.setItem('authenticated', false);
     window.localStorage.setItem('username', false);
-    window.localStorage.setItem('SUPERADMIN',false );
+    window.localStorage.setItem('access',false );
       this.$router.push('/login');
   } else {
  

@@ -24,6 +24,8 @@
              <thead>
                <tr>
                   <th>Internal ID</th>
+                    <th>Manufacturer Barcode</th>
+                 <th>Clinic Barcode</th>
                   <th>Name</th>
                    <th>Manufacturer</th>
                    <th>Category</th>
@@ -70,7 +72,7 @@ export default {
 		"processing": true,
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/medicine/admin",
+		"ajax": "https://backend.medicodesolution.com/development/medicine/admin",
 		"columnDefs": [
     {
       "data": null,

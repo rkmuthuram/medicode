@@ -306,7 +306,7 @@ export default {
      isLoading:false,
      locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
         dropzoneOptions2: {
-          url: 'https://backend.medicodesolution.com/staging/clinic/photo/upload',
+          url: 'https://backend.medicodesolution.com/development/clinic/photo/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
           maxFiles: 1,
@@ -348,7 +348,7 @@ export default {
     },
     async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
    this.data= response.data.accountInfo[0];
    this.cover_image[0] = response.data.accountInfo[0].photoUrl;
     
@@ -366,7 +366,7 @@ export default {
       self.$validator.validateAll().then((result) => {
 		  if (result) {
      
-                self.axios.patch('https://backend.medicodesolution.com/staging/clinic/'+ self.data.id, {
+                self.axios.patch('https://backend.medicodesolution.com/development/clinic/'+ self.data.id, {
               
         name:self.data.name,
         ref_id:self.data.ref_id,

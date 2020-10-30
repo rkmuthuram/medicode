@@ -192,7 +192,7 @@ export default {
       e.preventDefault();
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/staging/clinic_ipv4', {
+                self.axios.post('https://backend.medicodesolution.com/development/clinic_ipv4', {
                   
         clinicId:self.clinicId,
         ipv4:self.data.ipv4,

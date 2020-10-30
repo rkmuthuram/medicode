@@ -266,6 +266,7 @@
            <table class="table table-hover" id="clinicinventorydatatable">
              <thead>
                <tr>
+                  <th>#</th>
                  <th>Check In </th>
                   <th>Quantity</th>
                   <th>Timestamp</th>
@@ -286,10 +287,30 @@
            <table class="table table-hover" id="clinicinventorydatatable2">
              <thead>
                <tr>
+                  <th>#</th>
                  <th>Check Out </th>
                   <th>Quantity</th>
                   <th>Timestamp</th>
                   <th>Actions</th>       
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
+
+
+          </b-tab>
+               <b-tab title="Ammend History">
+        
+              <div class="table-responsive">
+           <table class="table table-hover" id="clinicinventorydatatable3">
+             <thead>
+               <tr>
+                 <th>Before</th>
+                  <th>After</th>
+                  <th>Timestamp</th>
+                     
                </tr>
              </thead>
              <tbody>
@@ -392,7 +413,7 @@ export default {
  
    async getMedicine() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/medicine/'+ this.inventoryId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/medicine/'+ this.inventoryId)
   this.data = response.data.medicineInfo[0];
  
  
@@ -419,7 +440,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/inventory/clinic/product/admin/"+clinicId+"/"+productId,
+		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/checkins/"+clinicId+"/"+productId,
 		"columnDefs": [
     {
       "data": null,
@@ -438,7 +459,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/inventory/clinic/product2/admin/"+clinicId+"/"+productId,
+		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/checkouts/"+clinicId+"/"+productId,
 		"columnDefs": [
     {
       "data": null,
@@ -452,14 +473,23 @@ export default {
   } );
 
 
+      var table7 =  $('#clinicinventorydatatable3').DataTable( {
+		"processing": true,
+        "serverSide": true,
+          "dom": 'Bfrtip',
+		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/product3/admin/"+clinicId+"/"+productId,
+	
+  } );
+
+
     $('#clinicinventorydatatable tbody').on( 'click', '#edit', function () {
 		var data = table5.row( $(this).parents('tr') ).data();
-		 window.open('http://localhost:8080/app/checkin-view/' + data[0]);
+		 window.open('http://localhost:8080/app/checkin-view/' + data[1]);
     } );
 
         $('#clinicinventorydatatable2 tbody').on( 'click', '#edit', function () {
 		var data = table6.row( $(this).parents('tr') ).data();
-		 window.open('http://localhost:8080/app/checkout-view/' + data[0]);
+		 window.open('http://localhost:8080/app/checkout-view/' + data[1]);
     } );
   
    

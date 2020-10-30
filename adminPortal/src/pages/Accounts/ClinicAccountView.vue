@@ -7,9 +7,114 @@
 
 
     <b-row>
-      <b-col md="8" xs="12">
+      <b-col md="12" xs="12">
         <b-tabs class="mb-lg">
-          <b-tab title="Profile" active>
+          <b-tab title="Inventory Listings" active>
+                   <b-button  variant="danger" class="btn-rounded " @click="navigateToAmmendStock" >
+              Ammend Stock
+              </b-button>
+              <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="inventorydatatable">
+            <thead class="text-uppercase">
+                 <tr>
+                 <th>Id</th>
+                 <th>Manufacturer Barcode</th>
+                 <th>Clinic Barcode</th>
+                      <th>Manufacturer</th>
+                  <th>Product Name</th>
+                    <th>Prescription</th> 
+                   <th>Monthly Incoming</th>  
+                   <th>Monthly Outgoing</th>  
+                  <th>Current Stock</th>  
+                 
+                   <th>Movement</th>          
+                  <th>Actions</th>       
+               </tr>
+             </thead>
+             <tbody style="font-weight:bold">
+             </tbody>
+           </table>
+           </div>
+
+
+          </b-tab>
+           <b-tab title="Actions">
+            <b-row>
+      <b-col>
+       <div class="link-container">
+          <div class="linkD" v-for="link in links" :key="link.id" @click="navigate(link.function)"><i class="fa link-icon" :class="link.icon" :style="{color:link.color}"/><div class="link-text" :style="{color:link.color}"> <strong>{{link.name}}</strong> </div></div>
+        </div>
+      </b-col>
+    </b-row>
+
+        </b-tab>
+            <b-tab title="Pre Check In Listings">
+        
+           <div class="table-responsive">
+           <table class="table table-bordered" id="precheckdatatable">
+             <thead>
+               <tr>
+                  <th>ID</th>
+                  <th>Purchase Order Number</th>
+                  <th>Attachments</th>
+                  <th>Comments</th>
+                  <th>Status</th> 
+                  <th>Actions</th>       
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
+
+       
+          </b-tab>
+              <b-tab title="Check In Listings">
+        
+              <div class="table-responsive">
+           <table class="table table-bordered" id="checkindatatable">
+             <thead>
+               <tr>
+                  <th>ID</th>
+                  <th>Invoice Number</th>
+                  <th>Attachments</th>
+                  <th>Total Amount(RM)</th>
+                  <th>Status</th> 
+                  <th>Actions</th>       
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
+
+
+          </b-tab>
+              
+          <b-tab title="Check Out Listings">
+        
+           <div class="table-responsive">
+         <table class="table table-bordered" id="checkoutdatatable">
+             <thead>
+               <tr>
+                  <th>ID</th>
+                  <th>Patient Id</th>
+                  <th>Medicine(s)</th>
+                  <th>Total Amount (RM)</th>
+                  <th>Date</th>
+                   <th>Staff</th> 
+                  <th>Status</th> 
+                  <th>Actions</th>       
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
+
+       
+          </b-tab>
+          <b-tab title="Profile" >
                
               <div class="profileContactContainer">
                 <span class="thumb-xl mb-3">
@@ -395,28 +500,20 @@
            </div>
 
          </b-tab>
-        <b-tab title="Actions">
-            <b-row>
-      <b-col>
-       <div class="link-container">
-          <div class="linkD" v-for="link in links" :key="link.id" @click="navigate(link.function)"><i class="fa link-icon" :class="link.icon" :style="{color:link.color}"/><div class="link-text" :style="{color:link.color}"> <strong>{{link.name}}</strong> </div></div>
-        </div>
-      </b-col>
-    </b-row>
-
-        </b-tab>
-            <b-tab title="Pre Check In Listings">
+       
+          
+            <b-tab title="All Files">
         
            <div class="table-responsive">
-           <table class="table table-hover" id="precheckdatatable">
+           <table class="table table-hover" id="filesdatatable">
              <thead>
                <tr>
                   <th>ID</th>
-                  <th>Purchase Order Number</th>
-                  <th>Attachments</th>
-                  <th>Comments</th>
-                  <th>Status</th> 
-                  <th>Actions</th>       
+                  <th>Staff</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Files</th>
+                   <th>Upload Date</th>   
                </tr>
              </thead>
              <tbody>
@@ -426,68 +523,165 @@
 
        
           </b-tab>
-              <b-tab title="Check In Listings">
-        
-              <div class="table-responsive">
-           <table class="table table-hover" id="checkindatatable">
-             <thead>
-               <tr>
-                  <th>ID</th>
-                  <th>Invoice Number</th>
-                  <th>Attachments</th>
-                  <th>Total Amount(RM)</th>
-                  <th>Status</th> 
-                  <th>Actions</th>       
-               </tr>
-             </thead>
-             <tbody>
-             </tbody>
-           </table>
-           </div>
+             <b-tab title="Reporting">
+ 
 
+ <table class="table table-lg mb-0 table-striped">
+                  <thead>
+                    <tr class="text-muted">
+                      <th>TYPE</th>
+                    
+                      <th>ACTION</th>
+                     
+                                   
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>INVENTORY</td>
+                   
+                      <td>
+                        <b-button  @click="downloadInventory" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD ALL TIME
+                        </b-button> &nbsp;  <b-button  @click="downloadInventory2" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD MONTHLY
+                        </b-button> </td>
+                           
+                      
+                             
+                      
+                    </tr>  
 
-          </b-tab>
-              <b-tab title="Inventory Listings">
-        
-              <div class="table-responsive">
-           <table class="table table-hover" id="inventorydatatable">
-             <thead>
-               <tr>
-                 <th>Id</th>
-                  <th>Product Name</th>
-                  <th>Quantity</th>
-                  <th>Distributor</th>
-                  <th>Manufacturer</th>
-                  <th>Actions</th>       
-               </tr>
-             </thead>
-             <tbody>
-             </tbody>
-           </table>
-           </div>
-
-
-          </b-tab>
-          <b-tab title="Check Out Listings">
-        
-           <div class="table-responsive">
-           <table class="table table-hover" id="checkoutdatatable">
-             <thead>
-               <tr>
-                  <th>ID</th>
-                  <th>Patient Id</th>
-                  <th>Total Amount</th>
-                  <th>Date</th>
-                  <th>Status</th> 
-                  <th>Actions</th>       
-               </tr>
-             </thead>
-             <tbody>
-             </tbody>
-           </table>
-           </div>
-
-       
+                       <tr>
+                      <td>CHECKOUT</td>
+                   
+                      <td>
+                        <b-button  @click="downloadCheckout('daily')" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD DAILY
+                        </b-button> &nbsp;
+                        
+                        <b-button  @click="downloadCheckout('weekly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD WEEKLY
+                        </b-button>&nbsp;
+                        
+                        <b-button  @click="downloadCheckout('monthly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD MONTHLY
+                        </b-button> &nbsp;
+                        <b-button  @click="downloadCheckout('alltime')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD ALL TIME
+                        </b-button></td>&nbsp;
+                             
+                      
+                    </tr>               
+                    <!--   <tr>
+                      <td>CHECK IN's</td>
+                   
+                      <td>
+                        <b-button  @click="downloadCheckout('daily')" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD DAILY
+                        </b-button> &nbsp;
+                        
+                        <b-button  @click="downloadCheckout('weekly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD WEEKLY
+                        </b-button>&nbsp;
+                        
+                        <b-button  @click="downloadCheckout('monthly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD MONTHLY
+                        </b-button> &nbsp;
+                        <b-button  @click="downloadCheckout('alltime')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD ALL TIME
+                        </b-button></td>&nbsp;
+                             
+                      
+                    </tr>  
+                          <tr>
+                      <td>PRE CHECK IN's</td>
+                   
+                      <td>
+                        <b-button  @click="downloadCheckout('daily')" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD DAILY
+                        </b-button> &nbsp;
+                        
+                        <b-button  @click="downloadCheckout('weekly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD WEEKLY
+                        </b-button>&nbsp;
+                        
+                        <b-button  @click="downloadCheckout('monthly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD MONTHLY
+                        </b-button> &nbsp;
+                        <b-button  @click="downloadCheckout('alltime')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD ALL TIME
+                        </b-button></td>&nbsp;
+                             
+                      
+                    </tr>    
+                          <tr>
+                      <td>STAFF ACTIVITY </td>
+                   
+                      <td>
+                        <b-button  @click="downloadCheckout('daily')" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD DAILY
+                        </b-button> &nbsp;
+                        
+                        <b-button  @click="downloadCheckout('weekly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD WEEKLY
+                        </b-button>&nbsp;
+                        
+                        <b-button  @click="downloadCheckout('monthly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD MONTHLY
+                        </b-button> &nbsp;
+                        <b-button  @click="downloadCheckout('alltime')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD ALL TIME
+                        </b-button></td>&nbsp;
+                             
+                      
+                    </tr>              
+                     <tr>
+                      <td>CLINIC ACTIVITY </td>
+                   
+                      <td>
+                        <b-button  @click="downloadCheckout('daily')" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD DAILY
+                        </b-button> &nbsp;
+                        
+                        <b-button  @click="downloadCheckout('weekly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD WEEKLY
+                        </b-button>&nbsp;
+                        
+                        <b-button  @click="downloadCheckout('monthly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD MONTHLY
+                        </b-button> &nbsp;
+                        <b-button  @click="downloadCheckout('alltime')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD ALL TIME
+                        </b-button></td>&nbsp;
+                             
+                      
+                    </tr>        
+                     <tr>
+                      <td>ACCOUNT ACTIVITY </td>
+                   
+                      <td>
+                        <b-button  @click="downloadCheckout('daily')" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD DAILY
+                        </b-button> &nbsp;
+                        
+                        <b-button  @click="downloadCheckout('weekly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD WEEKLY
+                        </b-button>&nbsp;
+                        
+                        <b-button  @click="downloadCheckout('monthly')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD MONTHLY
+                        </b-button> &nbsp;
+                        <b-button  @click="downloadCheckout('alltime')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD ALL TIME
+                        </b-button></td>&nbsp;
+                             
+                      
+                    </tr>                -->
+                  </tbody>
+                </table>       
+    
+              
           </b-tab>
            <b-tab title="History">
         
@@ -600,7 +794,12 @@ export default {
           color: '#FF0000',
           icon: 'fa-sign-out',
           function: 'navigateToCheckOut'
-        }
+        },{
+          name: 'UPLOAD FILES',
+          color: '#4A314D',
+          icon: 'fa-file',
+          function: 'navigateToFileUploader'
+        },
         
       ],
     };
@@ -612,6 +811,9 @@ export default {
     },
     navigateToUpdate(){
         this.$router.push({name:'ClinicAccountUpdate', params: { clinicId :this.clinicId}});
+    },
+     navigateToAmmendStock(){
+        this.$router.push({name:'ClinicStockUpdate', params: { clinicId :this.clinicId}});
     },
     navigateToCreateAccountAdmin(){
         this.$router.push({name:'WorkforceCreateAccountClinic', params: {accountId:this.data.accountId, clinicId :this.clinicId}});
@@ -628,11 +830,14 @@ export default {
     navigateToCheckIn(){
     this.$router.push({name:'ClinicCheckIn', params: { clinicId :this.clinicId}});
     },
+      navigateToFileUploader(){
+    this.$router.push({name:'ClinicFileUpload', params: { clinicId :this.clinicId}});
+    },
     activateAccount(){
          var self = this;
        self.isLoading = true;
    
-                self.axios.patch('https://backend.medicodesolution.com/staging/clinic/status/'+this.clinicId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/clinic/status/'+this.clinicId, {
                    status:1
                 })
                 .then(function (response) {
@@ -664,7 +869,7 @@ export default {
          var self = this;
        self.isLoading = true;
 
-                self.axios.patch('https://backend.medicodesolution.com/staging/clinic/status/'+this.clinicId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/clinic/status/'+this.clinicId, {
                    status:0
                 })
                 .then(function (response) {
@@ -696,7 +901,7 @@ export default {
          var self = this;
        self.isLoading = true;
 
-                self.axios.patch('https://backend.medicodesolution.com/staging/clinic_settings/'+this.clinicId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/clinic_settings/'+this.clinicId, {
                   staffCount:self.settingsData.staffCount,
                   ip_status:self.settingsData.ip_status
                 })
@@ -724,10 +929,97 @@ export default {
                   return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
                 });   
 	
-    },    
+    },
+        downloadInventory(){
+      var self=this;
+         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportInventory/'+self.clinicId, {
+           
+                })
+                .then(function (response) {
+                if(response.status == 200 && response.data.success){
+                self.isLoading = false;
+               Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
+              return window.open(response.data.pdfLink);
+               
+                }
+                else {
+                  if(response.data.error){
+                    self.isLoading = false;
+                  return Messenger().post({ type:'error',message :response.data.error, hideAfter: 3,showCloseButton:true});
+          
+                  }
+                 else {
+                   self.isLoading = false;
+                 return Messenger().post({ type:'error',message :response.error, hideAfter: 3,showCloseButton:true});
+                   }
+                }
+                })
+                .catch(function (error) {
+                  self.isLoading = false;
+                  return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
+                });  
+    },
+      downloadInventory2(){
+      var self=this;
+         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportInventory2/'+self.clinicId, {
+           
+                })
+                .then(function (response) {
+                if(response.status == 200 && response.data.success){
+                self.isLoading = false;
+               Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
+              return window.open(response.data.pdfLink);
+               
+                }
+                else {
+                  if(response.data.error){
+                    self.isLoading = false;
+                  return Messenger().post({ type:'error',message :response.data.error, hideAfter: 3,showCloseButton:true});
+          
+                  }
+                 else {
+                   self.isLoading = false;
+                 return Messenger().post({ type:'error',message :response.error, hideAfter: 3,showCloseButton:true});
+                   }
+                }
+                })
+                .catch(function (error) {
+                  self.isLoading = false;
+                  return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
+                });  
+    },
+     downloadCheckout(type){
+      var self=this;
+         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportCheckout/'+self.clinicId, {
+           type:type
+                })
+                .then(function (response) {
+                if(response.status == 200 && response.data.success){
+                self.isLoading = false;
+               Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
+              return window.open(response.data.pdfLink);
+               
+                }
+                else {
+                  if(response.data.error){
+                    self.isLoading = false;
+                  return Messenger().post({ type:'error',message :response.data.error, hideAfter: 3,showCloseButton:true});
+          
+                  }
+                 else {
+                   self.isLoading = false;
+                 return Messenger().post({ type:'error',message :response.error, hideAfter: 3,showCloseButton:true});
+                   }
+                }
+                })
+                .catch(function (error) {
+                  self.isLoading = false;
+                  return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
+                });  
+    },
     async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
    this.data = response.data.accountInfo[0];
  
   } catch (error) {
@@ -737,7 +1029,7 @@ export default {
 ,    
     async getSettings() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/clinic_settings/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic_settings/'+ this.clinicId)
    this.settingsData = response.data.settingsInfo[0];
  
   } catch (error) {
@@ -751,14 +1043,47 @@ export default {
         
         $(document).ready(function() {
         var clinicId = $("#clinicId").attr("data-id");
+function format (data) {
+    // `d` is the original data object for the row
+    var finalData="";
+  
+    var i=0;
+     data.forEach(function(entry) {
+  
+       if(entry.packing_type=='TABLETS'){
+            finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_strips+" strips & " + entry.quantity_tablets + "loose tablets  <br> ";
+           }
+           if(entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per 0.5 cc' || entry.packing_type=='per vial' || entry.packing_type=='Per vial' || entry.packing_type=='vial per cc'){
+            finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_mls+" loose ML  & " + entry.quantity_vials + "vials <br> ";
+           }
+          if(entry.packing_type=='per ampule'){    
+          finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_ampules+" ampules | ";
+           }
+             if(entry.packing_type=='BOTTLE'){
+             finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitperbottle + " loose & " + entry.quantity_bottles + " bottles <br> " ;
+           }
+             if(entry.packing_type=='TUBE'){
+                       finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitpertube + " loose & " + entry.quantity_tubes + " tubes <br> " ;     
+           }
+           else if(entry.packing_type=='Per supp' || entry.packing_type=='SACHET' || entry.packing_type=='Sachet' || entry.packing_type=='box' || entry.packing_type=='Set' || entry.packing_type=='ROLLS' || entry.packing_type=='PIECES' || entry.packing_type=='pack' || entry.packing_type=='Diskus') {
+             finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_units+" units<br> ";
+           }
+      i++;
+    
+});
 
+if(data.length==i){
+  return finalData;
+}
+
+}
         
           var table =  $('#accadmindatatable').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/workforce/clinic/admin/"+clinicId,
+		"ajax": "https://backend.medicodesolution.com/development/workforce/clinic/admin/"+clinicId,
 		"columnDefs": [
     {
       "data": null,
@@ -785,7 +1110,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/clinic/approvedId/admin/"+clinicId,
+		"ajax": "https://backend.medicodesolution.com/development/clinic/approvedId/admin/"+clinicId,
 		"columnDefs": [
     {
       "data": null,
@@ -803,7 +1128,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/single/precheckin/admin/"+clinicId,
+		"ajax": "https://backend.medicodesolution.com/development/single/precheckin/admin/"+clinicId,
 		"columnDefs": [
     {
       "data": null,
@@ -829,7 +1154,31 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/single/checkin/admin/"+clinicId,
+    "ajax": "https://backend.medicodesolution.com/development/single/checkin/admin/"+clinicId,
+      "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+   
+      var val;
+  if(aData[4]==0){
+         
+       $('td', nRow).css('background-color', 'Orange');
+         
+         }
+          if(aData[4]==1){
+         
+       $('td', nRow).css('background-color', 'Green');
+         
+         }
+               if(aData[4]==-1){
+         
+       $('td', nRow).css('background-color', 'Red');
+         
+         }
+          
+      
+   
+     //   $('td', nRow).css('background-color', 'Orange');
+   
+    },
 		"columnDefs": [
     {
       "data": null,
@@ -848,42 +1197,263 @@ export default {
         }	
   ]
 	} );
-	
+
 
       var table5 =  $('#inventorydatatable').DataTable( {
 		"processing": true,
-		"order": [[ 0, "id" ]],
+		"order": [[ 9, "movementPct" ]],
         "serverSide": true,
-          "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/inventory/clinic/admin/"+clinicId,
+          "dom": 'frtip',
+    "ajax": "https://backend.medicodesolution.com/development/inventory/clinic/admin/"+clinicId,
+    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+   
+      var val;
+   
+  if(aData[5]=='TABLETS'){
+         
+             //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
+           val = JSON.parse(aData[8]).tablets;
+           if(val<10){
+          $('td', nRow).css('background-color', 'Red');
+           }
+           if(val<50 && val>9){
+                   $('td', nRow).css('background-color', 'Orange');
+              
+           }
+             
+         
+           }
+           if(aData[5]=='Vial / per cc' || aData[5]=='Vial / per cc' || aData[5]=='Vial / per 0.5 cc' || aData[5]=='per vial' || aData[5]=='Per vial' || aData[5]=='vial per cc'){
+            
+             //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
+        val = JSON.parse(aData[8]).vials;
+            if(val<10){
+          $('td', nRow).css('background-color', 'Red');
+           }
+           if(val<50 && val>9){
+                   $('td', nRow).css('background-color', 'Orange');
+              
+           }
+             
+           }
+          if(aData[5]=='per ampule'){
+            
+             //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
+               val = JSON.parse(aData[8]).ampules;
+            if(val<10){
+          $('td', nRow).css('background-color', 'Red');
+           }
+           if(val<50 && val>9){
+                   $('td', nRow).css('background-color', 'Orange');
+              
+           }
+             
+           }
+             if(aData[5]=='BOTTLE'){
+            
+            val = JSON.parse(aData[8]).ampules;
+           if(val<10){
+          $('td', nRow).css('background-color', 'Red');
+           }
+           if(val<50 && val>9){
+                   $('td', nRow).css('background-color', 'Orange');
+              
+           }
+             
+           }
+             if(aData[5]=='TUBE'){
+            
+              val = JSON.parse(aData[8]).tubes;
+           if(val<10){
+          $('td', nRow).css('background-color', 'Red');
+           }
+           if(val<50 && val>9){
+                   $('td', nRow).css('background-color', 'Orange');
+              
+           }
+             
+           }
+           else {
+             val = JSON.parse(aData[8]).units;
+             if(val<10){
+          $('td', nRow).css('background-color', 'Red');
+           }
+           if(val<50 && val>9){
+                   $('td', nRow).css('background-color', 'Orange');
+              
+           }
+             
+           }
+      
+   
+     //   $('td', nRow).css('background-color', 'Orange');
+   
+    },
 		"columnDefs": [
     {
       "data": null,
-      "defaultContent": "<button class='btn' id='edit' title='Edit Member'><i class='fa fa-pencil'></i></button>",
-      "targets": -1,
-       "searchable": false,
-      "orderable": false,
-    }
-	
-  ]
-  } );
-
-
-   var table6 =  $('#checkoutdatatable').DataTable( {
-		"processing": true,
-		"order": [[ 0, "id" ]],
-        "serverSide": true,
-          "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/single/checkout/admin/"+clinicId,
-		"columnDefs": [
-    {
-      "data": null,
-      "defaultContent": "<button class='btn' id='edit' title='Edit'><i class='fa fa-pencil'></i></button>",
+      "defaultContent": "<button class='btn' id='edit' title='View Medicine'><i class='fa fa-pencil'></i></button>",
       "targets": -1,
        "searchable": false,
       "orderable": false,
     },
-	{ "targets" : 4,
+    {
+        "targets": [1],
+        "visible": false,
+        "searchable": true
+    },{
+         "targets": [2],
+          "visible": false,
+           "searchable": true
+     },
+    { "targets" : [8],
+          "render" : function (data, type, row) {
+            
+           if(row[5]=='TABLETS'){
+      
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             var strips = parseInt(JSON.parse(data).tablets/JSON.parse(data).tabletsperstrip);
+             return JSON.parse(data).tablets+" tablets("+ strips+" strips)";
+           }
+           if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc' || row[5]=='per vial' || row[5]=='Per vial' || row[5]=='vial per cc'){
+              var vials = parseInt(JSON.parse(data).mls)/JSON.parse(data).mlpervial;
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return JSON.parse(data).mls + " CC ("+vials+" vials)";
+           }
+               if(row[5]=='per vial' || row[5]=='Per vial'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return JSON.parse(data).vials + " vials";
+           }
+          if(row[5]=='per ampule'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return JSON.parse(data).ampules + " ampules";
+           }
+             if(row[5]=='BOTTLE'){
+          var bottles = parseInt(JSON.parse(data).unittotal/JSON.parse(data).perbottle);
+             return JSON.parse(data).unittotal+JSON.parse(data).unitperbottle+" ("+ bottles+" bottles)";
+           }
+             if(row[5]=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+              var tubes = parseInt(JSON.parse(data).unittotal/JSON.parse(data).pertube);
+             return JSON.parse(data).unittotal+JSON.parse(data).unitpertube+" ("+ tubes+" tubes)";
+           }
+           else {
+             return JSON.parse(data).units + " units";
+           }
+            
+          },
+        },
+          { "targets" : [7],
+          "render" : function (data, type, row) {
+            
+              var data2 = row[8];
+            var val = data;
+            if(data=='' || data==null) { val = 0;}
+               if(row[5]=='TABLETS'){
+               var strips = parseInt(val/JSON.parse(data2).tabletsperstrip);
+             return val+" tablets("+ strips+" strips)";
+           }
+               if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc'  || row[5]=='vial per cc'){
+               var vials = parseInt(val/JSON.parse(data2).mlpervial);
+             return val+" CC ("+ vials+" vials)";
+           }
+              if(row[5]=='per vial' || row[5]=='Per vial'){
+            
+             return val+" vials";
+           }
+                    if(row[5]=='per ampule'){
+             return val+" ampules";
+           }
+              if(row[5]=='BOTTLE'){
+          var bottles = parseInt(val/JSON.parse(data2).perbottle);
+             return val+JSON.parse(data2).unitperbottle+" ("+ bottles+" bottles)";
+           }
+  
+             if(row[5]=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+              var tubes = parseInt(val/JSON.parse(data2).pertube);
+             return val+JSON.parse(data2).unitpertube+" ("+ tubes+" tubes)";
+           }
+       
+                    if(row[5]=='Per supp' || row[5]=='SACHET' || row[5]=='Sachet' || row[5]=='box' || row[5]=='Set' || row[5]=='ROLLS' || row[5]=='PIECES' || row[5]=='pack' || row[5]=='Diskus'){
+             return val+" units";
+           }
+          
+            
+          },
+        },
+          { "targets" : [6],
+          "render" : function (data, type, row) {
+            var data2 = row[8];
+            var val = data;
+            if(data=='' || data==null) { val = 0;}
+               if(row[5]=='TABLETS'){
+               var strips = parseInt(val/JSON.parse(data2).tabletsperstrip);
+             return val+" tablets("+ strips+" strips)";
+           }
+               if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc'  || row[5]=='vial per cc'){
+               var vials = parseInt(val/JSON.parse(data2).mlpervial);
+             return val+" CC ("+ vials+" vials)";
+           }
+              if(row[5]=='per vial' || row[5]=='Per vial'){
+            
+             return val+" vials";
+           }
+                    if(row[5]=='per ampule'){
+             return val+" ampules";
+           }
+              if(row[5]=='BOTTLE'){
+          var bottles = parseInt(val/JSON.parse(data2).perbottle);
+             return val+JSON.parse(data2).unitperbottle+" ("+ bottles+" bottles)";
+           }
+  
+             if(row[5]=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+              var tubes = parseInt(val/JSON.parse(data2).pertube);
+             return val+JSON.parse(data2).unitpertube+" ("+ tubes+" tubes)";
+           }
+             if(data=='' || data==null) { val = 0;}
+                    if(row[5]=='Per supp' || row[5]=='SACHET' || row[5]=='Sachet' || row[5]=='box' || row[5]=='Set' || row[5]=='ROLLS' || row[5]=='PIECES' || row[5]=='pack' || row[5]=='Diskus'){
+             return val+" units";
+           }
+          
+           
+         
+            
+          },
+        }			
+	
+  ]
+  } );
+
+   var table6 =  $('#checkoutdatatable').DataTable( {
+	"processing": true,
+		"order": [[ 0, "id" ]],
+        "serverSide": true,
+          "dom": 'Bfrtip',
+		"ajax": "https://backend.medicodesolution.com/development/single/checkout/admin/"+clinicId,
+		"columnDefs": [
+    {
+      "data": null,
+      "defaultContent": "<button class='btn' id='edit' title='Edit'><i class='fa fa-pencil'></i></button><button class='btn' id='expand2' title='Expand'><i class='fa fa-eye'></i></button>",
+      "targets": -1,
+       "searchable": false,
+      "orderable": false,
+    },
+     {
+        "targets": [2],
+        "visible": false,
+        "searchable": true
+    },
+	  { "targets" : 6,
           "render" : function (data, type, row) {
             if(data == 0) return 'Pending';
            else if(data == 1) return 'Confirmed';
@@ -893,7 +1463,55 @@ export default {
         }	
   ]
   } );
+
+
+     $('#checkoutdatatable tbody').on( 'click', '#expand2', function () {
+         var tr = $(this).closest('tr');
+        var row = table6.row( tr );
+    var data = table6.row( $(this).parents('tr') ).data();
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child(format(JSON.parse(data[2]))).show();
+            tr.addClass('shown');
+        }
+	
+    } );
   
+   var table7 =  $('#filesdatatable').DataTable( {
+		"processing": true,
+		"order": [[ 0, "id" ]],
+        "serverSide": true,
+          "dom": 'Bfrtip',
+		"ajax": "https://backend.medicodesolution.com/development/single/fileManager/admin/"+clinicId,
+		"columnDefs": [
+
+
+	  { "targets" : 4,
+          "render" : function (data, type, row) {
+           var str = data.split(',');
+           var i=0;
+           var finalString="";
+    str.forEach(function(entry) {
+  
+       finalString += "<b><a href='" + entry + "'>Download File " +  Number(i+1) + "</a></b><br>"
+      i++;
+    
+});
+
+if(str.length==i){
+  return finalString;
+}
+            
+          },
+        }	
+  ]
+  } );
     $('#checkindatatable tbody').on( 'click', '#edit', function () {
 		var data = table4.row( $(this).parents('tr') ).data();
 		 window.open('http://localhost:8080/app/checkin-view/' + data[0]);
@@ -911,6 +1529,7 @@ export default {
     	  window.open('http://localhost:8080/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
 	
     } );
+   
 
        $('#checkoutdatatable tbody').on( 'click', '#edit', function () {
     var data = table6.row( $(this).parents('tr') ).data();

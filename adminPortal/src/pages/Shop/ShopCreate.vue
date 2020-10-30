@@ -226,7 +226,7 @@ export default {
       locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
       isLoading:false,
       dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/staging/shop/upload',
+          url: 'https://backend.medicodesolution.com/development/shop/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
            maxFiles: 5,
@@ -235,7 +235,7 @@ export default {
           
       },
       dropzoneOptions2: {
-          url: 'https://backend.medicodesolution.com/staging/shop/upload',
+          url: 'https://backend.medicodesolution.com/development/shop/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
           maxFiles: 1,
@@ -262,7 +262,7 @@ export default {
       e.preventDefault();
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/staging/shop', {
+                self.axios.post('https://backend.medicodesolution.com/development/shop', {
                     title: self.data.title,
                     description:self.data.description,
                     time_taken: self.data.time_taken,

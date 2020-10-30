@@ -156,30 +156,26 @@
             <span class="text-muted"><small>Comments:  {{selectedPreCheckIn.comments}} | Attachments : {{selectedPreCheckIn.attachments}}</small></span>
           </div>
           <div class="mb-lg">
-            <table  class="table table-bordered table-lg mt-lg mb-0" >
+            <table  class="table table-bordered table-lg mt-lg mb-0"  >
               <thead>
                 <tr>
-                  <th class="hidden-sm-down">Num.</th>
-                  <th>Product Name</th>
-                  <th>Product Type</th>
-                  <th class="hidden-sm-down">Brand</th>
-                    <th class="">Color</th>
-                  <th class="">Purchase Order Qty</th>
+                <!--  <th class="hidden-sm-down" style="width: 2%;">Num.</th> -->
+                  <th width="15%">Product Name</th>
+                 
+                  <th class="" width="10%">Purchase Order Qty</th>
                   <th class="">Delivered Qty</th>
                   <th class="">Expiry Date</th>
                    <th class="">Batch Number</th>
                   
                    <th class="">Manufacturer Barcode</th>
-                    <th class="">Internal QR Code</th>
+                 <!--   <th class="">Internal QR Code</th> -->
                 </tr>
               </thead>
                      <tbody>
                 <tr v-for="(product,index) in selectedPreCheckIn.allProducts" :key="product.product_name">
-                  <td>{{index+1}}</td>
-                  <td> <b-badge variant="success" class="text-gray-dark">{{product.product_name}}</b-badge></td>
-                   <td>{{product.product_category}}</td>
-                    <td>{{product.manufacturer}}</td>
-                      <td>{{product.color}}</td>
+               <!--   <td>{{index+1}}</td> -->
+                  <td>{{index+1}})  <b-badge variant="success" class="text-gray-dark">{{product.product_name}}</b-badge> | {{product.product_category}} | {{product.manufacturer}} | {{product.color}} </td>
+              
                       <td v-if="product.packing_type=='TABLETS'"> {{product.quantity_strips}} strips ({{product.quantity_tabletsperstrip}} per strip) | {{product.quantity_tablets}} tablets</td>
                                        <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='per vial' || product.packing_type=='Per vial' || product.packing_type=='vial per cc'"> {{product.quantity_mlpervial}} ML/vial | {{product.quantity_vials}} vials</td>
                                          <td v-if="product.packing_type=='per ampule'"> {{product.quantity_mlperampule}} ML/ampule | {{product.quantity_ampules}} ampules</td>
@@ -715,12 +711,16 @@
                 </div> 
                 </td>
                                  <div v-if="product.delivered_quantity>0">
-                                <input
-                  data-vv-validate-on="change"
+                           <!--     <input
+                data-vv-validate-on="change"
                   v-validate="'required'"
                   name="expirydate"
                   :class="{ 'form-control': true, 'is-invalid': errors.has('expirydate')}"
                   type="date"
+                v-model="product.expiry_date"
+                /> -->
+                   <input
+                 type="date"
                 v-model="product.expiry_date"
                 />
                 <span class="text-danger" v-if="errors.has('expirydate')">
@@ -730,11 +730,16 @@
                                <b-badge v-if="!product.delivered_quantity" variant="danger" class="text-gray-dark">NA</b-badge></td>
                                 <td>
                                    <div v-if="product.delivered_quantity>0">
-                                <input
+                           <!--     <input
                   data-vv-validate-on="change"
                   v-validate="'required'"
                   name="batch_number"
                   :class="{ 'form-control': true, 'is-invalid': errors.has('batch_number')}"
+                  type="text"
+                v-model="product.batch_number"
+                /> -->
+                  <input
+                
                   type="text"
                 v-model="product.batch_number"
                 />
@@ -747,7 +752,7 @@
                                        <td><barcode v-bind:value="product.manufacturer_barcode" format="CODE128" :options="{ height:100 }" v-if="product.manufacturer_barcode">
   Show this if the rendering fails.
 </barcode><span v-if="!product.manufacturer_barcode">No record</span></td>
- <td><qrcode :value="product.internal_qrcode+''+product.product_name" :options="{ height:100 }" v-if="product.internal_qrcode"></qrcode> <span v-if="!product.internal_qrcode">No record</span></td>
+ <!--<td><qrcode :value="product.internal_qrcode+''+product.product_name" :options="{ height:100 }" v-if="product.internal_qrcode"></qrcode> <span v-if="!product.internal_qrcode">No record</span></td> -->
                      
                 </tr>
               </tbody>
@@ -912,6 +917,7 @@ export default {
   components: { Widget, vSelect,vueDropzone: vue2Dropzone,barcode: VueBarcode,qrcode:VueQrcode},
   data() {
     return {
+      staffId:window.localStorage.getItem('id'),
       manufacturerBarcodes:[],
       showModal:false,
       selectedVendorInfo:{},
@@ -949,7 +955,7 @@ export default {
     },
     
             dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/staging/checkin/attachments/upload',
+          url: 'https://backend.medicodesolution.com/development/checkin/attachments/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 3,
@@ -962,7 +968,10 @@ export default {
   watch: {
   selectedPreCheckIn: function (preCheckIn) {
   this.selectedPreCheckIn.allProducts = JSON.parse(this.selectedPreCheckIn.allProducts);
-  this.getPreSelectedVendor(this.selectedPreCheckIn.vendorId)
+  this.getPreSelectedVendor(this.selectedPreCheckIn.vendorId);
+    this.selectedPreCheckIn.allProducts.forEach(function(entry) {
+      entry.delivered_quantity = 1;
+});
   }
 },
   methods: {
@@ -973,7 +982,7 @@ export default {
       }
   
         var selectedIndex = self.manualSelection.Index;
-        console.log(selectedIndex);
+
         self.selectedPreCheckIn.allProducts[selectedIndex].manufacturer_barcode = self.unselectedBarcode;
            if(self.selectedPreCheckIn.allProducts[selectedIndex].delivered_quantity==undefined || self.selectedPreCheckIn.allProducts[selectedIndex].delivered_quantity==''){
      self.selectedPreCheckIn.allProducts[selectedIndex].delivered_quantity= 1;
@@ -982,7 +991,7 @@ export default {
      self.selectedPreCheckIn.allProducts[selectedIndex].delivered_quantity++;
    }
   return  Messenger().post({message:self.selectedPreCheckIn.allProducts[selectedIndex].product_name+' scanned!', hideAfter: 3,showCloseButton:true});
-        console.log(self.manualSelection.Index);
+      
     
     },
     removeFromList(){
@@ -999,7 +1008,7 @@ export default {
       }
       this.allSelectedProducts.push(this.selectedMedicine);
       this.selectedMedicine=null;
-         console.log(this.allSelectedProducts);
+       
       return Messenger().post({type:'success',message:'Item added to list!',hideAfter: 3,showCloseButton:true});
    
     },
@@ -1152,7 +1161,7 @@ async onSearch(search, loading) {
    return this.medicineInfo;
   }
     loading(true);
-    const response = await this.axios.get(`https://backend.medicodesolution.com/staging/search/medicines/${escape(search)}`);
+    const response = await this.axios.get(`https://backend.medicodesolution.com/development/search/medicines/${escape(search)}`);
     this.medicineInfo = response.data.medicineInfo;
     loading(false);
     },
@@ -1257,14 +1266,15 @@ async onSearch(search, loading) {
    //no validation
    self.$validator.validateAll().then((result) => {
 		  if (result) {
-          self.axios.post('https://backend.medicodesolution.com/staging/checkin/submit', {
+          self.axios.post('https://backend.medicodesolution.com/development/checkin/submit', {
         clinicId:self.clinicId,
           preCheckInId:self.selectedPreCheckIn.preId,
           invoiceId:self.data.invoiceId,
           totalAmount:self.data.totalAmount,
           comments:self.data.comments,
           attachments:self.data.attachments.join(),
-          allProducts:JSON.stringify(self.selectedPreCheckIn.allProducts)
+          allProducts:JSON.stringify(self.selectedPreCheckIn.allProducts),
+            staffId:self.staffId
 
     })
                 .then(function (response) {
@@ -1303,8 +1313,8 @@ async onSearch(search, loading) {
   },
  async getPreCheckIns() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/all/precheckins/'+this.clinicId);
-
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/all/precheckins/'+this.clinicId);
+  
    this.preInfo = response.data.preInfo;
    
  
@@ -1315,7 +1325,7 @@ async onSearch(search, loading) {
 
  async getPreSelectedVendor(id) {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/vendor/'+id);
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/vendor/'+id);
    this.selectedVendorInfo = response.data.vendorInfo[0];
  
    
@@ -1326,10 +1336,8 @@ async onSearch(search, loading) {
 },
   async getManufacturerBarcodes() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/manufacturerBarcodes')
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/manufacturerBarcodes')
    this.manufacturerBarcodes = response.data.manufacturerBarcodes;
-
-   console.log(this.manufacturerBarcodes)
   } catch (error) {
     console.error(error);
   }
@@ -1393,4 +1401,15 @@ else {
 };
 </script>
 
-<style src="./ClinicPreCheckIn.scss" lang="scss" />
+
+
+<style scoped>
+.my-custom-scrollbar {
+position: relative;
+height: 200px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+</style>

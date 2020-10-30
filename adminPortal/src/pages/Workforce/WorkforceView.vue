@@ -402,7 +402,7 @@ export default {
       forgotPassword(){
        var self = this;
        self.isLoading = true;
-      self.axios.post('https://backend.medicodesolution.com/staging/workforce/forgot-password/'+this.data.email)
+      self.axios.post('https://backend.medicodesolution.com/development/workforce/forgot-password/'+this.data.email)
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
                 self.isLoading = false;
@@ -430,7 +430,7 @@ export default {
     activationEmail(){
       var self = this;
        self.isLoading = true;
-      self.axios.post('https://backend.medicodesolution.com/staging/workforce/activation-email/'+this.data.email)
+      self.axios.post('https://backend.medicodesolution.com/development/workforce/activation-email/'+this.data.email)
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
                 self.isLoading = false;
@@ -462,7 +462,7 @@ export default {
          var self = this;
        self.isLoading = true;
    
-                self.axios.patch('https://backend.medicodesolution.com/staging/workforce/status/'+this.workforceId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/workforce/status/'+this.workforceId, {
                    status:1
                 })
                 .then(function (response) {
@@ -494,7 +494,7 @@ export default {
          var self = this;
        self.isLoading = true;
 
-                self.axios.patch('https://backend.medicodesolution.com/staging/workforce/status/'+this.workforceId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/workforce/status/'+this.workforceId, {
                    status:-1
                 })
                 .then(function (response) {
@@ -524,7 +524,7 @@ export default {
     },    
     async getUser() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/workforce/'+ this.workforceId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/workforce/'+ this.workforceId)
    this.data = response.data.workforceInfo[0];
    var access = response.data.workforceInfo[0].access;
    this.data.access = access.split(',');
@@ -544,7 +544,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/schedule_personal/admin/"+workforceId,
+		"ajax": "https://backend.medicodesolution.com/development/schedule_personal/admin/"+workforceId,
 		"columnDefs": [
     {
       "data": null,

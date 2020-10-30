@@ -32,8 +32,8 @@
           <b-button  slot="finish" variant="success" @click="submit" v-if="isLoading==false" >
             Proceed  <i class="fa fa-check" />
           </b-button>
-         <!--  <tab-content title="Customer Info" :before-change="validOne"> -->
-        <tab-content title="Customer Info" > 
+    <!--  <tab-content title="Customer Info" :before-change="validOne"> -->
+      <tab-content title="Customer Info">
           <b-form-group
                   label="  Patient Identification Number (MRN Number)"
                 >
@@ -85,17 +85,17 @@
                 
               </b-form>
             </tab-content>
-         <!--  <tab-content title="Add Products" :before-change="validTwo"> -->
-             <tab-content title="Add Products" > 
+   <!--    <tab-content title="Add Products" :before-change="validTwo"> -->
+            <tab-content title="Add Products" > 
             
               <b-form>
               
                   <b-form-group
-                  label="Select Medicine"
+                  label="Select Medicine OR Start Scanning (QR / Barcode)"
                 >
             <v-select label="product_name" :filterable="false" :options="medicineInfo"  @search="onSearch"  v-model="selectedMedicine" change="" >
     <template slot="no-options">
-      type to search medicine by name / category / manufacturer..
+    type to search medicine by name / category / manufacturer / any barcodes..
     </template>
     <template slot="option" slot-scope="option">
       <div class="d-center">
@@ -115,8 +115,8 @@
   </v-select>-->
         </b-form-group>
   
-  <b-card class="mb-xlg border-0"  v-if="selectedMedicine!=null">
-          <span class="fw-semi-bold text-success">{{selectedMedicine.product_category}}</span>
+  <b-card class="mb-xlg border-0"  v-if="selectedMedicine!=null" :key="componentKey">
+          <span class="fw-semi-bold text-primary">{{selectedMedicine.product_category}}</span>
           <span class="fw-semi-bold text-muted ml-sm">{{selectedMedicine.product_name}}</span>
           <hr />
           <div class="d-flex justify-content-between mb-lg">
@@ -125,128 +125,391 @@
             
           </div>
           <div class="mb-lg">
-            <h3 class="text-success mb-0">{{selectedMedicine.packing_type}} | {{selectedMedicine.packing_quantity}} | {{selectedMedicine.color}}</h3>
+            <h3 class="text-primary mb-0">{{selectedMedicine.packing_type}} | {{selectedMedicine.packing_quantity}} | {{selectedMedicine.color}}</h3>
           </div>
-              <div class="mb-lg">
-            <h3 class="text-success mb-0">Available Stock : {{selectedMedicine.stock_quantity}} units</h3>
-          </div>
-           <b-form-group
-                  :label="'Dispense Quantity ('+ selectedMedicine.packing_type+')'"
-                >
+           <!--   <div class="mb-lg">
+            <h3 class="text-success mb-0">Available Stock : {{selectedMedicine.quantity}} units</h3>
+          </div> -->
+            <div v-if="selectedMedicine.packing_type=='TABLETS'" :key="componentKey">
+   <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).tablets}} tablets ({{JSON.parse(selectedMedicine.quantity).tablets/JSON.parse(selectedMedicine.quantity).tabletsperstrip}} strips)</span>
+     <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                   
+                  <tr>
+                  
+              <!--    <td>       <b-form-group
+              label="Strips"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+           
+              <select v-model="selectedMedicine.quantity_strips">
+    <option v-for="n in JSON.parse(selectedMedicine.quantity).strips" :value="n">{{ n }}</option>
+  </select>
+            <!--  <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent" type="number"  v-model="selectedMedicine.quantity_strips"></b-form-input>
+    </b-input-group> -->
+          <!--  </b-form-group></td>  -->
+              <!--     <td>       <b-form-group
+              label="Tablets"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <select v-model="selectedMedicine.quantity_tablets">
+    <option v-for="n in JSON.parse(selectedMedicine.quantity).tablets" :value="n">{{ n }}</option>
+  </select>
+          <!--    <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent" type="number"    v-model="selectedMedicine.quantity_tablets"></b-form-input>
+              </b-input-group> -->
+         <!--   </b-form-group></td> -->
+      <td> <b-form-group
+              label="TABLETS"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+            
+             <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent"  type="number"  v-model="selectedMedicine.quantity_tablets"></b-form-input>
+              </b-input-group>
+            </b-form-group>  </td>     
+                                              
+            </tr>
+              
+                    
+                
+              </tbody>
+            </table> 
+                 
+  
+                </div>
+                  <div v-if=" selectedMedicine.packing_type=='Per vial' || selectedMedicine.packing_type=='per vial'" :key="componentKey">
+                       <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).vials}} vials</span>
+ <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+         
+            
+                <td> <b-form-group
+              label="Vial"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+               <select v-model="selectedMedicine.quantity_vials">
+    <option v-for="n in JSON.parse(selectedMedicine.quantity).vials" :value="n">{{ n }}</option>
+  </select>
+            <!--
+              <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="selectedMedicine.quantity_vials"></b-form-input>
+              </b-input-group>-->
+            </b-form-group>  </td>  
+                                      
+            </tr>
+                         <tr>
+                 
+            
+        <!--      <td> <b-form-group
+              label="BY ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+            
+             <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="selectedMedicine.quantity_mls"></b-form-input>
+              </b-input-group>
+            </b-form-group>  </td>     -->
+                   
+          <!--  <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="per dose">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="selectedMedicine.quantity_mlperdose"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      -->  
+         <!--   <td> <b-form-group
+              label="Doses"
+              label-for="append-field6"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field6" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="selectedMedicine.quantity_doses"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     -->                           
+            </tr>
           
-   <v-select
-      v-if="selectedMedicine.packing_type=='TABLETS'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['STRIPS','LOOSE TABLETS - WHOLE','LOOSE TABLETS - HALF']"
-      />
-        <v-select
-     v-if="selectedMedicine.packing_type=='Vial / per cc'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE VIAL','BY CC']"
-      />
-              <v-select
-     v-if="selectedMedicine.packing_type=='Vial / per 0.5 cc'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE VIAL','BY 0.5CC']"
-      />
-             <v-select
-     v-if="selectedMedicine.packing_type=='Per vial'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE']"
-      />
-            <v-select
-     v-if="selectedMedicine.packing_type=='per ampule'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE']"
-      />
-           <v-select
-     v-if="selectedMedicine.packing_type=='Sachet'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE']"
-      />
-        <v-select
-     v-if="selectedMedicine.packing_type=='Diskus'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE']"
-      />
-         <v-select
-     v-if="selectedMedicine.packing_type=='Per supp'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE']"
-      />
-          <v-select
-     v-if="selectedMedicine.packing_type=='TUBE'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE','BY GRAMS']"
-      />
-          <v-select
-     v-if="selectedMedicine.packing_type=='BOTTLE'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE','BY ML']"
-      />
-        <v-select
-     v-if="selectedMedicine.packing_type=='BOX/BAR'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE','BY GRAMS']"
-      />
-       <v-select
-     v-if="selectedMedicine.packing_type=='box'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE BOX','PIECES']"
-      />
-       <v-select
-     v-if="selectedMedicine.packing_type=='set'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE']"
-      />
-         <v-select
-     v-if="selectedMedicine.packing_type=='ROLLS'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE ROLL','HALF ROLL']"
-      />
-            <v-select
-     v-if="selectedMedicine.packing_type=='PIECES'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['BY PIECE']"
-      />
-             <v-select
-     v-if="selectedMedicine.packing_type=='pack'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE PACK','BY PIECE','BY BALLS']"
-      />
-         <v-select
-     v-if="selectedMedicine.packing_type=='Gauze'" 
-      v-model="selectedMedicine.dispensed_type"
-      class="mt-xs"
-      :options="['WHOLE']"
-      />
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+           <div v-if="selectedMedicine.packing_type=='Vial / per cc' || selectedMedicine.packing_type=='Vial / per 0.5 cc' || selectedMedicine.packing_type=='vial per cc'" :key="componentKey">
+              <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).mls}} CC ({{JSON.parse(selectedMedicine.quantity).mls/JSON.parse(selectedMedicine.quantity).mlpervial}} vials)</span>
+<table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                     <tr>
+              
+               
+              <td> <b-form-group
+              label="Vial"
+              label-for="append-field3"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+             <select v-model="selectedMedicine.quantity_vials">
+    <option v-for="n in JSON.parse(selectedMedicine.quantity).vials" :value="n">{{ n }}</option>
+  </select>
+            </b-form-group> </td>  
+                                      
+            </tr>
+                         <tr>
+                 
+            
+              <td> <b-form-group
+              label="BY ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="selectedMedicine.quantity_mls"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     
+                   
+          <!--  <td> <b-form-group
+              label="ML / CC"
+              label-for="append-field5"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field5" append="per dose">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="selectedMedicine.quantity_mlperdose"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>      -->  
+         <!--   <td> <b-form-group
+              label="Doses"
+              label-for="append-field6"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field6" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getVialValue(index)"  v-model="selectedMedicine.quantity_doses"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>     -->                           
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+  
+                </div>
+      <div v-if="selectedMedicine.packing_type=='per ampule'" :key="componentKey">
+           <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).ampules}} ampules</span>
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+             
+             
+                       <td> <b-form-group
+              label="Ampules"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+             <select v-model="selectedMedicine.quantity_ampules">
+    <option v-for="n in JSON.parse(selectedMedicine.quantity).ampules" :value="n">{{ n }}</option>
+  </select>
+           <!--   <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"   @change="getAmpuleValue(index)"  v-model="selectedMedicine.quantity_ampules"></b-form-input> -->
+           
+            </b-form-group> </td>      
+                          
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+                        <div v-if="selectedMedicine.packing_type=='BOTTLE'" :key="componentKey">
+                             <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).unittotal}}{{JSON.parse(selectedMedicine.quantity).unitperbottle}}  ({{JSON.parse(selectedMedicine.quantity).unittotal/JSON.parse(selectedMedicine.quantity).bottles}} bottles)</span>
+       <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+             <!--    <td>       <b-form-group
+              label="Boxes"
+              label-for="append-field"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field" append="total">
+                <b-form-input class="input-transparent" type="number" @change="getBottleValue(index)"  v-model="selectedMedicine.quantity_boxes"></b-form-input>
+              </b-input-group>
+            </b-form-group></td>
+                  <td> <b-form-group
+              label="Bottles"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <b-input-group class="input-group-transparent" id="append-field2" append="per box">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue(index)"  v-model="selectedMedicine.quantity_bottleperbox"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td> -->  </tr><tr> 
+                       <td> <b-form-group
+              label="Bottles"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+              
+            >
+             <select v-model="selectedMedicine.quantity_bottles">
+    <option v-for="n in JSON.parse(selectedMedicine.quantity).bottles" :value="n">{{ n }}</option>
+  </select>
+             <!-- <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue(index)"  v-model="selectedMedicine.quantity_bottles"></b-form-input>
+              </b-input-group> -->
+            </b-form-group> </td>    
+                    
+              <td>
+               <v-select  
+                    class="mt-xs"
+                    :options="['L','ml','g','mg','mcg','doses','vials']"
+                      v-model="JSON.parse(selectedMedicine.quantity).unitperbottle" 
+                      disabled/>
+                 <b-form-group
+              label=""
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+               <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue(index)"  v-model="selectedMedicine.quantity_unittotal"></b-form-input>
+              </b-input-group>
+           <!--   <b-input-group class="input-group-transparent" id="append-field3" append="per tube">
+                <b-form-input class="input-transparent"  type="number" @change="getBottleValue(index)"  v-model="selectedMedicine.quantity_perbottle" ></b-form-input>
+              </b-input-group> -->
+            </b-form-group> </td>                      
+            </tr>               
+              </tbody>
+            </table> 
+                   
+  
+                </div>
 
-<br>
-               <input
-                  data-vv-validate-on="change"
-                  v-validate="'required|max_value:'+selectedMedicine.stock_quantity"
-                  name="qty"
-                  :class="{ 'form-control': true, 'is-invalid': errors.has('qty')}"
-                  type="number"
-               v-model="selectedMedicine.dispensed_quantity"
-                />
-        </b-form-group>
+                 <div v-if="selectedMedicine.packing_type=='TUBE'" :key="componentKey">
+                    <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).unittotal}}{{JSON.parse(selectedMedicine.quantity).unitpertube}}  ({{JSON.parse(selectedMedicine.quantity).unittotal/JSON.parse(selectedMedicine.quantity).tubes}} tubes)</span>
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+              
+             <tr> 
+                       <td> <b-form-group
+              label="Tubes"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+              <select v-model="selectedMedicine.quantity_tubes">
+    <option v-for="n in JSON.parse(selectedMedicine.quantity).tubes" :value="n">{{ n }}</option>
+  </select>
+            </b-form-group> </td>    
+                    
+              <td>
+               <v-select  
+                    class="mt-xs"
+                    :options="['L','ml','g','mg','mcg','doses','vials']"
+                      v-model="JSON.parse(selectedMedicine.quantity).unitpertube" 
+                      disabled/>
+                 <b-form-group
+              label=""
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+            <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"  @change="getBottleValue(index)"  v-model="selectedMedicine.quantity_unittotal"></b-form-input>
+              </b-input-group>
+            </b-form-group> </td>                      
+            </tr>
+            <tr>
+                
+              </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div>
+
+                  <div v-if="selectedMedicine.packing_type=='Per supp' || selectedMedicine.packing_type=='SACHET' || selectedMedicine.packing_type=='Sachet' || selectedMedicine.packing_type=='box' || selectedMedicine.packing_type=='Set' || selectedMedicine.packing_type=='ROLLS' || selectedMedicine.packing_type=='PIECES' || selectedMedicine.packing_type=='pack' || selectedMedicine.packing_type=='Diskus' "  :key="componentKey">
+                     <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).units}} units</span>
+    <table  class="table table-bordered table-lg mt-lg mb-0" >
+           
+                     <tbody>
+                      <tr>
+                 
+                 
+                       <td> <b-form-group
+              label="Units"
+              label-for="append-field2"
+              label-class="text-md-right px-3"
+              label-cols="4"
+              breakpoint="md"
+            >
+             <select v-model="selectedMedicine.quantity_units">
+    <option v-for="n in JSON.parse(selectedMedicine.quantity).units" :value="n">{{ n }}</option>
+  </select>
+          <!--    <b-input-group class="input-group-transparent" id="append-field3" append="total">
+                <b-form-input class="input-transparent"  type="number"   @change="getWholeValue(index)"  v-model="selectedMedicine.quantity_units"></b-form-input>
+              </b-input-group> -->
+            </b-form-group> </td>      
+                            
+            </tr>
+          
+                
+              </tbody>
+            </table> 
+                   
+  
+                </div> 
+          
+          
+      
          <b-button type="button" variant="success" class="btn-rounded" @click="addToList()" >
              Verify & Add to List
               </b-button> &nbsp;&nbsp;
@@ -278,7 +541,13 @@
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
                     <td>{{product.packing_type}}</td>
-                       <td>{{product.dispensed_quantity}} ({{product.dispensed_type}})</td>
+                        <td v-if="product.packing_type=='TABLETS'"> <!--{{product.quantity_strips}} strips  &amp;--> {{product.quantity_tablets}}  tablets</td>
+                                       <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='vial per cc'"> {{product.quantity_mls}} loose ML &amp; {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per vial' || product.packing_type=='Per vial'"> {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_ampules}} ampules</td>
+                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose &amp; {{product.quantity_bottles}} bottles </td>
+                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose &amp; {{product.quantity_tubes}} tubes </td>
+                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
                        <td><b-button type="button" variant="danger" class="btn-rounded" @click="removeFromAllProducts(index)"> Remove Item </b-button></td>
                 </tr>
               </tbody>
@@ -303,13 +572,19 @@
                 </tr>
               </thead>
                      <tbody>
-                <tr v-for="(product,index) in allSelectedProducts" :key="product.product_name">
+               <tr v-for="(product,index) in allSelectedProducts" :key="product.product_name">
                   <td>{{index+1}}</td>
                   <td> <b-badge variant="success" class="text-gray-dark">{{product.product_name}}</b-badge></td>
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
-                       <td>{{product.packing_type}} ({{product.dispensed_type}})</td>
-                  <td>{{product.dispensed_quantity}}</td>
+                    <td>{{product.packing_type}}</td>
+                        <td v-if="product.packing_type=='TABLETS'"> <!--{{product.quantity_strips}} strips  &amp;-->{{product.quantity_tablets}}tablets</td>
+                                         <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc'  || product.packing_type=='vial per cc'"> {{product.quantity_mls}} loose ML &amp; {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per vial' || product.packing_type=='Per vial'"> {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_ampules}} ampules</td>
+                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose &amp; {{product.quantity_bottles}} bottles </td>
+                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose &amp; {{product.quantity_tubes}} tubes </td>
+                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
                    
                 </tr>
               </tbody>
@@ -363,6 +638,8 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css';
 import { select2CountriesData, select2ShipmentData, cardTypesData } from './data';
 import rns from '../../assets/cards/rns.png';
 import moment from 'moment';
+import VueBarcode from 'vue-barcode-master';
+import VueQrcode from 'vue-qrcode-master';
 const { Messenger } = window;
 function initializationMessengerCode() {
   (function () {
@@ -417,6 +694,9 @@ export default {
   components: { Widget, vSelect,vueDropzone: vue2Dropzone},
   data() {
     return {
+      staffId:window.localStorage.getItem('id'),
+      liveInventory:new Array(),
+      componentKey:0,
       allSelectedProducts:[],
         clinicId: this.$route.params.clinicId,
         loadingWizard: false,
@@ -443,7 +723,7 @@ export default {
     },
     
             dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/staging/precheckin/attachments/upload',
+          url: 'https://backend.medicodesolution.com/development/precheckin/attachments/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 3,
@@ -455,9 +735,42 @@ export default {
   },
   watch: {
   selectedMedicine: function (medicine) {
+
+ 
   }
 },
   methods: {
+     async getInventory() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/all/inventory/'+this.clinicId);
+   this.liveInventory = response.data.inventoryInfo; 
+   
+  } catch (error) {
+    console.error(error);
+  }
+},
+     onBarcodeScanned (barcode) {
+       
+       var self=this;
+       console.log(barcode)
+       var liveInventory = self.liveInventory; 
+        self.selectedMedicine = null;
+       liveInventory.forEach(function(entry) {
+    if(entry.productId==barcode){
+    self.selectedMedicine = entry;
+    }
+   else if(entry.barcode==barcode){
+ self.selectedMedicine = entry;
+    }
+    else if(entry.internal_barcode==barcode){
+ self.selectedMedicine = entry;
+    }
+
+    
+});
+      
+
+      },
     removeFromList(){
       this.selectedMedicine=null;
       return Messenger().post({type:'success',message:'Item removed!',hideAfter: 3,showCloseButton:true});
@@ -478,13 +791,112 @@ export default {
     if(fail==true && i==this.allSelectedProducts.length){
  return Messenger().post({type:'error',message:'Product already added to the list!',hideAfter: 3,showCloseButton:true});
     }
-      if(this.selectedMedicine.dispensed_quantity==null || this.selectedMedicine.dispensed_quantity==undefined || this.selectedMedicine.dispensed_quantity=='' || this.selectedMedicine.dispensed_quantity==0){
+    if(this.selectedMedicine.packing_type=='TABLETS'){
+  
+     
+      if(this.selectedMedicine.quantity_tablets==undefined  && this.selectedMedicine.quantity_strips==undefined){
+         return Messenger().post({type:'error',message:'Select valid dispense quantity!',hideAfter: 3,showCloseButton:true});
+      }
+      if(this.selectedMedicine.quantity_tablets == undefined) { this.selectedMedicine.quantity_tablets=0; }
+      if(this.selectedMedicine.quantity_strips == undefined) { this.selectedMedicine.quantity_strips=0; }
+      var qty = JSON.parse(this.selectedMedicine.quantity);
+      this.selectedMedicine.dispensed_total = Number(this.selectedMedicine.quantity_tablets);
+      if(this.selectedMedicine.quantity_strips != undefined) { this.selectedMedicine.dispensed_total += (Number(this.selectedMedicine.quantity_strips)* Number(qty.tabletsperstrip)); }
+         if(this.selectedMedicine.dispensed_total>qty.tablets){
+ return Messenger().post({type:'error',message:'Insufficient dispense quantity!',hideAfter: 3,showCloseButton:true});
+    }
+  
+   
+    }
+    if(this.selectedMedicine.packing_type=='Vial / per cc' || this.selectedMedicine.packing_type=='Vial / per 0.5 cc' || this.selectedMedicine.packing_type=='per vial' || this.selectedMedicine.packing_type=='Per vial' || this.selectedMedicine.packing_type=='vial per cc'){
+
+     
+      if(this.selectedMedicine.quantity_vials==undefined  && this.selectedMedicine.quantity_mls==undefined){
+         return Messenger().post({type:'error',message:'Select valid dispense quantity!',hideAfter: 3,showCloseButton:true});
+      }
+      if(this.selectedMedicine.quantity_vials == undefined) { this.selectedMedicine.quantity_vials=0; }
+      if(this.selectedMedicine.quantity_mls == undefined) { this.selectedMedicine.quantity_mls=0; }
+      var qty = JSON.parse(this.selectedMedicine.quantity);
+      this.selectedMedicine.dispensed_total = Number(this.selectedMedicine.quantity_mls);
+          if(this.selectedMedicine.quantity_mls != undefined) { this.selectedMedicine.dispensed_total += Number(this.selectedMedicine.quantity_vials* (qty.mlpervial)); }        
+         if(this.selectedMedicine.dispensed_total>qty.mls){
+ return Messenger().post({type:'error',message:'Insufficient dispense quantity!',hideAfter: 3,showCloseButton:true});
+    }
+
+    }
+      if(this.selectedMedicine.packing_type=='per ampule'){
+
+     
+      if(this.selectedMedicine.quantity_ampules==undefined ){
+         return Messenger().post({type:'error',message:'Select valid dispense quantity!',hideAfter: 3,showCloseButton:true});
+      }
+      if(this.selectedMedicine.quantity_ampules == undefined) { this.selectedMedicine.quantity_ampules=0; }
+      var qty = JSON.parse(this.selectedMedicine.quantity);
+      this.selectedMedicine.dispensed_total = Number(this.selectedMedicine.quantity_ampules);
+       
+         if(this.selectedMedicine.dispensed_total>qty.ampules){
+ return Messenger().post({type:'error',message:'Insufficient dispense quantity!',hideAfter: 3,showCloseButton:true});
+    }
+
+    }
+       if(this.selectedMedicine.packing_type=='Per supp' || this.selectedMedicine.packing_type=='SACHET' || this.selectedMedicine.packing_type=='Sachet' || this.selectedMedicine.packing_type=='box' || this.selectedMedicine.packing_type=='Set' || this.selectedMedicine.packing_type=='ROLLS' || this.selectedMedicine.packing_type=='PIECES' || this.selectedMedicine.packing_type=='pack' || this.selectedMedicine.packing_type=='Diskus' ){
+
+     
+      if(this.selectedMedicine.quantity_units==undefined ){
+         return Messenger().post({type:'error',message:'Select valid dispense quantity!',hideAfter: 3,showCloseButton:true});
+      }
+      if(this.selectedMedicine.quantity_units == undefined) { this.selectedMedicine.quantity_units=0; }
+      var qty = JSON.parse(this.selectedMedicine.quantity);
+      this.selectedMedicine.dispensed_total = Number(this.selectedMedicine.quantity_units);
+       
+         if(this.selectedMedicine.dispensed_total>qty.units){
+ return Messenger().post({type:'error',message:'Insufficient dispense quantity!',hideAfter: 3,showCloseButton:true});
+    }
+
+    }
+  /*    if(this.selectedMedicine.dispensed_quantity==null || this.selectedMedicine.dispensed_quantity==undefined || this.selectedMedicine.dispensed_quantity=='' || this.selectedMedicine.dispensed_quantity==0){
        return Messenger().post({type:'error',message:'Valid dispensed quantity required!',hideAfter: 3,showCloseButton:true});
       }
         if(this.selectedMedicine.dispensed_quantity>this.selectedMedicine.stock_quantity ){
        return Messenger().post({type:'error',message:'Dispense quantity must not be higher than stock quantity!',hideAfter: 3,showCloseButton:true});
+      }  */
+   if(this.selectedMedicine.packing_type=='BOTTLE'){
+
+     
+      if(this.selectedMedicine.quantity_bottles==undefined  && this.selectedMedicine.quantity_unittotal==undefined){
+         return Messenger().post({type:'error',message:'Select valid dispense quantity!',hideAfter: 3,showCloseButton:true});
       }
+      if(this.selectedMedicine.quantity_bottles == undefined) { this.selectedMedicine.quantity_bottles=0; }
+      if(this.selectedMedicine.quantity_unittotal == undefined) { this.selectedMedicine.quantity_unittotal=0; }
+     this.selectedMedicine.quantity_unitperbottle = JSON.parse(this.selectedMedicine.quantity).unitperbottle;
+      var qty = JSON.parse(this.selectedMedicine.quantity);
+      this.selectedMedicine.dispensed_total = Number(this.selectedMedicine.quantity_unittotal);
   
+          if(this.selectedMedicine.quantity_bottles != undefined) { this.selectedMedicine.dispensed_total += Number(this.selectedMedicine.quantity_bottles* (qty.perbottle)); }        
+    
+         if(this.selectedMedicine.dispensed_total>qty.unittotal){
+ return Messenger().post({type:'error',message:'Insufficient dispense quantity!',hideAfter: 3,showCloseButton:true});
+    }
+
+    }
+       if(this.selectedMedicine.packing_type=='TUBE'){
+
+     
+      if(this.selectedMedicine.quantity_tubes==undefined  && this.selectedMedicine.quantity_unittotal==undefined){
+         return Messenger().post({type:'error',message:'Select valid dispense quantity!',hideAfter: 3,showCloseButton:true});
+      }
+      if(this.selectedMedicine.quantity_tubes == undefined) { this.selectedMedicine.quantity_tubes=0; }
+      if(this.selectedMedicine.quantity_unittotal == undefined) { this.selectedMedicine.quantity_unittotal=0; }
+       this.selectedMedicine.quantity_unitpertube = JSON.parse(this.selectedMedicine.quantity).unitpertube;
+      var qty = JSON.parse(this.selectedMedicine.quantity);
+      this.selectedMedicine.dispensed_total = Number(this.selectedMedicine.quantity_unittotal);
+          if(this.selectedMedicine.quantity_bottles != undefined) { this.selectedMedicine.dispensed_total += Number(this.selectedMedicine.quantity_tubes* (qty.pertube)); }        
+        
+         if(this.selectedMedicine.dispensed_total>qty.unittotal){
+ return Messenger().post({type:'error',message:'Insufficient dispense quantity!',hideAfter: 3,showCloseButton:true});
+    }
+
+    }
    if(fail==false && i==this.allSelectedProducts.length){
       this.allSelectedProducts.push(this.selectedMedicine);
       this.selectedMedicine=null;
@@ -499,9 +911,9 @@ async onSearch(search, loading) {
    return this.medicineInfo;
   }
     loading(true);
-    const response = await this.axios.get(`https://backend.medicodesolution.com/staging/search/liveInventory/`+ this.clinicId +`/${escape(search)}`);
+    const response = await this.axios.get(`https://backend.medicodesolution.com/development/search/liveInventory/`+ this.clinicId +`/${escape(search)}`);
     this.medicineInfo = response.data.medicineInfo;
-    console.log(this.medicineInfo)
+   // console.log(this.medicineInfo)
     loading(false);
     },
      successEvent (file) {
@@ -524,19 +936,15 @@ async onSearch(search, loading) {
     },
       validOne:function() {
      return new Promise((resolve, reject) => {
-           if(this.data.vendor=='' || this.data.vendor==null){
+           if(this.data.patientId=='' || this.data.patientId==null){
         
-         	reject('Select vendor to continue..')
+         	reject('Enter Patient MRN to continue..')
          }
-             if(this.data.order_number=='' || this.data.order_number==null){
+             if(this.data.total_amount=='' || this.data.total_amount==null){
         
-         	reject('Key in order number to continue..')
+         	reject('Key in total amount to continue..')
          }
-             if(this.data.attachments.length==0 || this.data.attachments==null){
-        
-         	reject('Upload Purchase Order to continue..')
-         }
-              
+         
        
        else{
         //  console.log('vendor:'+this.data.vendor.name+'--- order number:'+this.data.order_number+'--- attachments:'+ JSON.stringify(this.data.attachments) + '--- comments:'+this.data.comments);
@@ -547,18 +955,15 @@ async onSearch(search, loading) {
     },
       validTwo:function() {
      return new Promise((resolve, reject) => {
-           if(this.data.vendor=='' || this.data.vendor==null){
+               if(this.data.patientId=='' || this.data.patientId==null){
         
-         	reject('Select vendor to continue..')
+        	reject('Enter Patient MRN to continue..')
          }
-             if(this.data.order_number=='' || this.data.order_number==null){
+             if(this.data.total_amount=='' || this.data.total_amount==null){
         
-         	reject('Key in order number to continue..')
+         	reject('Key in total amount to continue..')
          }
-             if(this.data.attachments.length==0 || this.data.attachments==null){
-        
-         	reject('Upload Purchase Order to continue..')
-         }
+         
              if(this.allSelectedProducts.length==0 ){
         
          	reject('Add at least 1 (one) product to continue..')
@@ -593,41 +998,89 @@ async onSearch(search, loading) {
 
   submit(){
     var self=this;
-     self.isLoading = true;
+    // self.isLoading = true;
     if(self.accept==false){
        self.isLoading = false;
       return Messenger().post({type:'error',message:'Tick confirmation checkbox to continue!',hideAfter: 3,showCloseButton:true});
     }
-  /* console.log('vendorId:'+self.data.vendor.id);
-    console.log('orderId:'+self.data.order_number);
-    console.log('attachments:'+self.data.attachments.join());
-     console.log('comments:'+self.data.comments);
-     console.log('allProducts'+ JSON.stringify(self.allSelectedProducts)); */
-
-   //no validation
-    // self.isLoading = true;
-  var finalProducts = new Array();
- 
   
-  var index=0;var length = self.allSelectedProducts.length;
-   self.allSelectedProducts.forEach(function(entry) {
-   console.log(entry)
-   if(entry.dispensed_quantity!=undefined && entry.dispensed_quantity!=0 && entry.dispensed_quantity!=''){
-   
+   var finalProducts = new Array();
 
-  finalProducts.push({productId:entry.productId,quantity:parseInt(entry.dispensed_quantity)});
+  var index=0;var length = self.allSelectedProducts.length;
+ 
+//  console.log(this.allSelectedProducts);
+   self.allSelectedProducts.forEach(function(entry) {
+   
+   
+    
+ if(entry.packing_type=='TABLETS'){
+  var quantity = {
+     tablets:Number(entry.quantity_tablets),
+     strips:Number(entry.quantity_strips),
+     totaltablets:Number(entry.dispensed_total)
+   };
+ finalProducts.push({clinicId:self.clinicId,productId:entry.productId,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
    }
+    if(entry.packing_type=='Per vial' || entry.packing_type=='per vial' || entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per 0.5 cc' || entry.packing_type=='vial per cc'){
+  var quantity = {
+    
+     vials:Number(entry.quantity_vials),
+     mls:Number(entry.quantity_mls),
+    totalmls:Number(entry.dispensed_total)
+   };
+ finalProducts.push({clinicId:self.clinicId,productId:entry.productId,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
+   }
+     if(entry.packing_type=='per ampule'){
+  var quantity = {
+    ampules:Number(entry.quantity_ampules),
+    totalampules:Number(entry.dispensed_total)
+   };
+ finalProducts.push({clinicId:self.clinicId,productId:entry.productId,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
+   }
+        if(entry.packing_type=='BOTTLE'){
+  var quantity = {
+
+     bottles:Number(entry.quantity_bottles),
+     unittotal:Number(entry.quantity_unittotal),
+    totalunits:Number(entry.dispensed_total)
+   };
+  finalProducts.push({clinicId:self.clinicId,productId:entry.productId,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
+   }
+     if(entry.packing_type=='TUBE'){
+  var quantity = {
+    tubes:Number(entry.quantity_tubes),
+     unittotal:Number(entry.quantity_unittotal),
+    totalunits:Number(entry.dispensed_total)
+   };
+ finalProducts.push({clinicId:self.clinicId,productId:entry.productId,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
+   }
+
+      if(entry.packing_type=='Per supp' || entry.packing_type=='SACHET' || entry.packing_type=='Sachet' || entry.packing_type=='box' || entry.packing_type=='Set' || entry.packing_type=='ROLLS' || entry.packing_type=='PIECES' || entry.packing_type=='pack' || entry.packing_type=='Diskus'){
+  var quantity = {
+     units:Number(entry.quantity_units),
+    totalunits:Number(entry.dispensed_total)
+   };
+ finalProducts.push({clinicId:self.clinicId,productId:entry.productId,quantity:JSON.stringify(quantity),packing_type:entry.packing_type});
+   }
+
+
+
+
+ 
+
+  
     index++;
 });
-  
+ 
     if(index==length){
-
- self.axios.post('https://backend.medicodesolution.com/staging/checkout/submit', {
+     // return console.log(finalProducts);
+ self.axios.post('https://backend.medicodesolution.com/development/checkout/submit', {
           clinicId:self.clinicId,
           patientId:self.data.patientId,
           total_amount:self.data.total_amount,
           allProducts:JSON.stringify(self.allSelectedProducts),
-          finalProducts:finalProducts
+          finalProducts:finalProducts,
+          staffId:self.staffId
 
     })
                 .then(function (response) {
@@ -662,7 +1115,8 @@ async onSearch(search, loading) {
   },
   },
      mounted(){
- 
+      this.getInventory();
+  this.$barcodeScanner.init(this.onBarcodeScanned);
  
  
    },

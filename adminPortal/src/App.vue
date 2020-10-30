@@ -12,10 +12,10 @@ export default {
     }
 
 
-    if(currentPath.startsWith('/app/') & window.localStorage.getItem('SUPERADMIN') === 'false'){
+    if(currentPath.startsWith('/app/') & window.localStorage.getItem('access') === 'false'){
       this.$router.push('/login');
     }
-    else if(currentPath.startsWith('/login') && window.localStorage.getItem('SUPERADMIN') === 'true'){
+    else if(currentPath.startsWith('/login') && window.localStorage.getItem('authenticated') == true){
       this.$router.push('/app/dashboard');
     }
   },

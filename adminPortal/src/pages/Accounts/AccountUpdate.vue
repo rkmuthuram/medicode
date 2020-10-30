@@ -571,7 +571,7 @@ export default {
      isLoading:false,
      locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
         dropzoneOptions2: {
-          url: 'https://backend.medicodesolution.com/staging/account/photo/upload',
+          url: 'https://backend.medicodesolution.com/development/account/photo/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
           maxFiles: 1,
@@ -581,7 +581,7 @@ export default {
 
       },
               dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/staging/account/documents/upload',
+          url: 'https://backend.medicodesolution.com/development/account/documents/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 15,
@@ -650,7 +650,7 @@ export default {
     },
     async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/account/'+ this.accountId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/account/'+ this.accountId)
    this.data= response.data.accountInfo[0];
    this.cover_image[0] = response.data.accountInfo[0].photoUrl;
     this.data.attachments = response.data.accountInfo[0].attachments.split(',');
@@ -677,7 +677,7 @@ export default {
       self.$validator.validateAll().then((result) => {
 		  if (result) {
      
-                self.axios.patch('https://backend.medicodesolution.com/staging/account/'+ self.data.id, {
+                self.axios.patch('https://backend.medicodesolution.com/development/account/'+ self.data.id, {
               
         company_name:self.data.company_name,
         ref_id:self.data.ref_id,

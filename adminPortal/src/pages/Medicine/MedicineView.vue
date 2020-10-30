@@ -524,7 +524,7 @@ export default {
          var self = this;
        self.isLoading = true;
    
-                self.axios.patch('https://backend.medicodesolution.com/staging/account/status/'+this.accountId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/account/status/'+this.accountId, {
                    status:1
                 })
                 .then(function (response) {
@@ -556,7 +556,7 @@ export default {
          var self = this;
        self.isLoading = true;
 
-                self.axios.patch('https://backend.medicodesolution.com/staging/account/status/'+this.accountId, {
+                self.axios.patch('https://backend.medicodesolution.com/development/account/status/'+this.accountId, {
                    status:0
                 })
                 .then(function (response) {
@@ -586,7 +586,7 @@ export default {
     },    
     async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/staging/account/'+ this.accountId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/account/'+ this.accountId)
    this.data = response.data.accountInfo[0];
  
   } catch (error) {
@@ -605,7 +605,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/workforce/onlyAccountAdmin/admin/"+accountId,
+		"ajax": "https://backend.medicodesolution.com/development/workforce/onlyAccountAdmin/admin/"+accountId,
 		"columnDefs": [
     {
       "data": null,
@@ -631,7 +631,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/staging/onlyClinic/admin/"+accountId,
+		"ajax": "https://backend.medicodesolution.com/development/onlyClinic/admin/"+accountId,
 		"columnDefs": [
     {
       "data": null,
