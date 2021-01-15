@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Create New Staff</li>
+      <li class="breadcrumb-item active">Create New Staff - {{clinicName}}</li>
     </ol>
 
 
@@ -120,7 +120,7 @@
                     
                     class="mt-xs"
                     v-model="data.position"
-                    :options="['Clinic Admin','Staff']"
+                    :options="['Clinic Admin (Doctor)','Clinic Admin (Management)','Nurse']"
                    
                   />
                 </b-col>
@@ -246,6 +246,7 @@ export default {
   components: { Widget,vSelect,vueDropzone: vue2Dropzone },
   data() {
     return {
+      clinicName:'',
       accountId: this.$route.params.accountId,
       clinicId: this.$route.params.clinicId,
       data:{
@@ -273,6 +274,15 @@ export default {
     };
   },
   methods: {
+     async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   this.clinicName= response.data.accountInfo[0].name;
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
     navigateToList(){
         this.$router.push({name:'ClinicAccountView', params: { clinicId :this.clinicId}});
     },
@@ -286,7 +296,7 @@ export default {
       e.preventDefault();
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/development/workforce', {
+                self.axios.post('https://backend.medicodesolution.com/development/workforce/non-admin', {
                     username: self.data.username,
                     email:self.data.email,
                     tel_no: self.data.tel_no,
@@ -330,6 +340,9 @@ export default {
 
 
   },
+    mounted(){
+     this.getAccount();    
+   },
   created() {
     initializationMessengerCode();
     Messenger.options = {

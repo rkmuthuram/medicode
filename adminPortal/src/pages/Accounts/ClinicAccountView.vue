@@ -10,6 +10,8 @@
       <b-col md="12" xs="12">
         <b-tabs class="mb-lg">
           <b-tab title="Inventory Listings" active>
+             
+        
                    <b-button  variant="danger" class="btn-rounded " @click="navigateToAmmendStock" >
               Ammend Stock
               </b-button>
@@ -25,7 +27,7 @@
                     <th>Prescription</th> 
                    <th>Monthly Incoming</th>  
                    <th>Monthly Outgoing</th>  
-                  <th>Current Stock</th>  
+                  <th>Balance Stock</th>  
                  
                    <th>Movement</th>          
                   <th>Actions</th>       
@@ -51,7 +53,7 @@
             <b-tab title="Pre Check In Listings">
         
            <div class="table-responsive">
-           <table class="table table-bordered" id="precheckdatatable">
+            <table class="table table-striped table-bordered" id="precheckdatatable">
              <thead>
                <tr>
                   <th>ID</th>
@@ -71,8 +73,8 @@
           </b-tab>
               <b-tab title="Check In Listings">
         
-              <div class="table-responsive">
-           <table class="table table-bordered" id="checkindatatable">
+               <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="checkindatatable">
              <thead>
                <tr>
                   <th>ID</th>
@@ -92,9 +94,8 @@
           </b-tab>
               
           <b-tab title="Check Out Listings">
-        
-           <div class="table-responsive">
-         <table class="table table-bordered" id="checkoutdatatable">
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="checkoutdatatable">
              <thead>
                <tr>
                   <th>ID</th>
@@ -103,7 +104,7 @@
                   <th>Total Amount (RM)</th>
                   <th>Date</th>
                    <th>Staff</th> 
-                  <th>Status</th> 
+                  <th>Rollback Status</th> 
                   <th>Actions</th>       
                </tr>
              </thead>
@@ -126,7 +127,7 @@
                 </span>
                 <h5 class="fw-normal">{{data.name}} </h5>
                 <p><a class="btn btn-danger btn-sm mb-3" @click="navigateToUpdate()">
-                  &nbsp;Update Account
+                  &nbsp;Update Clinic
                 
                 </a></p>
                 
@@ -146,27 +147,19 @@
               <br>
                  <fieldset>
    <legend>Complete Information</legend>
-                 <b-form-group
-                horizontal
-                :label-cols="3"
-                label-breakpoint="md"
-                label-for="username"
-              >
-                <div slot="label">
-                  Account ID
-                </div>
+               
                 <input
                   data-vv-validate-on="change"
                   v-validate="'required|min:5'"
                   name="minlength"
                   :class="{ 'form-control': true, 'is-invalid': errors.has('minlength')}"
-                  type="text"
-                v-model="data.id"
+                  type="hidden"
+                v-model="clinicId"
                      id="clinicId"
                 v-bind:data-id="clinicId"
                  disabled 
                 />
-              </b-form-group>
+          
                    <b-form-group
                 horizontal
                 :label-cols="3"
@@ -175,7 +168,7 @@
                 description=""
               >
                 <div slot="label">
-                 Account Name
+                Clinic Name
                 </div>
                 <input
                   data-vv-validate-on="change"
@@ -400,7 +393,7 @@
                 
                 </a></p>
    <div class="table-responsive">
-           <table class="table table-hover" id="accadmindatatable">
+           <table class="table table-hover" id="staffadmindatatable2">
              <thead>
                <tr>
                   <th>ID</th>
@@ -491,7 +484,7 @@
                   <th>IP</th>
                   <th>Alias</th> 
                     <th>Description</th> 
-                   <th>Actions</th>       
+                 
                </tr>
              </thead>
              <tbody>
@@ -569,10 +562,41 @@
                         </b-button> &nbsp;
                         <b-button  @click="downloadCheckout('alltime')"  class="p-1 px-3 btn-xs" variant="success">
                        DOWNLOAD ALL TIME
+                        </b-button>&nbsp;
+                           <b-col >
+          Date Range
+              <b-form-group>
+                  <DatePicker
+                    lang="en"
+                    range
+                    format="DD/MMM/YYYY"
+                    input-class="form-control"
+                    v-model="selection.timeRange"
+                    id="datetimepicker"
+                    @change="updatePreferences"
+                  >
+                    <i class="glyphicon glyphicon-th" slot="calendar-icon" />
+                  </DatePicker>
+                </b-form-group>
+      </b-col>      <b-button  @click="downloadCheckout('timeRange')"  class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD DATE RANGE
                         </b-button></td>&nbsp;
                              
                       
-                    </tr>               
+                    </tr>     
+
+                         <tr>
+                      <td>DAILY SUMMARY</td>
+                   
+                      <td>
+                        <b-button  @click="downloadSummary" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD 
+                        </b-button> &nbsp;   </td>
+                           
+                      
+                             
+                      
+                    </tr>            
                     <!--   <tr>
                       <td>CHECK IN's</td>
                    
@@ -678,21 +702,80 @@
                              
                       
                     </tr>                -->
+
+                      <tr>
+                      <td>MOVEMENT PCT%</td>
+                   
+                      <td>
+                       FROM <input
+                 
+                 
+                  
+                  :class="{ 'form-control': true}"
+                  type="number"
+                v-model="movementPct.lowRange"
+                  
+             
+                /> &nbsp;&nbsp;  TO <input
+                 
+                 
+                  
+                  :class="{ 'form-control': true}"
+                  type="number"
+                v-model="movementPct.highRange"
+                  
+             
+                />
+          
+                        <b-button  @click="downloadMovementPct" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD 
+                        </b-button>
+                        </td>
+                           
+                      
+                             
+                      
+                    </tr>  
+
+
+                    <tr>
+                      <td>LOW STOCK</td>
+                   
+                      <td>
+                      
+                        <b-button  @click="downloadLowStock" class="p-1 px-3 btn-xs" variant="success">
+                       DOWNLOAD 
+                        </b-button>
+                        </td>
+                           
+                      
+                             
+                      
+                    </tr>  
+                   
                   </tbody>
                 </table>       
     
               
           </b-tab>
            <b-tab title="History">
-        
-              <div v-for="notification in mock.notifications"
-                class="d-flex align-items-start" :key="notification.id">
-                <i :class="`la la-${notification.icon} mr text-${notification.color}`" />
-                <p
-                  :class="{ 'mb-0': notification.id === mock.notifications.length - 1 }"
-                  v-html="notification.content"
-                />
-              </div>
+         
+           <div class="table-responsive">
+           <table class="table table-hover" id="clinichistorydatatable">
+             <thead>
+               <tr>
+                 <th>Id</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Author</th> 
+                   <th>Time</th>
+                
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
        
           </b-tab>
         </b-tabs>
@@ -712,6 +795,7 @@ import 'imports-loader?$=jquery,this=>window!messenger/build/js/messenger'; // e
 import Widget from '@/components/Widget/Widget';
 import vSelect from 'vue-select';
 import mock from './mock';
+import DatePicker from "vue2-datepicker";
 const { Messenger } = window;
 
 /* eslint-disable */
@@ -767,9 +851,16 @@ function initializationMessengerCode() {
 
 export default {
   name: 'FormValidation',
-  components: { Widget,vSelect },
+  components: { Widget,vSelect,DatePicker },
   data() {
     return {
+      movementPct:{
+        lowRange:0,
+        highRange:100,
+      },
+          selection:{
+        timeRange:''
+      },
             mock,
       data:{},
       settingsData:{},
@@ -819,7 +910,7 @@ export default {
         this.$router.push({name:'WorkforceCreateAccountClinic', params: {accountId:this.data.accountId, clinicId :this.clinicId}});
     },
     navigateToCreateAccountIPRecord(){
-    this.$router.push({name:'ClinicAccountCreateIP', params: { clinicId :this.clinicId}});
+    this.$router.push({name:'ClinicAccountCreateIP', params: {accountId:this.data.accountId,clinicId :this.clinicId}});
     },
     navigateToPreCheckIn(){
     this.$router.push({name:'ClinicPreCheckIn', params: { clinicId :this.clinicId}});
@@ -838,7 +929,8 @@ export default {
        self.isLoading = true;
    
                 self.axios.patch('https://backend.medicodesolution.com/development/clinic/status/'+this.clinicId, {
-                   status:1
+                   status:1,
+                   accountId:self.data.accountId
                 })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -870,7 +962,8 @@ export default {
        self.isLoading = true;
 
                 self.axios.patch('https://backend.medicodesolution.com/development/clinic/status/'+this.clinicId, {
-                   status:0
+                   status:0,
+                   accountId:self.data.accountId
                 })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -903,7 +996,8 @@ export default {
 
                 self.axios.patch('https://backend.medicodesolution.com/development/clinic_settings/'+this.clinicId, {
                   staffCount:self.settingsData.staffCount,
-                  ip_status:self.settingsData.ip_status
+                  ip_status:self.settingsData.ip_status,
+                   accountId:self.data.accountId
                 })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -933,6 +1027,96 @@ export default {
         downloadInventory(){
       var self=this;
          self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportInventory/'+self.clinicId, {
+           
+                })
+                .then(function (response) {
+                if(response.status == 200 && response.data.success){
+                self.isLoading = false;
+               Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
+              return window.open(response.data.pdfLink);
+               
+                }
+                else {
+                  if(response.data.error){
+                    self.isLoading = false;
+                  return Messenger().post({ type:'error',message :response.data.error, hideAfter: 3,showCloseButton:true});
+          
+                  }
+                 else {
+                   self.isLoading = false;
+                 return Messenger().post({ type:'error',message :response.error, hideAfter: 3,showCloseButton:true});
+                   }
+                }
+                })
+                .catch(function (error) {
+                  self.isLoading = false;
+                  return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
+                });  
+    },
+
+
+     downloadLowStock(){
+      var self=this;
+         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportLowStock/'+self.clinicId, {
+           
+                })
+                .then(function (response) {
+                if(response.status == 200 && response.data.success){
+                self.isLoading = false;
+               Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
+              return window.open(response.data.pdfLink);
+               
+                }
+                else {
+                  if(response.data.error){
+                    self.isLoading = false;
+                  return Messenger().post({ type:'error',message :response.data.error, hideAfter: 3,showCloseButton:true});
+          
+                  }
+                 else {
+                   self.isLoading = false;
+                 return Messenger().post({ type:'error',message :response.error, hideAfter: 3,showCloseButton:true});
+                   }
+                }
+                })
+                .catch(function (error) {
+                  self.isLoading = false;
+                  return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
+                });  
+    },
+     downloadMovementPct(){
+      var self=this;
+         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportMovementPct/'+self.clinicId, {
+              lowRange:self.movementPct.lowRange,
+              highRange:self.movementPct.highRange
+                })
+                .then(function (response) {
+                if(response.status == 200 && response.data.success){
+                self.isLoading = false;
+               Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
+              return window.open(response.data.pdfLink);
+               
+                }
+                else {
+                  if(response.data.error){
+                    self.isLoading = false;
+                  return Messenger().post({ type:'error',message :response.data.error, hideAfter: 3,showCloseButton:true});
+          
+                  }
+                 else {
+                   self.isLoading = false;
+                 return Messenger().post({ type:'error',message :response.error, hideAfter: 3,showCloseButton:true});
+                   }
+                }
+                })
+                .catch(function (error) {
+                  self.isLoading = false;
+                  return Messenger().post({ type:'error',message :error, hideAfter: 3,showCloseButton:true});                
+                });  
+    },
+      downloadSummary(){
+      var self=this;
+         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportSummary/'+self.clinicId, {
            
                 })
                 .then(function (response) {
@@ -990,8 +1174,15 @@ export default {
     },
      downloadCheckout(type){
       var self=this;
+     
+        var timeRange = self.selection.timeRange;
+       if(timeRange=='' || timeRange[0]==null){
+       timeRange = 'All';
+     }
+   
          self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportCheckout/'+self.clinicId, {
-           type:type
+           type:type,
+           timeRange:timeRange
                 })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -1019,7 +1210,7 @@ export default {
     },
     async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId);
    this.data = response.data.accountInfo[0];
  
   } catch (error) {
@@ -1042,7 +1233,9 @@ export default {
      this.getSettings(); 
         
         $(document).ready(function() {
-        var clinicId = $("#clinicId").attr("data-id");
+        var rawRequestString= $("#clinicId").attr("data-id");
+          var sanitizedRequestString = rawRequestString.split("_");
+  var clinicId = sanitizedRequestString[0];
 function format (data) {
     // `d` is the original data object for the row
     var finalData="";
@@ -1051,19 +1244,68 @@ function format (data) {
      data.forEach(function(entry) {
   
        if(entry.packing_type=='TABLETS'){
-            finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_strips+" strips & " + entry.quantity_tablets + "loose tablets  <br> ";
+            if(entry.quantity_strips==0 && entry.quantity_tablets!=0){
+   finalData +=  i+1+") "+ entry.product_name + "->" + entry.quantity_tablets + "tablets  <br> ";
+            }
+
+            else if(entry.quantity_strips!=0 && entry.quantity_tablets==0){
+   finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_strips+" strips <br> ";
+            }
+
+            else if(entry.quantity_strips!=0 && entry.quantity_tablets!=0){
+   finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_strips+" strips & " + entry.quantity_tablets + " tablets  <br> ";
+            }
+         
            }
-           if(entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per 0.5 cc' || entry.packing_type=='per vial' || entry.packing_type=='Per vial' || entry.packing_type=='vial per cc'){
-            finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_mls+" loose ML  & " + entry.quantity_vials + "vials <br> ";
+           if(entry.packing_type=='per vial' || entry.packing_type=='Per vial'){
+            finalData += i+1+") "+ entry.product_name + "->" + entry.quantity_vials + "vials <br> ";
+           }
+               if(entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per 0.5 cc' || entry.packing_type=='vial per cc'){
+                 
+          
+                   if(entry.quantity_mls==0 && entry.quantity_vials!=0){
+  finalData += i+1+") "+ entry.product_name + "->"+ entry.quantity_vials + "vials <br> ";
+            }
+
+            else if(entry.quantity_mls!=0 && entry.quantity_vials==0){
+  finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_mls+" loose ML <br> ";
+            }
+
+            else if(entry.quantity_mls!=0 && entry.quantity_vials!=0){
+  finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_mls+" loose ML  & " + entry.quantity_vials + "vials <br> ";
+            }
            }
           if(entry.packing_type=='per ampule'){    
           finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_ampules+" ampules | ";
            }
              if(entry.packing_type=='BOTTLE'){
-             finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitperbottle + " loose & " + entry.quantity_bottles + " bottles <br> " ;
+               
+                     if(entry.quantity_unittotal==0 && entry.quantity_bottles!=0){
+      finalData +=  i+1+") "+ entry.product_name + "-> "+ entry.quantity_bottles + " bottles <br> " ;
+            }
+
+            else if(entry.quantity_unittotal!=0 && entry.quantity_bottles==0){
+     finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitperbottle + " loose<br> " ;
+            }
+
+            else if(entry.quantity_unittotal!=0 && entry.quantity_bottles!=0){
+     finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitperbottle + " loose & " + entry.quantity_bottles + " bottles <br> " ;
+            }
+            
+        
            }
              if(entry.packing_type=='TUBE'){
-                       finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitpertube + " loose & " + entry.quantity_tubes + " tubes <br> " ;     
+                    if(entry.quantity_unittotal==0 && entry.quantity_tubes!=0){
+      finalData +=  i+1+") "+ entry.product_name + "-> "+ entry.quantity_tubes + " tubes <br> " ;
+            }
+
+            else if(entry.quantity_unittotal!=0 && entry.quantity_tubes==0){
+     finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitpertube + " loose<br> " ;
+            }
+
+            else if(entry.quantity_unittotal!=0 && entry.quantity_tubes!=0){
+     finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitpertube + " loose & " + entry.quantity_tubes + " tubes <br> " ;
+            }  
            }
            else if(entry.packing_type=='Per supp' || entry.packing_type=='SACHET' || entry.packing_type=='Sachet' || entry.packing_type=='box' || entry.packing_type=='Set' || entry.packing_type=='ROLLS' || entry.packing_type=='PIECES' || entry.packing_type=='pack' || entry.packing_type=='Diskus') {
              finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_units+" units<br> ";
@@ -1078,7 +1320,7 @@ if(data.length==i){
 
 }
         
-          var table =  $('#accadmindatatable').DataTable( {
+          var table =  $('#staffadmindatatable2').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
@@ -1095,7 +1337,8 @@ if(data.length==i){
           "render" : function (data, type, row) {
            
             if(data == 1) return 'Active';
-           else if(data == 0) return 'Suspended';
+           else if(data != 1) return 'Suspended';
+   
             
           },
         }	
@@ -1111,16 +1354,7 @@ if(data.length==i){
         "serverSide": true,
           "dom": 'Bfrtip',
 		"ajax": "https://backend.medicodesolution.com/development/clinic/approvedId/admin/"+clinicId,
-		"columnDefs": [
-    {
-      "data": null,
-      "defaultContent": "<button class='btn' id='edit' title='Delete'><i class='fa fa-pencil'></i></button>",
-      "targets": -1,
-       "searchable": false,
-      "orderable": false,
-    },	
 	
-  ]
   } );
   
    var table3 =  $('#precheckdatatable').DataTable( {
@@ -1213,78 +1447,75 @@ if(data.length==i){
          
              //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
            val = JSON.parse(aData[8]).tablets;
-           if(val<10){
-          $('td', nRow).css('background-color', 'Red');
+           if(val<50){
+             $('td', nRow).css('background-color', 'Orange');
            }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
+       
              
          
            }
-           if(aData[5]=='Vial / per cc' || aData[5]=='Vial / per cc' || aData[5]=='Vial / per 0.5 cc' || aData[5]=='per vial' || aData[5]=='Per vial' || aData[5]=='vial per cc'){
+
+
+ 
+  if(aData[5]=='Vial / per cc' || aData[5]=='Vial / per cc' || aData[5]=='Vial / per 0.5 cc' || aData[5]=='vial per cc'){
+            
+             //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
+        val = JSON.parse(aData[8]).mls;
+            if(val<50){
+      $('td', nRow).css('background-color', 'Orange');
+           }
+          
+             
+           }
+
+           if(aData[5]=='per vial' || aData[5]=='Per vial' ){
             
              //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
         val = JSON.parse(aData[8]).vials;
-            if(val<10){
-          $('td', nRow).css('background-color', 'Red');
+            if(val<50){
+      $('td', nRow).css('background-color', 'Orange');
            }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
+          
              
            }
           if(aData[5]=='per ampule'){
             
              //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
                val = JSON.parse(aData[8]).ampules;
-            if(val<10){
-          $('td', nRow).css('background-color', 'Red');
+            if(val<50){
+             $('td', nRow).css('background-color', 'Orange');
            }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
+        
              
            }
              if(aData[5]=='BOTTLE'){
             
-            val = JSON.parse(aData[8]).ampules;
-           if(val<10){
-          $('td', nRow).css('background-color', 'Red');
-           }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
+               val = JSON.parse(aData[8]).totalunits;
+           if(val<500){
+           $('td', nRow).css('background-color', 'Orange');
            }
              
            }
              if(aData[5]=='TUBE'){
             
-              val = JSON.parse(aData[8]).tubes;
-           if(val<10){
-          $('td', nRow).css('background-color', 'Red');
-           }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
-             
-           }
-           else {
-             val = JSON.parse(aData[8]).units;
-             if(val<10){
-          $('td', nRow).css('background-color', 'Red');
-           }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
-             
+              val = JSON.parse(aData[8]).totalunits;
+           if(val<500){
+           $('td', nRow).css('background-color', 'Orange');
            }
       
+             
+           }
+           if(aData[5]=='Per supp' || aData[5]=='SACHET' || aData[5]=='Sachet' || aData[5]=='box' || aData[5]=='Set' || aData[5]=='ROLLS' || aData[5]=='PIECES' || aData[5]=='pack' || aData[5]=='Diskus'){
+             val = JSON.parse(aData[8]).units;
+             if(val<50){
+             $('td', nRow).css('background-color', 'Orange');
+           }
+                      
+           }
+
+        if(aData[9]>50){
+           $('td', nRow).css('background-color', 'Red');
+        }
    
      //   $('td', nRow).css('background-color', 'Orange');
    
@@ -1306,39 +1537,88 @@ if(data.length==i){
           "visible": false,
            "searchable": true
      },
+       { "targets" : [9],
+          "render" : function (data, type, row) {
+              if(data==null){
+                return '-';
+              }
+       
+              else return data+"%";
+            
+          },
+        },
+       { "targets" : [5],
+          "render" : function (data, type, row) {
+            
+           if(data=='TABLETS'){
+      
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+            
+             return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/pills.png?alt=media&token=70eb9961-0de4-4554-95fb-d8cad97a5d79' />"+data;
+           }
+           if(data=='Vial / per cc' || data=='Vial / per cc' || data=='Vial / per 0.5 cc' || data=='per vial' || data=='Per vial' || data=='vial per cc'){
+          
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+         return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/injection.png?alt=media&token=d415a06a-ccaf-4c5d-88cc-2df1afbb6b51' />"+data;
+           }
+               if(data=='per vial' || data=='Per vial'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' />"+data;
+           }
+          if(data=='per ampule'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' />"+data;
+           }
+             if(data=='BOTTLE'){
+          return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/bottles.png?alt=media&token=784f4166-e1d3-4e53-b7e5-de05b90a20e1' />"+data;
+           }
+             if(data=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+    return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/tubes.png?alt=media&token=be09cc67-f444-4e0e-8b09-226b3ecd3558' />"+data;
+           }
+           else {
+      return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/units.png?alt=media&token=17211f17-6705-47e8-8cfe-e005409e5194' />"+data;
+           }
+            
+          },
+        },
     { "targets" : [8],
           "render" : function (data, type, row) {
             
            if(row[5]=='TABLETS'){
       
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
-             var strips = parseInt(JSON.parse(data).tablets/JSON.parse(data).tabletsperstrip);
+             var strips = Math.ceil(parseInt(JSON.parse(data).tablets/JSON.parse(data).tabletsperstrip)).toFixed(0);
              return JSON.parse(data).tablets+" tablets("+ strips+" strips)";
            }
-           if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc' || row[5]=='per vial' || row[5]=='Per vial' || row[5]=='vial per cc'){
-              var vials = parseInt(JSON.parse(data).mls)/JSON.parse(data).mlpervial;
+           if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc' || row[5]=='vial per cc'){
+              var vials = Math.ceil(parseInt(JSON.parse(data).mls)/JSON.parse(data).mlpervial).toFixed(0);
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
              return JSON.parse(data).mls + " CC ("+vials+" vials)";
            }
                if(row[5]=='per vial' || row[5]=='Per vial'){
             
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
-             return JSON.parse(data).vials + " vials";
+             return Math.ceil(JSON.parse(data).vials).toFixed(0) + " vials";
            }
           if(row[5]=='per ampule'){
             
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
-             return JSON.parse(data).ampules + " ampules";
+             return Math.ceil(JSON.parse(data).ampules).toFixed(0) + " ampules";
            }
              if(row[5]=='BOTTLE'){
-          var bottles = parseInt(JSON.parse(data).unittotal/JSON.parse(data).perbottle);
+          var bottles = Math.ceil(parseInt(JSON.parse(data).unittotal/JSON.parse(data).perbottle)).toFixed(0);
              return JSON.parse(data).unittotal+JSON.parse(data).unitperbottle+" ("+ bottles+" bottles)";
            }
              if(row[5]=='TUBE'){
           //     console.log(JSON.parse(data))
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
            
-              var tubes = parseInt(JSON.parse(data).unittotal/JSON.parse(data).pertube);
+              var tubes = Math.ceil(parseInt(JSON.parse(data).unittotal/JSON.parse(data).pertube)).toFixed(0);
              return JSON.parse(data).unittotal+JSON.parse(data).unitpertube+" ("+ tubes+" tubes)";
            }
            else {
@@ -1354,11 +1634,11 @@ if(data.length==i){
             var val = data;
             if(data=='' || data==null) { val = 0;}
                if(row[5]=='TABLETS'){
-               var strips = parseInt(val/JSON.parse(data2).tabletsperstrip);
+               var strips = Math.floor(val/JSON.parse(data2).tabletsperstrip).toFixed(0);
              return val+" tablets("+ strips+" strips)";
            }
                if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc'  || row[5]=='vial per cc'){
-               var vials = parseInt(val/JSON.parse(data2).mlpervial);
+               var vials = Math.floor(val/JSON.parse(data2).mlpervial).toFixed(0);
              return val+" CC ("+ vials+" vials)";
            }
               if(row[5]=='per vial' || row[5]=='Per vial'){
@@ -1369,7 +1649,7 @@ if(data.length==i){
              return val+" ampules";
            }
               if(row[5]=='BOTTLE'){
-          var bottles = parseInt(val/JSON.parse(data2).perbottle);
+          var bottles = Math.floor(val/JSON.parse(data2).perbottle).toFixed(0);
              return val+JSON.parse(data2).unitperbottle+" ("+ bottles+" bottles)";
            }
   
@@ -1377,7 +1657,7 @@ if(data.length==i){
           //     console.log(JSON.parse(data))
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
            
-              var tubes = parseInt(val/JSON.parse(data2).pertube);
+              var tubes = Math.floor(val/JSON.parse(data2).pertube).toFixed(0);
              return val+JSON.parse(data2).unitpertube+" ("+ tubes+" tubes)";
            }
        
@@ -1455,9 +1735,8 @@ if(data.length==i){
     },
 	  { "targets" : 6,
           "render" : function (data, type, row) {
-            if(data == 0) return 'Pending';
-           else if(data == 1) return 'Confirmed';
-           else if(data == -1) return 'Cancelled';
+        if(data == 'true') return 'ROLLED BACK';
+           else return '-';
             
           },
         }	
@@ -1512,28 +1791,47 @@ if(str.length==i){
         }	
   ]
   } );
+  
+
+   var table8 =  $('#clinichistorydatatable').DataTable( {
+		"processing": true,
+		"order": [[ 0, "id" ]],
+        "serverSide": true,
+          "dom": 'Bfrtip',
+    "ajax": "https://backend.medicodesolution.com/development/admin/clinicHistory/"+clinicId,
+    	"columnDefs": [
+    {
+      "targets": 0,
+      "visible":false,
+    }	
+	
+  ]
+		
+  } );
+
+
     $('#checkindatatable tbody').on( 'click', '#edit', function () {
 		var data = table4.row( $(this).parents('tr') ).data();
-		 window.open('http://localhost:8080/app/checkin-view/' + data[0]);
+		 window.open('https://admin.medicodesolution.com/app/checkin-view/' + data[0]+ '/' +clinicId);
     } );
 
 
     $('#precheckdatatable tbody').on( 'click', '#edit', function () {
     var data = table3.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/precheckin-view/' + data[0]);
+    	  window.open('https://admin.medicodesolution.com/app/precheckin-view/' + data[0] + '/' +clinicId);
 	
     } );
 
      $('#inventorydatatable tbody').on( 'click', '#edit', function () {
     var data = table5.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
+    	  window.open('https://admin.medicodesolution.com/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
 	
     } );
    
 
        $('#checkoutdatatable tbody').on( 'click', '#edit', function () {
     var data = table6.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/checkout-view/'+ data[0]);
+    	  window.open('https://admin.medicodesolution.com/app/checkout-view/'+ data[0]+ '/' +clinicId);
 	
     } );
    
@@ -1542,9 +1840,9 @@ if(str.length==i){
 
 
 
-    $('#accadmindatatable tbody').on( 'click', '#edit', function () {
+    $('#staffadmindatatable2 tbody').on( 'click', '#edit', function () {
     var data = table.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/workforce-view/' + data[0]);
+    	  window.open('https://admin.medicodesolution.com/app/workforce-view/' + data[0]);
 	
     } );
    

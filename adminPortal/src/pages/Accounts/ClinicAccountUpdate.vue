@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Update Account - {{data.name}}</li>
+      <li class="breadcrumb-item active">Update Clinic  - {{data.name}}</li>
     </ol>
 
 
@@ -366,8 +366,8 @@ export default {
       self.$validator.validateAll().then((result) => {
 		  if (result) {
      
-                self.axios.patch('https://backend.medicodesolution.com/development/clinic/'+ self.data.id, {
-              
+                self.axios.patch('https://backend.medicodesolution.com/development/clinic/'+ self.clinicId, {
+        accountId:self.data.accountId,
         name:self.data.name,
         ref_id:self.data.ref_id,
         pic_name:self.data.pic_name,

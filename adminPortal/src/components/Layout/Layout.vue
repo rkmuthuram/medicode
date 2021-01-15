@@ -9,7 +9,7 @@
     </transition>
   </div>
   <footer class="contentFooter">
-    KKA Clinic Portal - Powered by <a href="https://www.sunrisers.com.my/" target="_blank">Sunrisers TS</a>
+    ENIGMA - Powered by <a href="https://www.sunrisers.com.my/" target="_blank">Sunrisers TS</a>
   </footer>
 </div>
 </template>

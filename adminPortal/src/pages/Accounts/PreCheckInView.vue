@@ -13,7 +13,10 @@
                  <fieldset>
    <legend>Complete Information</legend>
 
-   
+      <div class="mb-lg">
+            <h3 class="text-success mb-0">{{clinicName}}</h3>
+           Clinic
+          </div>
 
        <div class="mb-lg">
             <h3 class="text-success mb-0">{{data.vendorId}}</h3>
@@ -144,6 +147,8 @@ export default {
       data:{
         attachments:[]
       },
+      clinicId: this.$route.params.clinicId,
+      clinicName:'',
       preCheckInId: this.$route.params.preCheckInId,
       isLoading:false,
       locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
@@ -151,6 +156,15 @@ export default {
   },
   
   methods: {
+       async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   this.clinicName= response.data.accountInfo[0].name;
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
    async getPreCheckIn() {
   try {
    const response = await this.axios.get('https://backend.medicodesolution.com/development/precheckin/'+ this.preCheckInId)
@@ -166,8 +180,7 @@ export default {
    mounted(){
      this.getPreCheckIn();
          
-     
-  
+        this.getAccount();  
       
    },
      created() {

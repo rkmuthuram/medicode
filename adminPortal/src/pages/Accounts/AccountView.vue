@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Account Dashboard - {{data.company_name}}</li>
+      <li class="breadcrumb-item active">Account Dashboard > {{data.company_name}}</li>
     </ol>
 
 
@@ -58,7 +58,7 @@
                   name="minlength"
                   :class="{ 'form-control': true, 'is-invalid': errors.has('minlength')}"
                   type="text"
-                v-model="data.id"
+                v-model="accountId"
                      id="accountId"
                 v-bind:data-id="accountId"
                  disabled 
@@ -496,7 +496,7 @@
    <p v-if="item!=''"> {{index+1}} ) <a :href="item" target="_blank">{{item}}</a>  </p>   </li> </ul>                  
             </fieldset>
           </b-tab>
-         <b-tab title="Manage Account Admins" >
+       <!--  <b-tab title="Manage Account Admins" >
   <p><a class="btn btn-danger btn-sm mb-3" @click="navigateToCreateAccountAdmin()">
                   &nbsp;Create Account Admin
                 
@@ -517,7 +517,7 @@
            </table>
            </div>
 
-         </b-tab>
+         </b-tab> -->
         
            <b-tab title="Manage Clinics" >
  <p><a class="btn btn-danger btn-sm mb-3" @click="navigateToCreateClinic()">
@@ -558,14 +558,23 @@
           </b-tab>
            <b-tab title="History">
         
-              <div v-for="notification in mock.notifications"
-                class="d-flex align-items-start" :key="notification.id">
-                <i :class="`la la-${notification.icon} mr text-${notification.color}`" />
-                <p
-                  :class="{ 'mb-0': notification.id === mock.notifications.length - 1 }"
-                  v-html="notification.content"
-                />
-              </div>
+           <div class="table-responsive">
+           <table class="table table-hover" id="acchistorydatatable">
+             <thead>
+               <tr>
+                 <th>Id</th>
+                  <th>Clinic</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Author</th> 
+                   <th>Time</th>
+                
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
        
           </b-tab>
         </b-tabs>
@@ -645,7 +654,7 @@ export default {
     return {
             mock,
       data:{},
-      accountId: this.$route.params.accountId.substr(0,1),
+      accountId: this.$route.params.accountId,
       isLoading:false,
       locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
     };
@@ -654,7 +663,7 @@ export default {
   methods: {
    
     navigateToUpdate(){
-        this.$router.push({name:'AccountUpdate', params: { accountId :this.accountId+this.data.token}});
+        this.$router.push({name:'AccountUpdate', params: { accountId :this.accountId}});
     },
     navigateToCreateAccountAdmin(){
         this.$router.push({name:'WorkforceCreateAccountAdmin', params: { accountId :this.accountId}});
@@ -727,6 +736,7 @@ export default {
 	
     },    
     async getAccount() {
+     
   try {
    const response = await this.axios.get('https://backend.medicodesolution.com/development/account/'+ this.accountId)
    this.data = response.data.accountInfo[0];
@@ -743,6 +753,7 @@ export default {
         
         $(document).ready(function() {
         var accountId = $("#accountId").attr("data-id");
+
           var table =  $('#accadmindatatable').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
@@ -760,7 +771,7 @@ export default {
           "render" : function (data, type, row) {
            
             if(data == 1) return 'Active';
-           else if(data == 0) return 'Suspended';
+           else if(data !=1) return 'Suspended';
             
           },
         }	
@@ -795,18 +806,32 @@ export default {
   ]
 	} );
 	
-
+  var table3 =  $('#acchistorydatatable').DataTable( {
+		"processing": true,
+		"order": [[ 0, "id" ]],
+        "serverSide": true,
+          "dom": 'Bfrtip',
+    "ajax": "https://backend.medicodesolution.com/development/admin/accountHistory/"+accountId,
+    	"columnDefs": [
+    {
+      "targets": 0,
+      "visible":false,
+    }	
+	
+  ]
+		
+  } );
 
 
 
     $('#accadmindatatable tbody').on( 'click', '#edit', function () {
     var data = table.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/workforce-view/' + data[0]);
+    	  window.open('https://admin.medicodesolution.com/app/workforce-view/' + data[0]);
 	
     } );
        $('#clinicadmindatatable tbody').on( 'click', '#edit', function () {
     var data2 = table2.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/account-view-clinic/' + data2[0]);
+    	  window.open('https://admin.medicodesolution.com/app/account-view-clinic/' + data2[0]);
 	
     } );
 	

@@ -13,7 +13,10 @@
                  <fieldset>
    <legend>Complete Information</legend>
 
-   
+    <div class="mb-lg">
+            <h3 class="text-success mb-0">{{clinicName}}</h3>
+           Clinic
+          </div>
 
        <div class="mb-lg">
             <h3 class="text-success mb-0">{{data.patientId}}</h3>
@@ -59,11 +62,39 @@
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
                     <td>{{product.packing_type}}</td>
-                        <td v-if="product.packing_type=='TABLETS'"> {{product.quantity_strips}} strips  &amp; {{product.quantity_tablets}} loose tablets</td>
-                                       <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='per vial' || product.packing_type=='Per vial' || product.packing_type=='vial per cc'"> {{product.quantity_mls}} loose ML | {{product.quantity_vials}} vials</td>
-                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_ampules}} ampules</td>
-                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose | {{product.quantity_bottles}} bottles </td>
-                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose | {{product.quantity_tubes}} tubes </td>
+                        <td v-if="product.packing_type=='TABLETS'"> 
+                          <span v-if="product.quantity_strips==0 && product.quantity_tablets!=0">{{product.quantity_tablets}} tablets</span>
+                         <span v-if="product.quantity_strips!=0 && product.quantity_tablets==0">{{product.quantity_strips}} strips</span>
+                  <span v-if="product.quantity_strips!=0 && product.quantity_tablets!=0">  {{product.quantity_strips}} strips  &amp; {{product.quantity_tablets}} loose tablets</span>
+                          
+                        </td>
+                  <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='per vial' || product.packing_type=='Per vial' || product.packing_type=='vial per cc'">
+                   <span v-if="product.quantity_mls==0 && product.quantity_vials!=0">{{product.quantity_vials}} vials</span>
+                         <span v-if="product.quantity_mls!=0 && product.quantity_vials==0">{{product.quantity_mls}} loose ML</span>
+                  <span v-if="product.quantity_mls!=0 && product.quantity_vials!=0"> {{product.quantity_mls}} loose ML &amp; {{product.quantity_vials}} vials</span>
+                
+                   
+                   </td>
+                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_ampules}} ampules</td>
+
+                                         <td v-if="product.packing_type=='BOTTLE'"> 
+                                              <span v-if="product.quantity_unittotal==0 && product.quantity_bottles!=0">{{product.quantity_bottles}} bottles</span>
+                         <span v-if="product.quantity_unittotal!=0 && product.quantity_bottles==0">{{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose</span>
+                  <span v-if="product.quantity_unittotal!=0 && product.quantity_bottles!=0"> {{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose &amp; {{product.quantity_bottles}} bottles</span>
+                                           
+                                           
+                                             </td>
+                                                           <td v-if="product.packing_type=='TUBE'"> 
+                                              <span v-if="product.quantity_unittotal==0 && product.quantity_tubes!=0">{{product.quantity_tubes}} tubes</span>
+                         <span v-if="product.quantity_unittotal!=0 && product.quantity_tubes==0">{{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose</span>
+                  <span v-if="product.quantity_unittotal!=0 && product.quantity_tubes!=0"> {{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose &amp; {{product.quantity_tubes}} tubes</span>
+                                           
+                                           
+                                             </td>
+                                           
+                                            
+                                            
+                                            
                                              <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
                    
                 </tr>
@@ -146,6 +177,8 @@ export default {
   components: { Widget,vSelect },
   data() {
     return {
+        clinicId: this.$route.params.clinicId,
+      clinicName:'',
             mock,
       data:{
         attachments:[]
@@ -158,6 +191,15 @@ export default {
   },
   
   methods: {
+       async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   this.clinicName= response.data.accountInfo[0].name;
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
       navigateToDashboard(){
         this.$router.push({name:'Dashboard' });
     },
@@ -286,7 +328,7 @@ try {
    mounted(){
      this.getCheckOut();
          
-     
+        this.getAccount();  
   
       
    },

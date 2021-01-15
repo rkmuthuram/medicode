@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Create New Clinic Account</li>
+      <li class="breadcrumb-item active">Create New Clinic Account - {{accName}}</li>
     </ol>
 
 
@@ -293,6 +293,7 @@ export default {
   components: { Widget,vSelect,vueDropzone: vue2Dropzone },
   data() {
     return {
+       accName:'',
       accountId: this.$route.params.accountId,
       data:{
         name:'',
@@ -320,6 +321,16 @@ export default {
     };
   },
   methods: {
+          async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/account/'+ this.accountId)
+   this.accName= response.data.accountInfo[0].company_name;
+ 
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
     navigateToList(){
     this.$router.push({name:'AccountView', params: { accountId :this.accountId}});
     },
@@ -377,6 +388,9 @@ export default {
 
 
   },
+     mounted(){
+     this.getAccount();    
+   },
   created() {
     initializationMessengerCode();
     Messenger.options = {

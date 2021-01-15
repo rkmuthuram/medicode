@@ -8,6 +8,23 @@
 
     <b-row>
       <b-col lg='8' xs='12'>
+           <Widget
+          title="<h5>        
+            <small>Stock Ammend Guide </small>
+          </h5>"
+          customHeader 
+        ><br>
+          TABLETS : -> "tablets": 2480.0,"tabletsperstrip": 10  &nbsp; = 2480/10 = 2480 tab (248 strips)  <br>
+          TUBES : -> "unittotal": 1000.0,"unitpertube": "g","pertube":10  &nbsp; = 1000/10 = 1000 g (100 tubes)  <br>
+          BOTTLES : -> "unittotal": 2000.0,"unitperbottle": "ml","perbottle":50 &nbsp; = 2000/50 = 2000 ml (400 bottles)  <br>
+          PER VIAL : -> "vials": 20.0 &nbsp; = 20 vials  <br>
+          VIAL PER CC : -> "mls": 200.0,"mlpervial": "5" &nbsp; = 200/5 = 200 CC/ML (40 vials)  <br>
+          PER AMPULE | AMPULE : -> "ampules": 20.0 &nbsp; = 20 ampules  <br>
+          PER SUPP | SACHET | Sachet | box | Set | ROLLS | PIECES | pack | Diskus : -> "units": 20.0 &nbsp; = 20 units  <br>
+        
+        </Widget>
+
+      
         <Widget
           title="<h5>        
             <small>Edit & Click Update </small>
@@ -76,7 +93,27 @@
                    
   
           
-          
+                <b-form-group
+                horizontal
+                :label-cols="3"
+                label-breakpoint="md"
+                label-for="address_street"
+             
+              >
+                <div slot="label">
+            Remarks
+                </div>
+              <textarea-autosize
+                                  v-model="remarks"
+                                placeholder=""
+                                :min-height="35"
+                              
+                             :class="{ 'form-control': true}"
+                                id="street_address"
+                                name="street_address"
+                                />
+             
+              </b-form-group>
       
        
 
@@ -164,6 +201,7 @@ export default {
   data() {
     return {
          componentKey:0,
+         remarks:'',
       data:{},
         medicineInfo:[],
         postChange:'',
@@ -206,6 +244,7 @@ export default {
   
                 self.axios.patch('https://backend.medicodesolution.com/development/clinic/liveInventory/'+ self.data.id, {     
                 postChange:JSON.stringify(self.selectedMedicine),
+                remarks:this.remarks
                 })
                 .then(function (response) {
                   console.log(response);

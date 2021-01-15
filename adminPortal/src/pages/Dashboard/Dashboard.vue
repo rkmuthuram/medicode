@@ -25,7 +25,7 @@
                     <th>Prescription</th> 
                    <th>Monthly Incoming</th>  
                    <th>Monthly Outgoing</th>  
-                  <th>Current Stock</th>  
+                  <th>Balance Stock</th>  
                  
                    <th>Movement</th>          
                   <th>Actions</th>       
@@ -48,7 +48,7 @@
                   <th>Total Amount (RM)</th>
                   <th>Date</th>
                    <th>Staff</th> 
-                  <th>Status</th> 
+                           <th>Rollback Status</th> 
                   <th>Actions</th>       
                </tr>
              </thead>
@@ -341,7 +341,7 @@ export default {
         var clinicId = 5;
         var staffId = window.localStorage.getItem('id');
         
-         var table5 =  $('#inventorydatatable2').DataTable( {
+        var table5 =  $('#inventorydatatable2').DataTable( {
 		"processing": true,
 		"order": [[ 9, "movementPct" ]],
         "serverSide": true,
@@ -351,82 +351,79 @@ export default {
    
       var val;
    
-  if(aData[5]=='TABLETS'){
+   if(aData[5]=='TABLETS'){
          
              //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
            val = JSON.parse(aData[8]).tablets;
-           if(val<10){
-          $('td', nRow).css('background-color', 'Red');
+           if(val<50){
+             $('td', nRow).css('background-color', 'Orange');
            }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
+       
              
          
            }
-           if(aData[5]=='Vial / per cc' || aData[5]=='Vial / per cc' || aData[5]=='Vial / per 0.5 cc' || aData[5]=='per vial' || aData[5]=='Per vial' || aData[5]=='vial per cc'){
+
+
+ 
+  if(aData[5]=='Vial / per cc' || aData[5]=='Vial / per cc' || aData[5]=='Vial / per 0.5 cc' || aData[5]=='vial per cc'){
+            
+             //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
+        val = JSON.parse(aData[8]).mls;
+            if(val<50){
+      $('td', nRow).css('background-color', 'Orange');
+           }
+          
+             
+           }
+
+           if(aData[5]=='per vial' || aData[5]=='Per vial' ){
             
              //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
         val = JSON.parse(aData[8]).vials;
-            if(val<10){
-          $('td', nRow).css('background-color', 'Red');
+            if(val<50){
+      $('td', nRow).css('background-color', 'Orange');
            }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
+          
              
            }
           if(aData[5]=='per ampule'){
             
              //return JSON.parse(aData[8]).tablets +' tablets OR ' +JSON.parse(aData[8]).strips + ' strips';
                val = JSON.parse(aData[8]).ampules;
-            if(val<10){
-          $('td', nRow).css('background-color', 'Red');
+            if(val<50){
+             $('td', nRow).css('background-color', 'Orange');
            }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
+        
              
            }
              if(aData[5]=='BOTTLE'){
             
-            val = JSON.parse(aData[8]).ampules;
-           if(val<10){
-          $('td', nRow).css('background-color', 'Red');
-           }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
+               val = JSON.parse(aData[8]).totalunits;
+           if(val<500){
+           $('td', nRow).css('background-color', 'Orange');
            }
              
            }
              if(aData[5]=='TUBE'){
             
-              val = JSON.parse(aData[8]).tubes;
-           if(val<10){
-          $('td', nRow).css('background-color', 'Red');
-           }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
-             
-           }
-           else {
-             val = JSON.parse(aData[8]).units;
-             if(val<10){
-          $('td', nRow).css('background-color', 'Red');
-           }
-           if(val<50 && val>9){
-                   $('td', nRow).css('background-color', 'Orange');
-              
-           }
-             
+              val = JSON.parse(aData[8]).totalunits;
+           if(val<500){
+           $('td', nRow).css('background-color', 'Orange');
            }
       
+             
+           }
+           if(aData[5]=='Per supp' || aData[5]=='SACHET' || aData[5]=='Sachet' || aData[5]=='box' || aData[5]=='Set' || aData[5]=='ROLLS' || aData[5]=='PIECES' || aData[5]=='pack' || aData[5]=='Diskus'){
+             val = JSON.parse(aData[8]).units;
+             if(val<50){
+             $('td', nRow).css('background-color', 'Orange');
+           }
+                      
+           }
+
+        if(aData[9]>50){
+           $('td', nRow).css('background-color', 'Red');
+        }
    
      //   $('td', nRow).css('background-color', 'Orange');
    
@@ -448,39 +445,88 @@ export default {
           "visible": false,
            "searchable": true
      },
+       { "targets" : [9],
+          "render" : function (data, type, row) {
+              if(data==null){
+                return '-';
+              }
+       
+              else return data+"%";
+            
+          },
+        },
+       { "targets" : [5],
+          "render" : function (data, type, row) {
+            
+           if(data=='TABLETS'){
+      
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+            
+             return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/pills.png?alt=media&token=70eb9961-0de4-4554-95fb-d8cad97a5d79' />"+data;
+           }
+           if(data=='Vial / per cc' || data=='Vial / per cc' || data=='Vial / per 0.5 cc' || data=='per vial' || data=='Per vial' || data=='vial per cc'){
+          
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+         return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/injection.png?alt=media&token=d415a06a-ccaf-4c5d-88cc-2df1afbb6b51' />"+data;
+           }
+               if(data=='per vial' || data=='Per vial'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' />"+data;
+           }
+          if(data=='per ampule'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' />"+data;
+           }
+             if(data=='BOTTLE'){
+          return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/bottles.png?alt=media&token=784f4166-e1d3-4e53-b7e5-de05b90a20e1' />"+data;
+           }
+             if(data=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+    return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/tubes.png?alt=media&token=be09cc67-f444-4e0e-8b09-226b3ecd3558' />"+data;
+           }
+           else {
+      return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/units.png?alt=media&token=17211f17-6705-47e8-8cfe-e005409e5194' />"+data;
+           }
+            
+          },
+        },
     { "targets" : [8],
           "render" : function (data, type, row) {
             
            if(row[5]=='TABLETS'){
       
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
-             var strips = parseInt(JSON.parse(data).tablets/JSON.parse(data).tabletsperstrip);
+             var strips = Math.ceil(parseInt(JSON.parse(data).tablets/JSON.parse(data).tabletsperstrip)).toFixed(0);
              return JSON.parse(data).tablets+" tablets("+ strips+" strips)";
            }
-           if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc' || row[5]=='per vial' || row[5]=='Per vial' || row[5]=='vial per cc'){
-              var vials = parseInt(JSON.parse(data).mls)/JSON.parse(data).mlpervial;
+           if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc' || row[5]=='vial per cc'){
+              var vials = Math.ceil(parseInt(JSON.parse(data).mls)/JSON.parse(data).mlpervial).toFixed(0);
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
              return JSON.parse(data).mls + " CC ("+vials+" vials)";
            }
                if(row[5]=='per vial' || row[5]=='Per vial'){
             
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
-             return JSON.parse(data).vials + " vials";
+             return Math.ceil(JSON.parse(data).vials).toFixed(0) + " vials";
            }
           if(row[5]=='per ampule'){
             
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
-             return JSON.parse(data).ampules + " ampules";
+             return Math.ceil(JSON.parse(data).ampules).toFixed(0) + " ampules";
            }
              if(row[5]=='BOTTLE'){
-          var bottles = parseInt(JSON.parse(data).unittotal/JSON.parse(data).perbottle);
+          var bottles = Math.ceil(parseInt(JSON.parse(data).unittotal/JSON.parse(data).perbottle)).toFixed(0);
              return JSON.parse(data).unittotal+JSON.parse(data).unitperbottle+" ("+ bottles+" bottles)";
            }
              if(row[5]=='TUBE'){
           //     console.log(JSON.parse(data))
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
            
-              var tubes = parseInt(JSON.parse(data).unittotal/JSON.parse(data).pertube);
+              var tubes = Math.ceil(parseInt(JSON.parse(data).unittotal/JSON.parse(data).pertube)).toFixed(0);
              return JSON.parse(data).unittotal+JSON.parse(data).unitpertube+" ("+ tubes+" tubes)";
            }
            else {
@@ -496,11 +542,11 @@ export default {
             var val = data;
             if(data=='' || data==null) { val = 0;}
                if(row[5]=='TABLETS'){
-               var strips = parseInt(val/JSON.parse(data2).tabletsperstrip);
+               var strips = Math.floor(val/JSON.parse(data2).tabletsperstrip).toFixed(0);
              return val+" tablets("+ strips+" strips)";
            }
                if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc'  || row[5]=='vial per cc'){
-               var vials = parseInt(val/JSON.parse(data2).mlpervial);
+               var vials = Math.floor(val/JSON.parse(data2).mlpervial).toFixed(0);
              return val+" CC ("+ vials+" vials)";
            }
               if(row[5]=='per vial' || row[5]=='Per vial'){
@@ -511,7 +557,7 @@ export default {
              return val+" ampules";
            }
               if(row[5]=='BOTTLE'){
-          var bottles = parseInt(val/JSON.parse(data2).perbottle);
+          var bottles = Math.floor(val/JSON.parse(data2).perbottle).toFixed(0);
              return val+JSON.parse(data2).unitperbottle+" ("+ bottles+" bottles)";
            }
   
@@ -519,7 +565,7 @@ export default {
           //     console.log(JSON.parse(data))
              //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
            
-              var tubes = parseInt(val/JSON.parse(data2).pertube);
+              var tubes = Math.floor(val/JSON.parse(data2).pertube).toFixed(0);
              return val+JSON.parse(data2).unitpertube+" ("+ tubes+" tubes)";
            }
        
@@ -584,19 +630,68 @@ function format (data) {
      data.forEach(function(entry) {
   
        if(entry.packing_type=='TABLETS'){
-            finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_strips+" strips & " + entry.quantity_tablets + "loose tablets  <br> ";
+            if(entry.quantity_strips==0 && entry.quantity_tablets!=0){
+   finalData +=  i+1+") "+ entry.product_name + "->" + entry.quantity_tablets + "tablets  <br> ";
+            }
+
+            else if(entry.quantity_strips!=0 && entry.quantity_tablets==0){
+   finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_strips+" strips <br> ";
+            }
+
+            else if(entry.quantity_strips!=0 && entry.quantity_tablets!=0){
+   finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_strips+" strips & " + entry.quantity_tablets + " tablets  <br> ";
+            }
+         
            }
-           if(entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per 0.5 cc' || entry.packing_type=='per vial' || entry.packing_type=='Per vial' || entry.packing_type=='vial per cc'){
-            finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_mls+" loose ML  & " + entry.quantity_vials + "vials <br> ";
+           if(entry.packing_type=='per vial' || entry.packing_type=='Per vial'){
+            finalData += i+1+") "+ entry.product_name + "->" + entry.quantity_vials + "vials <br> ";
+           }
+               if(entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per cc' || entry.packing_type=='Vial / per 0.5 cc' || entry.packing_type=='vial per cc'){
+                 
+          
+                   if(entry.quantity_mls==0 && entry.quantity_vials!=0){
+  finalData += i+1+") "+ entry.product_name + "->"+ entry.quantity_vials + "vials <br> ";
+            }
+
+            else if(entry.quantity_mls!=0 && entry.quantity_vials==0){
+  finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_mls+" loose ML <br> ";
+            }
+
+            else if(entry.quantity_mls!=0 && entry.quantity_vials!=0){
+  finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_mls+" loose ML  & " + entry.quantity_vials + "vials <br> ";
+            }
            }
           if(entry.packing_type=='per ampule'){    
           finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_ampules+" ampules | ";
            }
              if(entry.packing_type=='BOTTLE'){
-             finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitperbottle + " loose & " + entry.quantity_bottles + " bottles <br> " ;
+               
+                     if(entry.quantity_unittotal==0 && entry.quantity_bottles!=0){
+      finalData +=  i+1+") "+ entry.product_name + "-> "+ entry.quantity_bottles + " bottles <br> " ;
+            }
+
+            else if(entry.quantity_unittotal!=0 && entry.quantity_bottles==0){
+     finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitperbottle + " loose<br> " ;
+            }
+
+            else if(entry.quantity_unittotal!=0 && entry.quantity_bottles!=0){
+     finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitperbottle + " loose & " + entry.quantity_bottles + " bottles <br> " ;
+            }
+            
+        
            }
              if(entry.packing_type=='TUBE'){
-                       finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitpertube + " loose & " + entry.quantity_tubes + " tubes <br> " ;     
+                    if(entry.quantity_unittotal==0 && entry.quantity_tubes!=0){
+      finalData +=  i+1+") "+ entry.product_name + "-> "+ entry.quantity_tubes + " tubes <br> " ;
+            }
+
+            else if(entry.quantity_unittotal!=0 && entry.quantity_tubes==0){
+     finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitpertube + " loose<br> " ;
+            }
+
+            else if(entry.quantity_unittotal!=0 && entry.quantity_tubes!=0){
+     finalData +=  i+1+") "+ entry.product_name + "-> "+entry.quantity_unittotal + entry.quantity_unitpertube + " loose & " + entry.quantity_tubes + " tubes <br> " ;
+            }  
            }
            else if(entry.packing_type=='Per supp' || entry.packing_type=='SACHET' || entry.packing_type=='Sachet' || entry.packing_type=='box' || entry.packing_type=='Set' || entry.packing_type=='ROLLS' || entry.packing_type=='PIECES' || entry.packing_type=='pack' || entry.packing_type=='Diskus') {
              finalData += i+1+") "+ entry.product_name + "-> "+entry.quantity_units+" units<br> ";
@@ -639,9 +734,9 @@ function format2 (data) {
     },
 	  { "targets" : 6,
           "render" : function (data, type, row) {
-            if(data == 0) return 'Pending';
-           else if(data == 1) return 'Confirmed';
-           else if(data == -1) return 'Cancelled';
+            if(data == 'true') return 'ROLLED BACK';
+           else return '-';
+          
             
           },
         }	
@@ -681,7 +776,7 @@ if(str.length==i){
 
         $('#checkoutdatatable2 tbody').on( 'click', '#edit', function () {
     var data = table6.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/checkout-view/'+ data[0]);
+    	  window.open('https://admin.medicodesolution.com/app/checkout-view/'+ data[0]);
 	
     } );
 
@@ -705,7 +800,7 @@ if(str.length==i){
    
      $('#inventorydatatable2 tbody').on( 'click', '#edit', function () {
     var data = table5.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
+    	  window.open('https://admin.medicodesolution.com/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
 	
     } );
     $('#inventorydatatable2 tbody').on( 'click', '#expand', function () {

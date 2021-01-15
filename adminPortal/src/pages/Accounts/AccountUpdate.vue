@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Update Account - {{data.company_name}}</li>
+      <li class="breadcrumb-item active">Update Account > {{data.company_name}}</li>
     </ol>
 
 
@@ -567,7 +567,7 @@ export default {
          company_type:'',
          company_date:''
       },
-      accountId: this.$route.params.accountId.substr(0,1),
+      accountId: this.$route.params.accountId,
      isLoading:false,
      locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
         dropzoneOptions2: {

@@ -223,7 +223,7 @@ const router = new Router({
           }
         },
         {
-          path: 'precheckin-view/:preCheckInId',
+          path: 'precheckin-view/:preCheckInId/:clinicId',
           name: 'PreCheckInView',
           component: PreCheckInView,
             meta:{
@@ -231,7 +231,7 @@ const router = new Router({
           }
         },
         {
-          path: 'checkin-view/:checkInId',
+          path: 'checkin-view/:checkInId/:clinicId',
           name: 'CheckInView',
           component: CheckInView,
             meta:{
@@ -239,7 +239,7 @@ const router = new Router({
           }
         },
         {
-          path: 'checkout-view/:checkOutId',
+          path: 'checkout-view/:checkOutId/:clinicId',
           name: 'CheckOutView',
           component: CheckOutView,
             meta:{
@@ -303,7 +303,7 @@ const router = new Router({
           }
         },
         {
-          path: 'account-create-clinicIP/:clinicId',
+          path: 'account-create-clinicIP/:accountId/:clinicId',
           name: 'ClinicAccountCreateIP',
           component: ClinicAccountCreateIP,
             meta:{

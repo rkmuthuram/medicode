@@ -32,8 +32,8 @@
           <b-button  slot="finish" variant="success" @click="submit" v-if="isLoading==false" >
             Proceed  <i class="fa fa-check" />
           </b-button>
-    <!--  <tab-content title="Customer Info" :before-change="validOne"> -->
-      <tab-content title="Customer Info">
+   <tab-content title="Customer Info" :before-change="validOne"> 
+     <!--    <tab-content title="Customer Info">-->
           <b-form-group
                   label="  Patient Identification Number (MRN Number)"
                 >
@@ -85,8 +85,8 @@
                 
               </b-form>
             </tab-content>
-   <!--    <tab-content title="Add Products" :before-change="validTwo"> -->
-            <tab-content title="Add Products" > 
+     <tab-content title="Add Products" :before-change="validTwo"> 
+       <!--       <tab-content title="Add Products" > -->
             
               <b-form>
               
@@ -131,7 +131,7 @@
             <h3 class="text-success mb-0">Available Stock : {{selectedMedicine.quantity}} units</h3>
           </div> -->
             <div v-if="selectedMedicine.packing_type=='TABLETS'" :key="componentKey">
-   <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).tablets}} tablets ({{JSON.parse(selectedMedicine.quantity).tablets/JSON.parse(selectedMedicine.quantity).tabletsperstrip}} strips)</span>
+   <span class="fw-semi-bold text-primary">Current Stock :<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/pills.png?alt=media&token=70eb9961-0de4-4554-95fb-d8cad97a5d79' />  {{JSON.parse(selectedMedicine.quantity).tablets}} tablets ({{JSON.parse(selectedMedicine.quantity).tablets/JSON.parse(selectedMedicine.quantity).tabletsperstrip}} strips)</span>
      <table  class="table table-bordered table-lg mt-lg mb-0" >
            
                      <tbody>
@@ -190,7 +190,7 @@
   
                 </div>
                   <div v-if=" selectedMedicine.packing_type=='Per vial' || selectedMedicine.packing_type=='per vial'" :key="componentKey">
-                       <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).vials}} vials</span>
+                       <span class="fw-semi-bold text-primary">Current Stock : <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' /> {{JSON.parse(selectedMedicine.quantity).vials}} vials</span>
  <table  class="table table-bordered table-lg mt-lg mb-0" >
            
                      <tbody>
@@ -261,7 +261,7 @@
   
                 </div>
            <div v-if="selectedMedicine.packing_type=='Vial / per cc' || selectedMedicine.packing_type=='Vial / per 0.5 cc' || selectedMedicine.packing_type=='vial per cc'" :key="componentKey">
-              <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).mls}} CC ({{JSON.parse(selectedMedicine.quantity).mls/JSON.parse(selectedMedicine.quantity).mlpervial}} vials)</span>
+              <span class="fw-semi-bold text-primary">Current Stock : <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/injection.png?alt=media&token=d415a06a-ccaf-4c5d-88cc-2df1afbb6b51' /> {{JSON.parse(selectedMedicine.quantity).mls}} CC ({{JSON.parse(selectedMedicine.quantity).mls/JSON.parse(selectedMedicine.quantity).mlpervial}} vials)</span>
 <table  class="table table-bordered table-lg mt-lg mb-0" >
            
                      <tbody>
@@ -326,7 +326,7 @@
   
                 </div>
       <div v-if="selectedMedicine.packing_type=='per ampule'" :key="componentKey">
-           <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).ampules}} ampules</span>
+           <span class="fw-semi-bold text-primary">Current Stock :  <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' />{{JSON.parse(selectedMedicine.quantity).ampules}} ampules</span>
     <table  class="table table-bordered table-lg mt-lg mb-0" >
            
                      <tbody>
@@ -357,7 +357,7 @@
   
                 </div>
                         <div v-if="selectedMedicine.packing_type=='BOTTLE'" :key="componentKey">
-                             <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).unittotal}}{{JSON.parse(selectedMedicine.quantity).unitperbottle}}  ({{JSON.parse(selectedMedicine.quantity).unittotal/JSON.parse(selectedMedicine.quantity).bottles}} bottles)</span>
+                             <span class="fw-semi-bold text-primary">Current Stock : <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/bottles.png?alt=media&token=784f4166-e1d3-4e53-b7e5-de05b90a20e1' /> {{JSON.parse(selectedMedicine.quantity).unittotal}}{{JSON.parse(selectedMedicine.quantity).unitperbottle}}  ({{JSON.parse(selectedMedicine.quantity).unittotal/JSON.parse(selectedMedicine.quantity).perbottle}} bottles)</span>
        <table  class="table table-bordered table-lg mt-lg mb-0" >
            
                      <tbody>
@@ -428,7 +428,7 @@
                 </div>
 
                  <div v-if="selectedMedicine.packing_type=='TUBE'" :key="componentKey">
-                    <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).unittotal}}{{JSON.parse(selectedMedicine.quantity).unitpertube}}  ({{JSON.parse(selectedMedicine.quantity).unittotal/JSON.parse(selectedMedicine.quantity).tubes}} tubes)</span>
+                    <span class="fw-semi-bold text-primary">Current Stock : <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/tubes.png?alt=media&token=be09cc67-f444-4e0e-8b09-226b3ecd3558' /> {{JSON.parse(selectedMedicine.quantity).unittotal}}{{JSON.parse(selectedMedicine.quantity).unitpertube}}  ({{JSON.parse(selectedMedicine.quantity).unittotal/JSON.parse(selectedMedicine.quantity).pertube}} tubes)</span>
     <table  class="table table-bordered table-lg mt-lg mb-0" >
            
                      <tbody>
@@ -477,7 +477,7 @@
                 </div>
 
                   <div v-if="selectedMedicine.packing_type=='Per supp' || selectedMedicine.packing_type=='SACHET' || selectedMedicine.packing_type=='Sachet' || selectedMedicine.packing_type=='box' || selectedMedicine.packing_type=='Set' || selectedMedicine.packing_type=='ROLLS' || selectedMedicine.packing_type=='PIECES' || selectedMedicine.packing_type=='pack' || selectedMedicine.packing_type=='Diskus' "  :key="componentKey">
-                     <span class="fw-semi-bold text-primary">Current Stock :  {{JSON.parse(selectedMedicine.quantity).units}} units</span>
+                     <span class="fw-semi-bold text-primary">Current Stock : <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/units.png?alt=media&token=17211f17-6705-47e8-8cfe-e005409e5194' /> {{JSON.parse(selectedMedicine.quantity).units}} units</span>
     <table  class="table table-bordered table-lg mt-lg mb-0" >
            
                      <tbody>
@@ -541,13 +541,22 @@
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
                     <td>{{product.packing_type}}</td>
-                        <td v-if="product.packing_type=='TABLETS'"> <!--{{product.quantity_strips}} strips  &amp;--> {{product.quantity_tablets}}  tablets</td>
-                                       <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc' || product.packing_type=='vial per cc'"> {{product.quantity_mls}} loose ML &amp; {{product.quantity_vials}} vials</td>
-                                         <td v-if="product.packing_type=='per vial' || product.packing_type=='Per vial'"> {{product.quantity_vials}} vials</td>
-                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_ampules}} ampules</td>
-                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose &amp; {{product.quantity_bottles}} bottles </td>
-                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose &amp; {{product.quantity_tubes}} tubes </td>
-                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
+                    <td v-if="product.packing_type=='TABLETS'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/pills.png?alt=media&token=70eb9961-0de4-4554-95fb-d8cad97a5d79' /> <!--{{product.quantity_strips}} strips  &amp;-->   <span v-if="product.quantity_strips==0 && product.quantity_tablets!=0">{{product.quantity_tablets}} tablets</span>
+                         <span v-if="product.quantity_strips!=0 && product.quantity_tablets==0">{{product.quantity_strips}} strips</span>
+                  <span v-if="product.quantity_strips!=0 && product.quantity_tablets!=0">  {{product.quantity_strips}} strips  &amp; {{product.quantity_tablets}} tablets</span>
+                          </td>
+                                         <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc'  || product.packing_type=='vial per cc'"> <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/injection.png?alt=media&token=d415a06a-ccaf-4c5d-88cc-2df1afbb6b51' />         <span v-if="product.quantity_mls==0 && product.quantity_vials!=0">{{product.quantity_vials}} vials</span>
+                         <span v-if="product.quantity_mls!=0 && product.quantity_vials==0">{{product.quantity_mls}} loose ML</span>
+                  <span v-if="product.quantity_mls!=0 && product.quantity_vials!=0"> {{product.quantity_mls}} loose ML &amp; {{product.quantity_vials}} vials</span></td>
+                                         <td v-if="product.packing_type=='per vial' || product.packing_type=='Per vial'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' /> {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per ampule'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' /> {{product.quantity_ampules}} ampules</td>
+                                         <td v-if="product.packing_type=='BOTTLE'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/bottles.png?alt=media&token=784f4166-e1d3-4e53-b7e5-de05b90a20e1' /> <span v-if="product.quantity_unittotal==0 && product.quantity_bottles!=0">{{product.quantity_bottles}} bottles</span>
+                         <span v-if="product.quantity_unittotal!=0 && product.quantity_bottles==0">{{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose</span>
+                  <span v-if="product.quantity_unittotal!=0 && product.quantity_bottles!=0"> {{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose &amp; {{product.quantity_bottles}} bottles</span> </td>
+                                            <td v-if="product.packing_type=='TUBE'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/tubes.png?alt=media&token=be09cc67-f444-4e0e-8b09-226b3ecd3558' />    <span v-if="product.quantity_unittotal==0 && product.quantity_tubes!=0">{{product.quantity_tubes}} tubes</span>
+                         <span v-if="product.quantity_unittotal!=0 && product.quantity_tubes==0">{{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose</span>
+                  <span v-if="product.quantity_unittotal!=0 && product.quantity_tubes!=0"> {{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose &amp; {{product.quantity_tubes}} tubes</span></td>
+                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' "> <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/units.png?alt=media&token=17211f17-6705-47e8-8cfe-e005409e5194' /> {{product.quantity_units}} units </td>
                        <td><b-button type="button" variant="danger" class="btn-rounded" @click="removeFromAllProducts(index)"> Remove Item </b-button></td>
                 </tr>
               </tbody>
@@ -578,13 +587,22 @@
                    <td>{{product.product_category}}</td>
                     <td>{{product.manufacturer}}</td>
                     <td>{{product.packing_type}}</td>
-                        <td v-if="product.packing_type=='TABLETS'"> <!--{{product.quantity_strips}} strips  &amp;-->{{product.quantity_tablets}}tablets</td>
-                                         <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc'  || product.packing_type=='vial per cc'"> {{product.quantity_mls}} loose ML &amp; {{product.quantity_vials}} vials</td>
-                                         <td v-if="product.packing_type=='per vial' || product.packing_type=='Per vial'"> {{product.quantity_vials}} vials</td>
-                                         <td v-if="product.packing_type=='per ampule'"> {{product.quantity_ampules}} ampules</td>
-                                         <td v-if="product.packing_type=='BOTTLE'">  {{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose &amp; {{product.quantity_bottles}} bottles </td>
-                                            <td v-if="product.packing_type=='TUBE'">  {{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose &amp; {{product.quantity_tubes}} tubes </td>
-                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' ">  {{product.quantity_units}} units </td>
+                            <td v-if="product.packing_type=='TABLETS'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/pills.png?alt=media&token=70eb9961-0de4-4554-95fb-d8cad97a5d79' /> <!--{{product.quantity_strips}} strips  &amp;-->   <span v-if="product.quantity_strips==0 && product.quantity_tablets!=0">{{product.quantity_tablets}} tablets</span>
+                         <span v-if="product.quantity_strips!=0 && product.quantity_tablets==0">{{product.quantity_strips}} strips</span>
+                  <span v-if="product.quantity_strips!=0 && product.quantity_tablets!=0">  {{product.quantity_strips}} strips  &amp; {{product.quantity_tablets}} tablets</span>
+                          </td>
+                                         <td v-if="product.packing_type=='Vial / per cc' || product.packing_type=='Vial / per 0.5 cc'  || product.packing_type=='vial per cc'"> <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/injection.png?alt=media&token=d415a06a-ccaf-4c5d-88cc-2df1afbb6b51' />         <span v-if="product.quantity_mls==0 && product.quantity_vials!=0">{{product.quantity_vials}} vials</span>
+                         <span v-if="product.quantity_mls!=0 && product.quantity_vials==0">{{product.quantity_mls}} loose ML</span>
+                  <span v-if="product.quantity_mls!=0 && product.quantity_vials!=0"> {{product.quantity_mls}} loose ML &amp; {{product.quantity_vials}} vials</span></td>
+                                         <td v-if="product.packing_type=='per vial' || product.packing_type=='Per vial'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' /> {{product.quantity_vials}} vials</td>
+                                         <td v-if="product.packing_type=='per ampule'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' /> {{product.quantity_ampules}} ampules</td>
+                                         <td v-if="product.packing_type=='BOTTLE'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/bottles.png?alt=media&token=784f4166-e1d3-4e53-b7e5-de05b90a20e1' /> <span v-if="product.quantity_unittotal==0 && product.quantity_bottles!=0">{{product.quantity_bottles}} bottles</span>
+                         <span v-if="product.quantity_unittotal!=0 && product.quantity_bottles==0">{{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose</span>
+                  <span v-if="product.quantity_unittotal!=0 && product.quantity_bottles!=0"> {{product.quantity_unittotal}}{{product.quantity_unitperbottle}}/ loose &amp; {{product.quantity_bottles}} bottles</span> </td>
+                                            <td v-if="product.packing_type=='TUBE'"><img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/tubes.png?alt=media&token=be09cc67-f444-4e0e-8b09-226b3ecd3558' />    <span v-if="product.quantity_unittotal==0 && product.quantity_tubes!=0">{{product.quantity_tubes}} tubes</span>
+                         <span v-if="product.quantity_unittotal!=0 && product.quantity_tubes==0">{{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose</span>
+                  <span v-if="product.quantity_unittotal!=0 && product.quantity_tubes!=0"> {{product.quantity_unittotal}}{{product.quantity_unitpertube}}/ loose &amp; {{product.quantity_tubes}} tubes</span></td>
+                                             <td v-if="product.packing_type=='Per supp' || product.packing_type=='SACHET' || product.packing_type=='Sachet' || product.packing_type=='box' || product.packing_type=='Set' || product.packing_type=='ROLLS' || product.packing_type=='PIECES' || product.packing_type=='pack' || product.packing_type=='Diskus' "> <img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/units.png?alt=media&token=17211f17-6705-47e8-8cfe-e005409e5194' /> {{product.quantity_units}} units </td>
                    
                 </tr>
               </tbody>
@@ -890,8 +908,8 @@ export default {
        this.selectedMedicine.quantity_unitpertube = JSON.parse(this.selectedMedicine.quantity).unitpertube;
       var qty = JSON.parse(this.selectedMedicine.quantity);
       this.selectedMedicine.dispensed_total = Number(this.selectedMedicine.quantity_unittotal);
-          if(this.selectedMedicine.quantity_bottles != undefined) { this.selectedMedicine.dispensed_total += Number(this.selectedMedicine.quantity_tubes* (qty.pertube)); }        
-        
+          if(this.selectedMedicine.quantity_tubes != undefined) { this.selectedMedicine.dispensed_total += Number(this.selectedMedicine.quantity_tubes* (qty.pertube)); }        
+            console.log(this.selectedMedicine.dispensed_total)
          if(this.selectedMedicine.dispensed_total>qty.unittotal){
  return Messenger().post({type:'error',message:'Insufficient dispense quantity!',hideAfter: 3,showCloseButton:true});
     }
@@ -902,6 +920,7 @@ export default {
       this.selectedMedicine=null;
       return Messenger().post({type:'success',message:'Item added to list!',hideAfter: 3,showCloseButton:true});
     }
+
     
     
    
@@ -998,7 +1017,7 @@ async onSearch(search, loading) {
 
   submit(){
     var self=this;
-    // self.isLoading = true;
+    self.isLoading = true;
     if(self.accept==false){
        self.isLoading = false;
       return Messenger().post({type:'error',message:'Tick confirmation checkbox to continue!',hideAfter: 3,showCloseButton:true});

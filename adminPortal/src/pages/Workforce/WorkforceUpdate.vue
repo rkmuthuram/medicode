@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Staff Update Profile - {{data.username}}</li>
+      <li class="breadcrumb-item active">Workforce Update Profile - {{data.username}}</li>
     </ol>
 
 
@@ -25,7 +25,7 @@
                 :label-cols="3"
                 label-breakpoint="md"
                 label-for="username"
-                description="Full / Nick name of member"
+                description="Full / Nick name of workforce"
               >
                 <div slot="label">
                   Name 
@@ -54,29 +54,12 @@
                     
                     class="mt-xs"
                     v-model="data.position"
-                :options="['SuperAdmin', 'Account Admin','Branch Admin','Front Desk Staff']"
+             :options="['Account Admin','Clinic Admin (Doctor)','Clinic Admin (Management)','Nurse']"
                   />
                 </b-col>
               </b-row>
             </b-form-group>
-               <b-form-group
-              label="Additional Access"
-              label-for="default-select"
-              :label-cols="3"
-              description=""
-            >
-              <b-row>
-                <b-col md='9'>
-                  <v-select
-                    v-validate="'required'"
-                    multiple
-                    class="mt-xs"
-                    v-model="data.access"
-                    :options="['Extra Modules (DISABLED DURING DEVELOPMENT)']"
-                  />
-                </b-col>
-              </b-row>
-            </b-form-group>
+             
 
             
                          
@@ -278,9 +261,11 @@ export default {
                     username: self.data.username,
                     tel_no: self.data.tel_no,
                     position: self.data.position,
-                    center:self.data.center,
+                    accountId:self.data.accountId,
+                    clinicId:self.data.clinicId,
+                   // center:self.data.center,
                         photoUrl:self.cover_image[0],
-                        access:self.data.access
+                    //    access:self.data.access
                 })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){

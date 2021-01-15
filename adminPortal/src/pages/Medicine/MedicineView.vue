@@ -657,12 +657,12 @@ export default {
 
     $('#accadmindatatable tbody').on( 'click', '#edit', function () {
     var data = table.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/workforce-view/' + data[0]);
+    	  window.open('https://admin.medicodesolution.com/app/workforce-view/' + data[0]);
 	
     } );
        $('#clinicadmindatatable tbody').on( 'click', '#edit', function () {
     var data2 = table2.row( $(this).parents('tr') ).data();
-    	  window.open('http://localhost:8080/app/account-view-clinic/' + data2[0]);
+    	  window.open('https://admin.medicodesolution.com/app/account-view-clinic/' + data2[0]);
 	
     } );
 	

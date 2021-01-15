@@ -1,6 +1,7 @@
 <template>
   <b-row>
     <b-col xl='8' lg='16'>
+      {{clinicName}}
       <Widget
         title="
         <div>
@@ -516,7 +517,7 @@
               label-cols="4"
               breakpoint="md"
             >
-              <b-input-group class="input-group-transparent" id="append-field3" append="per tube">
+              <b-input-group class="input-group-transparent" id="append-field3" append="per bottle">
                 <b-form-input class="input-transparent"  type="number" @change="getBottleValue"  v-model="selectedMedicine.quantity_perbottle" ></b-form-input>
               </b-input-group>
             </b-form-group> </td>                      
@@ -848,6 +849,7 @@ export default {
   components: { Widget, vSelect,vueDropzone: vue2Dropzone},
   data() {
     return {
+       clinicName:'',
       staffId:window.localStorage.getItem('id'),
       componentKey:0,
       allSelectedProducts:[],
@@ -892,6 +894,15 @@ export default {
   }
 },
   methods: {
+         async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   this.clinicName= response.data.accountInfo[0].name;
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
     removeFromList(){
       this.selectedMedicine=null;
       return Messenger().post({type:'success',message:'Item removed!',hideAfter: 3,showCloseButton:true});
@@ -1040,7 +1051,7 @@ async onSearch(search, loading) {
     this.selectedMedicine.quantity__unitperbottle = 'ml';
   }
   this.selectedMedicine.quantity_bottles = parseInt(this.selectedMedicine.quantity_boxes) * parseInt(this.selectedMedicine.quantity_bottleperbox);
-  this.selectedMedicine.quantity_unittotal  = parseInt(this.selectedMedicine.quantity_bottles) * parseInt(this.selectedMedicine.quantity_perbottle);
+  this.selectedMedicine.quantity_unittotal  = parseInt(this.selectedMedicine.quantity_bottles) * Number(this.selectedMedicine.quantity_perbottle);
   
   this.componentKey+=1;
 
@@ -1066,7 +1077,7 @@ async onSearch(search, loading) {
     this.selectedMedicine.quantity__unitpertube = 'g';
   }
   this.selectedMedicine.quantity_tubes = parseInt(this.selectedMedicine.quantity_boxes) * parseInt(this.selectedMedicine.quantity_tubeperbox);
-  this.selectedMedicine.quantity_unittotal  = parseInt(this.selectedMedicine.quantity_tubes) * parseInt(this.selectedMedicine.quantity_pertube);
+  this.selectedMedicine.quantity_unittotal  = parseInt(this.selectedMedicine.quantity_tubes) * Number(this.selectedMedicine.quantity_pertube);
   
   this.componentKey+=1;
 
@@ -1230,6 +1241,7 @@ getTabletValue(){
   },
      mounted(){
   this.getVendors();
+       this.getAccount();  
  
  
    },

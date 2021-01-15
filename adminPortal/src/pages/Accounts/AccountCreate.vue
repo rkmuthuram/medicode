@@ -678,7 +678,7 @@ export default {
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
                 Messenger().post({message:response.data.success, hideAfter: 3,showCloseButton:true});
-                return self.$router.push({name:'AccountView',params:{accountId:response.data.id}});
+                return self.$router.push({name:'AccountListing'});
                 }
                 else {
                   if(response.data.error){

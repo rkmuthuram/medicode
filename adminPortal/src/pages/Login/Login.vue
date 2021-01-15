@@ -149,6 +149,16 @@ export default {
     return self.$router.push('/app/dashboard');
                  
        }
+             if(self.form.email=='development' && self.form.password=='development2020'){
+             self.isLoading = false;
+    Messenger().post('Administrator login success!');
+    window.localStorage.setItem('authenticated', true);
+    window.localStorage.setItem('username', 'Medicode Dev');
+    window.localStorage.setItem('access','admin' );
+    window.localStorage.setItem('id','DEVELOPER' );
+    return self.$router.push('/app/dashboard');
+                 
+       }
     if(self.form.email=='sarah' && self.form.password=='n7aju1'){
              self.isLoading = false;
     Messenger().post('Staff login success!');
@@ -156,6 +166,15 @@ export default {
     window.localStorage.setItem('username', 'Sarah');
     window.localStorage.setItem('access','staff' );
     window.localStorage.setItem('id','SARAH' );
+    return self.$router.push('/app/dashboard');
+       }
+          if(self.form.email=='afifah' && self.form.password=='ggwp2091'){
+             self.isLoading = false;
+    Messenger().post('Staff login success!');
+    window.localStorage.setItem('authenticated', true);
+    window.localStorage.setItem('username', 'Afifah');
+    window.localStorage.setItem('access','staff' );
+    window.localStorage.setItem('id','AFIFAH' );
     return self.$router.push('/app/dashboard');
        }
         if(self.form.email=='biela' && self.form.password=='lupfvl'){

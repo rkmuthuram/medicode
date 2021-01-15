@@ -1,6 +1,7 @@
 <template>
   <b-row>
     <b-col xl='8' lg='16'>
+       {{clinicName}}
       <Widget
         title="
         <div>
@@ -917,6 +918,7 @@ export default {
   components: { Widget, vSelect,vueDropzone: vue2Dropzone,barcode: VueBarcode,qrcode:VueQrcode},
   data() {
     return {
+       clinicName:'',
       staffId:window.localStorage.getItem('id'),
       manufacturerBarcodes:[],
       showModal:false,
@@ -975,6 +977,15 @@ export default {
   }
 },
   methods: {
+         async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   this.clinicName= response.data.accountInfo[0].name;
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
     processManual(){ 
       const self=this;   
       if(self.manualSelection==null || self.manualSelection==''){
@@ -1386,6 +1397,7 @@ else {
      mounted(){
   this.getPreCheckIns();
   this.getManufacturerBarcodes();
+       this.getAccount();  
  
  
    },

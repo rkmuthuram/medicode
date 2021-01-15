@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Upload New Files</li>
+      <li class="breadcrumb-item active">Upload New Files  - {{clinicName}}</li>
     </ol>
 
 
@@ -168,6 +168,7 @@ export default {
   components: { Widget,vSelect,vueDropzone: vue2Dropzone },
   data() {
     return {
+       clinicName:'',
       clinicId: this.$route.params.clinicId,
       staffId:window.localStorage.getItem('id'),
       data:{
@@ -190,7 +191,15 @@ export default {
     };
   },
   methods: {
-
+       async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   this.clinicName= response.data.accountInfo[0].name;
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
         removeOtherImage(i){
       this.data.attachments.splice(i,1);
     },
@@ -275,6 +284,12 @@ export default {
 
 
   },
+       mounted(){
+
+       this.getAccount();  
+ 
+ 
+   },
   created() {
     initializationMessengerCode();
     Messenger.options = {

@@ -12,6 +12,10 @@
           <b-tab title="Information" active>
                  <fieldset>
    <legend>Complete Information</legend>
+    <div class="mb-lg">
+            <h3 class="text-success mb-0">{{clinicName}}</h3>
+           Clinic
+          </div>
  <div class="mb-lg">
             <h3 class="text-success mb-0"><span v-if="data.status==0">Awaiting Manager Confirmation</span><span v-if="data.status==1">Confirmed & Added to Inventory</span><span v-if="data.status==-1">Rejected/Pending Clarification</span></h3>
             Status
@@ -173,6 +177,8 @@ export default {
   components: { Widget,vSelect,barcode: VueBarcode,qrcode:VueQrcode},
   data() {
     return {
+        clinicId: this.$route.params.clinicId,
+      clinicName:'',
             mock,
       data:{
         attachments:[]
@@ -184,7 +190,16 @@ export default {
   },
   
   methods: {
-        getQuantityColor(ordered,received){
+     async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   this.clinicName= response.data.accountInfo[0].name;
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
+  getQuantityColor(ordered,received){
     if(received>=ordered){
       return 'success';
     }
@@ -369,7 +384,7 @@ export default {
   },
    mounted(){
      this.getCheckIn();
-         
+            this.getAccount();  
      
   
       

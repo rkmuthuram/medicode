@@ -263,7 +263,7 @@
               <b-tab title="Check In History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="clinicinventorydatatable">
+           <table class="table table-hover" id="myclinicinventorydatatable">
              <thead>
                <tr>
                   <th>#</th>
@@ -284,11 +284,11 @@
                <b-tab title="Check Out History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="clinicinventorydatatable2">
+           <table class="table table-hover" id="myclinicinventorydatatable2">
              <thead>
                <tr>
                   <th>#</th>
-                 <th>Check Out </th>
+                  <th>Check Out </th>
                   <th>Quantity</th>
                   <th>Timestamp</th>
                   <th>Actions</th>       
@@ -304,11 +304,12 @@
                <b-tab title="Ammend History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="clinicinventorydatatable3">
+           <table class="table table-hover" id="myclinicinventorydatatable3">
              <thead>
                <tr>
                  <th>Before</th>
                   <th>After</th>
+                   <th>Remarks</th>
                   <th>Timestamp</th>
                      
                </tr>
@@ -435,7 +436,7 @@ export default {
   
           
 
-      var table5 =  $('#clinicinventorydatatable').DataTable( {
+      var table5 =  $('#myclinicinventorydatatable').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
@@ -454,7 +455,7 @@ export default {
   } );
 
 
-    var table6 =  $('#clinicinventorydatatable2').DataTable( {
+    var table6 =  $('#myclinicinventorydatatable2').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
@@ -473,7 +474,7 @@ export default {
   } );
 
 
-      var table7 =  $('#clinicinventorydatatable3').DataTable( {
+      var table7 =  $('#myclinicinventorydatatable3').DataTable( {
 		"processing": true,
         "serverSide": true,
           "dom": 'Bfrtip',
@@ -482,14 +483,14 @@ export default {
   } );
 
 
-    $('#clinicinventorydatatable tbody').on( 'click', '#edit', function () {
+    $('#myclinicinventorydatatable tbody').on( 'click', '#edit', function () {
 		var data = table5.row( $(this).parents('tr') ).data();
-		 window.open('http://localhost:8080/app/checkin-view/' + data[1]);
+		 window.open('https://admin.medicodesolution.com/app/checkin-view/' + data[1]);
     } );
 
-        $('#clinicinventorydatatable2 tbody').on( 'click', '#edit', function () {
+        $('#myclinicinventorydatatable2 tbody').on( 'click', '#edit', function () {
 		var data = table6.row( $(this).parents('tr') ).data();
-		 window.open('http://localhost:8080/app/checkout-view/' + data[1]);
+		 window.open('https://admin.medicodesolution.com/app/checkout-view/' + data[1]);
     } );
   
    

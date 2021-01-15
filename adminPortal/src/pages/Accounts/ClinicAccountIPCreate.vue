@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Approve New IPv4</li>
+      <li class="breadcrumb-item active">Approve New IPv4  - {{clinicName}}</li>
     </ol>
 
 
@@ -171,7 +171,9 @@ export default {
   components: { Widget,vSelect },
   data() {
     return {
+       clinicName:'',
       clinicId: this.$route.params.clinicId,
+      accountId: this.$route.params.accountId,
       data:{
         ipv4:'',
         alias:'',
@@ -183,6 +185,15 @@ export default {
     };
   },
   methods: {
+        async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   this.clinicName= response.data.accountInfo[0].name;
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
     navigateToList(){
     this.$router.push({name:'ClinicAccountView', params: { clinicId :this.clinicId}});
     },
@@ -193,7 +204,7 @@ export default {
       self.$validator.validateAll().then((result) => {
 		  if (result) {
                 self.axios.post('https://backend.medicodesolution.com/development/clinic_ipv4', {
-                  
+        accountId:self.accountId,
         clinicId:self.clinicId,
         ipv4:self.data.ipv4,
         alias:self.data.alias,
@@ -230,6 +241,9 @@ export default {
 
 
   },
+     mounted(){
+     this.getAccount();    
+   },
   created() {
     initializationMessengerCode();
     Messenger.options = {

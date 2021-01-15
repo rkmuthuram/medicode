@@ -48,7 +48,7 @@
                 label-for="username"
               >
                 <div slot="label">
-                  Staff ID
+                  Workforce ID
                 </div>
                 <input
                   data-vv-validate-on="change"
@@ -56,7 +56,7 @@
                   name="minlength"
                   :class="{ 'form-control': true, 'is-invalid': errors.has('minlength')}"
                   type="text"
-                v-model="data.id"
+                v-model="workforceId"
                      id="workforceId"
                 v-bind:data-id="workforceId"
                  disabled 
@@ -110,31 +110,13 @@
                     
                     class="mt-xs"
                     v-model="data.position"
-                    :options="['SuperAdmin', 'Center Admin', 'Physio']"
+                   :options="['Account Admin','Clinic Admin (Doctor)','Clinic Admin (Management)','Nurse']"
                     disabled
                   />
                 </b-col>
               </b-row>
             </b-form-group>
-                <b-form-group
-              label="Additional Access"
-              label-for="default-select"
-              :label-cols="3"
-              description=""
-            >
-              <b-row>
-                <b-col md='9'>
-                  <v-select
-                    v-validate="'required'"
-                    multiple
-                    class="mt-xs"
-                    v-model="data.access"
-                    :options="['Extra Modules (DISABLED DURING DEVELOPMENT)']"
-                  />
-                </b-col>
-              </b-row>
-            </b-form-group>
-
+              
              
             <b-form-group
                 horizontal
@@ -219,7 +201,7 @@
           </b-tab>
          
         
-           <b-tab title="KPI">
+        <!--   <b-tab title="KPI">
         
                 <table class="table table-lg mb-0 table-striped">
                   <thead>
@@ -284,35 +266,43 @@
                   </tbody>
                 </table>
        
-          </b-tab>
+          </b-tab> -->
             <b-tab title="Actions">
            <fieldset>
    <legend>Account Recovery </legend>
-     <b-badge variant="success" v-if="data.status==1">STATUS : ACTIVE ACCOUNT</b-badge><b-badge variant="warning" v-if="data.status==0">STATUS : EMAIL NOT VERIFIED</b-badge><b-badge variant="danger" v-if="data.status==-1">STATUS : ACCOUNT SUSPENDED</b-badge> <br><br>
+     <b-badge variant="success" v-if="data.status==1">STATUS : ACTIVE ACCOUNT</b-badge><b-badge variant="danger" v-if="data.status==-1">STATUS : ACCOUNT SUSPENDED</b-badge> <br><br>
        <b-button type="button" variant="success" class="btn-rounded" @click="activateAccount()" v-if="data.status==-1">
            Activate Account    
         </b-button>      
         <b-button type="button" variant="danger" class="btn-rounded" @click="suspendAccount()" v-if="data.status!= -1">
           Suspend Account    
         </b-button> 
-      &nbsp;  <b-button type="button" variant="primary" class="btn-rounded" @click="forgotPassword()" >
+   <!--   &nbsp;  <b-button type="button" variant="primary" class="btn-rounded" @click="forgotPassword()" >
          Forgot Password / Send Password Reset E-mail
-        </b-button>    
-      &nbsp;  <b-button type="button" variant="info" class="btn-rounded" @click="activationEmail()" >
+        </b-button>   --> 
+      &nbsp;<!--  <b-button type="button" variant="info" class="btn-rounded" @click="activationEmail()" >
          Send Account Activation Email
-        </b-button>                              
+        </b-button>      -->                         
             </fieldset>
           </b-tab>
            <b-tab title="History">
         
-              <div v-for="notification in mock.notifications"
-                class="d-flex align-items-start" :key="notification.id">
-                <i :class="`la la-${notification.icon} mr text-${notification.color}`" />
-                <p
-                  :class="{ 'mb-0': notification.id === mock.notifications.length - 1 }"
-                  v-html="notification.content"
-                />
-              </div>
+             <div class="table-responsive">
+           <table class="table table-hover" id="staffhistorydatatable">
+             <thead>
+               <tr>
+                 <th>Id</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Author</th> 
+                   <th>Time</th>
+                
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
        
           </b-tab>
         </b-tabs>
@@ -463,7 +453,9 @@ export default {
        self.isLoading = true;
    
                 self.axios.patch('https://backend.medicodesolution.com/development/workforce/status/'+this.workforceId, {
-                   status:1
+                   status:1,
+                     accountId:self.data.accountId,
+                    clinicId:self.data.clinicId,
                 })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -495,7 +487,9 @@ export default {
        self.isLoading = true;
 
                 self.axios.patch('https://backend.medicodesolution.com/development/workforce/status/'+this.workforceId, {
-                   status:-1
+                   status:-1,
+                           accountId:self.data.accountId,
+                    clinicId:self.data.clinicId,
                 })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -539,37 +533,24 @@ export default {
          
       $(document).ready(function() {
        var workforceId = $("#workforceId").attr("data-id");
-          var table =  $('#datatable4').DataTable( {
+      console.log(workforceId)
+	 var table3 =  $('#staffhistorydatatable').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/schedule_personal/admin/"+workforceId,
-		"columnDefs": [
+    "ajax": "https://backend.medicodesolution.com/development/admin/staffHistory/"+workforceId,
+    	"columnDefs": [
     {
-      "data": null,
-      "defaultContent": "<button class='btn' id='edit' title='Edit Advert'><i class='fa fa-pencil'></i></button>",
-      "targets": -1,
-       "searchable": false,
-      "orderable": false,
-    },
-	{ "targets" : 6,
-          "render" : function (data, type, row) {
-             if(data == 0) return 'Upcoming/Confirmed';
-           else if(data == 1) return 'Completed';
-             else if(data == -2) return 'No Show';
-           else if(data == -1) return 'Cancelled';     
-          },
-        }	
+      "targets": 0,
+      "visible":false,
+    }	
 	
   ]
-	} );
-	
+		
+  } );
 
-    $('#datatable3 tbody').on( 'click', '#edit', function () {
-		var data = table.row( $(this).parents('tr') ).data();
-		window.location.href = 'bookingsview/' + data[0] ;
-    } );
+  
 	
       });
   

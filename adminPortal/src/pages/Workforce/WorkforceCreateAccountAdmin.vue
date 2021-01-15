@@ -2,7 +2,7 @@
   <div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Create New Account Admin</li>
+      <li class="breadcrumb-item active">Create New Account Admin - {{accName}}</li>
     </ol>
 
 
@@ -134,7 +134,7 @@
                 :label-cols="3"
                 label-breakpoint="md"
                 label-for="password"
-                description="Dummy password auto-generated, send password reset link after creation"
+                description="Dummy password auto-generated and sent to e-mail.Advise staffs to change password after creation."
               >
                 <input
                   v-validate="'required|min:6'"
@@ -246,13 +246,15 @@ export default {
   components: { Widget,vSelect,vueDropzone: vue2Dropzone },
   data() {
     return {
+      accName:'',
       accountId: this.$route.params.accountId,
+      clinicId: this.$route.params.clinicId,
       data:{
         username:'',
         email:'',
         tel_no:'',
         password:'123456',
-        position:'AccountAdmin',
+        position:'Account Admin',
         center:'',
         photoUrl:'',
         ic_no:''
@@ -272,6 +274,16 @@ export default {
     };
   },
   methods: {
+      async getAccount() {
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/account/'+ this.accountId)
+   this.accName= response.data.accountInfo[0].company_name;
+ 
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
     navigateToList(){
         this.$router.push({name:'AccountView', params: { accountId :this.accountId}});
     },
@@ -285,7 +297,7 @@ export default {
       e.preventDefault();
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/development/workforce', {
+                self.axios.post('https://backend.medicodesolution.com/development/workforce/admin', {
                     username: self.data.username,
                     email:self.data.email,
                     tel_no: self.data.tel_no,
@@ -295,7 +307,8 @@ export default {
                      photoUrl:self.data.photoUrl,
                      access:self.data.access,
                      ic_no:self.data.ic_no,
-                     accountId:self.accountId
+                     accountId:self.accountId,
+                     clinicId:self.clinicId
                 })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -328,6 +341,9 @@ export default {
 
 
   },
+    mounted(){
+     this.getAccount();    
+   },
   created() {
     initializationMessengerCode();
     Messenger.options = {
