@@ -713,6 +713,7 @@ export default {
   data() {
     return {
       staffId:window.localStorage.getItem('id'),
+       staffName:window.localStorage.getItem('username'),
       liveInventory:new Array(),
       componentKey:0,
       allSelectedProducts:[],
@@ -1099,7 +1100,9 @@ async onSearch(search, loading) {
           total_amount:self.data.total_amount,
           allProducts:JSON.stringify(self.allSelectedProducts),
           finalProducts:finalProducts,
-          staffId:self.staffId
+          staffId:self.staffId,
+           staffName:self.username,
+          
 
     })
                 .then(function (response) {

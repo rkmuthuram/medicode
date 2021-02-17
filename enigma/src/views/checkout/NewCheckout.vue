@@ -705,7 +705,8 @@ export default {
           total_amount:self.data.total_amount,
           allProducts:JSON.stringify(self.allSelectedProducts),
           finalProducts:finalProducts,
-          staffId:self.userInfo.uid,
+           staffId:self.userInfo.uid,
+           staffName:self.userInfo.displayName,
           
 
     })

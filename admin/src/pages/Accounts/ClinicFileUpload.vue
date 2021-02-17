@@ -170,7 +170,8 @@ export default {
     return {
        clinicName:'',
       clinicId: this.$route.params.clinicId,
-      staffId:window.localStorage.getItem('id'),
+        staffId:window.localStorage.getItem('id'),
+       staffName:window.localStorage.getItem('username'),
       data:{
        title:'',
        desc:'',
@@ -249,6 +250,7 @@ export default {
                 self.axios.post('https://backend.medicodesolution.com/development/fileManager', {
         title:self.data.title,
         staffId:self.staffId,
+        staffName:self.staffName,
         clinicId:self.clinicId,
         desc:self.data.desc,
         attachments:self.data.attachments.join(),

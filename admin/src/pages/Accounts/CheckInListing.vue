@@ -22,6 +22,8 @@
              <thead>
                <tr>
                   <th>ID</th>
+                   <th>Clinic Id</th>
+                  <th>Clinic Name</th>
                   <th>Invoice Number</th>
                   <th>Attachments</th>
                   <th>Total Amount(RM)</th>
@@ -75,7 +77,7 @@ export default {
        "searchable": false,
       "orderable": false,
     },
-	{ "targets" : 4,
+	{ "targets" : 6,
           "render" : function (data, type, row) {
             if(data == 0) return 'Awaiting Manager Confirmation';
            else if(data == 1) return 'Confirmed & Added to Inventory';
@@ -92,7 +94,7 @@ export default {
 
     $('#checkindatatable tbody').on( 'click', '#edit', function () {
 		var data = table.row( $(this).parents('tr') ).data();
-		window.location.href = 'checkin-view/' + data[0] ;
+		window.location.href = 'checkin-view/' + data[0] + '/' + data[1] ;
     } );
 	
       });

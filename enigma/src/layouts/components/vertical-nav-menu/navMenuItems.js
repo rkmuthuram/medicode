@@ -406,6 +406,13 @@ export default [
             slug: 'listing-history',
             i18n: 'History'
           },
+          {
+            url: '/staffs',
+            name: 'staffs',
+            icon: 'UsersIcon',
+            slug: 'staffs',
+            i18n: 'Staffs'
+          },
         /*  {
             url: '/extensions/drag-and-drop',
             name: 'Drag & Drop',
@@ -638,6 +645,23 @@ export default [
         icon: 'HelpCircleIcon',
         i18n: 'FAQ/Report Issue'
       },
+
+      {
+        url: 'https://api.whatsapp.com/send?phone=60183988649&text=Report%20Issue%20to%20Enigma%20Support',
+        name: 'Documentation',
+        icon: 'BookOpenIcon',
+        slug: 'external',
+        i18n: 'Whatsapp',
+        target: '_blank'
+      },
+      {
+        url: 'mailto:jeg@medicodesolution.com?subject = Report Issue&body = Issue Details',
+        name: 'Raise Support',
+        icon: 'MailIcon',
+        slug: 'external',
+        i18n: 'Email',
+        target: '_blank'
+      }
    /*   {
         url: '/pages/knowledge-base',
         slug: 'page-knowledge-base',

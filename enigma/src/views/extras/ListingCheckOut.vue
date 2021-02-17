@@ -154,9 +154,14 @@ if(data.length==i){
 	"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
-          "dom": 'Bfrtip',
+         "dom": 'frtip',
 		"ajax": "https://backend.medicodesolution.com/development/single/checkout/admin/"+ userInfo.clinicId,
 		"columnDefs": [
+       {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
     {
       "data": null,
       "defaultContent": "<button id='edit' class='btn'><i class='fa fa-home'></i>Manage</button><button id='expand2' class='btn'><i class='fa fa-home'></i>Quick View</button>",

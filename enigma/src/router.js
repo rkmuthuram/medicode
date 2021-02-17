@@ -76,6 +76,19 @@ const router = new Router({
             rule: 'isLoggedIn'
           }
         },
+        {
+          path: '/alert-low-stock/:notificationId',
+          name: 'LowStockAlert',
+          component: () => import('./views/inventory/LowStockAlert.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Alerts', active: true }
+            ],
+            pageTitle: 'Daily Low Stock Alert',
+            rule: 'isLoggedIn'
+          }
+        },
 
         {
           path: '/checkout',
@@ -189,6 +202,33 @@ const router = new Router({
             breadcrumb: [
               { title: 'Home', url: '/' },
               { title: 'File Manager', active: true }
+            ],
+            pageTitle: 'Listing',
+            rule: 'isLoggedIn'
+          }
+        },
+        {
+          path: '/file-manager/add',
+          name: 'file-manager-add',
+          component: () => import('@/views/extras/FileListing-New.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'File Manager', url:'/file-manager' },
+              { title: 'Upload File', active:true }
+            ],
+            pageTitle: 'Upload File',
+            rule: 'isLoggedIn'
+          }
+        },
+        {
+          path: '/staffs',
+          name: 'staffs',
+          component: () => import('@/views/extras/StaffListing.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Staffs', active: true }
             ],
             pageTitle: 'Listing',
             rule: 'isLoggedIn'

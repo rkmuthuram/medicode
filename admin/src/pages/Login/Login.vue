@@ -143,13 +143,13 @@ export default {
              self.isLoading = false;
     Messenger().post('Administrator login success!');
     window.localStorage.setItem('authenticated', true);
-    window.localStorage.setItem('username', 'Medicode Administrator');
+    window.localStorage.setItem('username', 'ENIGMA Administrator');
     window.localStorage.setItem('access','admin' );
-    window.localStorage.setItem('id','ADMIN' );
+    window.localStorage.setItem('id',1 );
     return self.$router.push('/app/dashboard');
                  
        }
-             if(self.form.email=='development' && self.form.password=='development2020'){
+       /*      if(self.form.email=='development' && self.form.password=='development2020'){
              self.isLoading = false;
     Messenger().post('Administrator login success!');
     window.localStorage.setItem('authenticated', true);
@@ -195,6 +195,8 @@ export default {
     window.localStorage.setItem('id','UMMI' );
     return self.$router.push('/app/dashboard');         
        }
+
+       */
          
        else {
 

@@ -2,21 +2,21 @@
 
 
 <template>
-  <div id="checkin-tableview">
+  <div id="staff-tableview">
+    
     
 
-
-    
    <div class="table-responsive">
-            <table class="table table-striped table-bordered table-responsive" id="clinichistorydatatable">
+            <table class="table table-striped table-bordered table-responsive"  id="staffadmindatatable2">
              
              <thead>
                <tr>
-                 <th>Id</th>
-                  <th>Type</th>
-                  <th>Description</th>
-                  <th>Author</th> 
-                   <th>Time</th> 
+                <th>ID</th>
+                  <th>Username</th>
+                  <th>Email</th> 
+                   <th>Role</th> 
+                   <th>Status</th>
+                
                </tr>
              </thead>
              <tbody>
@@ -61,23 +61,32 @@ export default {
       
     var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       
-    var table8 =  $('#clinichistorydatatable').DataTable( {
+      var stafftable =  $('#staffadmindatatable2').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
-         "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/admin/clinicHistory/"+ userInfo.clinicId,
-    	"columnDefs": [
-    {
-      "targets": 0,
-      "visible":false,
-    }	
+             "dom": 'frtip',
+		"ajax": "https://backend.medicodesolution.com/development/workforce/clinic/admin/"+ userInfo.clinicId,
+		"columnDefs": [
+       {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
+	{ "targets" : 4,
+          "render" : function (data, type, row) {
+           
+            if(data == 1) return 'Active';
+           else if(data != 1) return 'Suspended';
+   
+            
+          },
+        }	
 	
   ]
-		
   } );
 
- 
+
 
   	
       });

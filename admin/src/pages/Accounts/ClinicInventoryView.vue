@@ -263,7 +263,7 @@
               <b-tab title="Check In History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="myclinicinventorydatatable">
+           <table class="table table-hover" id="myclinicinventorydatatablecheckin">
              <thead>
                <tr>
                   <th>#</th>
@@ -284,7 +284,7 @@
                <b-tab title="Check Out History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="myclinicinventorydatatable2">
+           <table class="table table-hover" id="myclinicinventorydatatable2checkin">
              <thead>
                <tr>
                   <th>#</th>
@@ -304,7 +304,7 @@
                <b-tab title="Ammend History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="myclinicinventorydatatable3">
+           <table class="table table-hover" id="myclinicinventorydatatable3checkin">
              <thead>
                <tr>
                  <th>Before</th>
@@ -436,7 +436,7 @@ export default {
   
           
 
-      var table5 =  $('#myclinicinventorydatatable').DataTable( {
+      var table5 =  $('#myclinicinventorydatatablecheckin').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
@@ -455,7 +455,7 @@ export default {
   } );
 
 
-    var table6 =  $('#myclinicinventorydatatable2').DataTable( {
+    var table6 =  $('#myclinicinventorydatatable2checkin').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
@@ -474,7 +474,7 @@ export default {
   } );
 
 
-      var table7 =  $('#myclinicinventorydatatable3').DataTable( {
+      var table7 =  $('#myclinicinventorydatatable3checkin').DataTable( {
 		"processing": true,
         "serverSide": true,
           "dom": 'Bfrtip',
@@ -483,12 +483,12 @@ export default {
   } );
 
 
-    $('#myclinicinventorydatatable tbody').on( 'click', '#edit', function () {
+    $('#myclinicinventorydatatablecheckin tbody').on( 'click', '#edit', function () {
 		var data = table5.row( $(this).parents('tr') ).data();
 		 window.open('https://admin.medicodesolution.com/app/checkin-view/' + data[1]);
     } );
 
-        $('#myclinicinventorydatatable2 tbody').on( 'click', '#edit', function () {
+        $('#myclinicinventorydatatable2checkin tbody').on( 'click', '#edit', function () {
 		var data = table6.row( $(this).parents('tr') ).data();
 		 window.open('https://admin.medicodesolution.com/app/checkout-view/' + data[1]);
     } );

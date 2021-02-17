@@ -8,32 +8,59 @@
 ========================================================================================== -->
 
 <template>
-  <div id="dashboard-analytics">
-    <div class="vx-row">
 
+  <div id="dashboard-analytics">
+     
+
+
+    <div class="vx-row">
+ 
       <!-- CARD 1: CONGRATS -->
       <div class="vx-col w-full lg:w-1/2 mb-base">
       <vx-card title="Patient Composition" >
                     <vue-apex-charts type="donut" height="350" :options="donutChart.chartOptions" :series="donutSeries"></vue-apex-charts>
                 </vx-card>
       </div>
-             
 
+         <div class="vx-col w-full lg:w-1/2 mb-base">
+      <vx-card title="Stock Movement" >
+                    <vue-apex-charts type="bar" height="335" :options="barChart.chartOptions" :series="barChart.series" @dataPointSelection="dataPointSelectionHandler"></vue-apex-charts>
+                </vx-card>
+
+      </div>
+             
+ 
       <!-- CARD 2: SUBSCRIBERS GAINED -->
       <div class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-base">
         <statistics-card-line icon="UsersIcon" :statistic="checkouts" statisticTitle="Patients Today" ></statistics-card-line>
-           
+          
       </div>
-      
+     
       <!-- CARD 3: ORDER RECIEVED -->
       <div class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-base">
-        <statistics-card-line icon="ShoppingBagIcon" :statistic="sales" statisticTitle="Sales Today(RM)"  color="warning" type="area"></statistics-card-line>
+          
+        <statistics-card-line icon="DollarSignIcon" :statistic="sales" statisticTitle="Sales Today(RM)"  color="warning" type="area"  ></statistics-card-line> 
+
       </div>
+
+         <!-- CARD 4: ORDER RECIEVED -->
+      <div class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-base">
+          
+        <statistics-card-line icon="ShoppingBagIcon" :statistic="efficiency" statisticTitle="Efficiency %"  color="success" type="area"  ></statistics-card-line> 
+
+      </div>
+
+         <div class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-base">
+          
+        <statistics-card-line icon="ActivityIcon" :statistic="activeTimeFrame" statisticTitle="Most Active Time"  color="primary" type="area"  ></statistics-card-line> 
+
+      </div>
+       &nbsp;&nbsp; &nbsp; <vs-button  color="primary" type="border" icon-pack="feather" @click="scrolltocheckouts" icon="icon-arrow-down"></vs-button>&nbsp;<vs-chip v-if="onDutyNurse!=null"  color="success" >{{onDutyNurse}} on duty</vs-chip>
     </div>
  <div class="vx-row">
       <!-- CARD 9: DISPATCHED ORDERS -->
       <div class="vx-col w-full">
-        <vx-card title="Checkouts Today" collapse-action>
+        <vx-card title="Checkouts Today" ref="checkoutsTable" id="checkoutsTable"  collapse-action   >
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="checkoutdatatable">
              <thead>
@@ -62,8 +89,8 @@
 
     <div class="vx-row">
       <!-- CARD 9: DISPATCHED ORDERS -->
-      <div class="vx-col w-full">
-        <vx-card title="Fast Moving (Order Now)" collapse-action>
+      <div class="vx-col w-full" >
+        <vx-card title="Fast Moving (Order Now)" ref="fastMovingTable" id="fastMovingTable"  collapse-action>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="stockdatatable">
              <thead>
@@ -90,8 +117,8 @@
 <br>
       <div class="vx-row">
       <!-- CARD 9: DISPATCHED ORDERS -->
-      <div class="vx-col w-full">
-        <vx-card title="Slow Moving " collapse-action>
+      <div class="vx-col w-full" >
+        <vx-card title="Slow Moving "  ref="slowMovingTable" id="slowMovingTable" collapse-action>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="lowstockdatatable">
              <thead>
@@ -117,10 +144,39 @@
     </div>
 
 <br>
+   <div class="vx-row">
+      <!-- CARD 9: DISPATCHED ORDERS -->
+      <div class="vx-col w-full" >
+        <vx-card title="Non Moving "   ref="nonMovingTable" id="nonMovingTable"  collapse-action>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="zerostockdatatable">
+             <thead>
+               <tr>
+                 <th>Id</th>
+                 <th>Manufacturer Barcode</th>
+                 <th>Clinic Barcode</th>
+                  <th>Manufacturer</th>
+                  <th>Product Name</th>
+                    <th>Prescription</th> 
+                   <th>Incoming</th>  
+                   <th>Outgoing</th>  
+                  <th>Balance</th>  
+                   <th>Movement</th>              
+               </tr>
+             </thead>
+             <tbody>
+             </tbody>
+           </table>
+           </div>
+        </vx-card>
+      </div>
+    </div>
+
+<br>
       <div class="vx-row">
       <!-- CARD 9: DISPATCHED ORDERS -->
-      <div class="vx-col w-full">
-        <vx-card title="Incoming This Month" collapse-action>
+      <div class="vx-col w-full"  >
+        <vx-card title="Incoming This Month" ref="incomingTable" id="incomingTable" collapse-action>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="incomingstockdatatable">
              <thead>
@@ -160,10 +216,13 @@ export default {
   data () {
     return {
       userInfo:JSON.parse(localStorage.getItem('userInfo')),
+      onDutyNurse:null,
       clinics:[],
       medicines:[],
       checkouts:0,
       sales:0,
+      efficiency:0,
+      activeTimeFrame:'12am-6am',
       donutSeries: [0,0],
       donutChart: {
  
@@ -182,6 +241,34 @@ export default {
           }
         }
       ]
+    }
+  },
+    barChart: {
+  
+    series: [
+      {
+        data: [0,0,0]
+      }
+    ],
+    chartOptions: {
+     chart: {
+    toolbar: {
+      show: false
+    }
+  },
+       colors:['#EA5455','#f05e1b','#696969'],
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          distributed:true,
+        }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      xaxis: {
+        categories: ['Fast', 'Slow', 'Non Moving']
+      }
     }
   },
   showCheckout:true,
@@ -355,7 +442,11 @@ if(data.length==i){
    
     },
 		"columnDefs": [
-
+ {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
      {
         "targets": [4],
         "width": "25%",
@@ -553,6 +644,228 @@ if(data.length==i){
   } );
 
 
+ var nonmovingtable =  $('#zerostockdatatable').DataTable( {
+		"processing": true,
+		"order": [[ 9, "movementPct" ]],
+        "serverSide": true,
+          "dom": 'frtip',
+    "ajax": "https://backend.medicodesolution.com/development/zero/inventory/clinic/admin/"+userInfo.clinicId,
+    "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+   
+      var val;
+     
+      if(aData[9]>=50){
+  $('td', nRow).css('background-color', '#F08080');
+      }
+      if(aData[9]>=15 && aData[9]<50){
+  $('td', nRow).css('background-color', '#F08080');
+      }
+   
+
+   
+    },
+		"columnDefs": [
+ {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
+     {
+        "targets": [4],
+        "width": "25%",
+    },
+    {
+        "targets": [1],
+        "visible": false,
+        "searchable": true
+    },{
+         "targets": [2],
+          "visible": false,
+           "searchable": true
+     },
+       { "targets" : [9],
+        "width": "5%",
+          "render" : function (data, type, row) {
+              if(data==null){
+                return '-';
+              }
+       
+              else return data+"%";
+            
+          },
+        },
+       { "targets" : [5],
+         "width": "7%",
+     
+          "render" : function (data, type, row) {
+            
+           if(data=='TABLETS'){
+      
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+            
+             return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/pills.png?alt=media&token=70eb9961-0de4-4554-95fb-d8cad97a5d79' />"+data;
+           }
+           if(data=='Vial / per cc' || data=='Vial / per cc' || data=='Vial / per 0.5 cc' || data=='per vial' || data=='Per vial' || data=='vial per cc'){
+          
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+         return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/injection.png?alt=media&token=d415a06a-ccaf-4c5d-88cc-2df1afbb6b51' />"+data;
+           }
+               if(data=='per vial' || data=='Per vial'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' />"+data;
+           }
+          if(data=='per ampule'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/ampoule.png?alt=media&token=96a8f68c-caac-417f-9356-05e4831907f5' />"+data;
+           }
+             if(data=='BOTTLE'){
+          return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/bottles.png?alt=media&token=784f4166-e1d3-4e53-b7e5-de05b90a20e1' />"+data;
+           }
+             if(data=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+    return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/tubes.png?alt=media&token=be09cc67-f444-4e0e-8b09-226b3ecd3558' />"+data;
+           }
+           else {
+      return "<img src='https://firebasestorage.googleapis.com/v0/b/kka-pj.appspot.com/o/units.png?alt=media&token=17211f17-6705-47e8-8cfe-e005409e5194' />"+data;
+           }
+            
+          },
+        },
+    { "targets" : [8],
+    "width": "15%",
+          "render" : function (data, type, row) {
+            
+           if(row[5]=='TABLETS'){
+      
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             var strips = Math.ceil(parseInt(JSON.parse(data).tablets/JSON.parse(data).tabletsperstrip)).toFixed(0);
+             return JSON.parse(data).tablets+" tablets("+ strips+" strips)";
+           }
+           if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc' || row[5]=='vial per cc'){
+              var vials = Math.ceil(parseInt(JSON.parse(data).mls)/JSON.parse(data).mlpervial).toFixed(0);
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return JSON.parse(data).mls + " CC ("+vials+" vials)";
+           }
+               if(row[5]=='per vial' || row[5]=='Per vial'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return Math.ceil(JSON.parse(data).vials).toFixed(0) + " vials";
+           }
+          if(row[5]=='per ampule'){
+            
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+             return Math.ceil(JSON.parse(data).ampules).toFixed(0) + " ampules";
+           }
+             if(row[5]=='BOTTLE'){
+          var bottles = Math.ceil(parseInt(JSON.parse(data).unittotal/JSON.parse(data).perbottle)).toFixed(0);
+             return JSON.parse(data).unittotal+JSON.parse(data).unitperbottle+" ("+ bottles+" bottles)";
+           }
+             if(row[5]=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+              var tubes = Math.ceil(parseInt(JSON.parse(data).unittotal/JSON.parse(data).pertube)).toFixed(0);
+             return JSON.parse(data).unittotal+JSON.parse(data).unitpertube+" ("+ tubes+" tubes)";
+           }
+           else {
+             return JSON.parse(data).units + " units";
+           }
+            
+          },
+        },
+          { "targets" : [7],
+             "width": "15%",
+          "render" : function (data, type, row) {
+            
+              var data2 = row[8];
+            var val = data;
+            if(data=='' || data==null) { val = 0;}
+               if(row[5]=='TABLETS'){
+               var strips = Math.floor(val/JSON.parse(data2).tabletsperstrip).toFixed(0);
+             return val+" tablets("+ strips+" strips)";
+           }
+               if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc'  || row[5]=='vial per cc'){
+               var vials = Math.floor(val/JSON.parse(data2).mlpervial).toFixed(0);
+             return val+" CC ("+ vials+" vials)";
+           }
+              if(row[5]=='per vial' || row[5]=='Per vial'){
+            
+             return val+" vials";
+           }
+                    if(row[5]=='per ampule'){
+             return val+" ampules";
+           }
+              if(row[5]=='BOTTLE'){
+          var bottles = Math.floor(val/JSON.parse(data2).perbottle).toFixed(0);
+             return val+JSON.parse(data2).unitperbottle+" ("+ bottles+" bottles)";
+           }
+  
+             if(row[5]=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+              var tubes = Math.floor(val/JSON.parse(data2).pertube).toFixed(0);
+             return val+JSON.parse(data2).unitpertube+" ("+ tubes+" tubes)";
+           }
+       
+                    if(row[5]=='Per supp' || row[5]=='SACHET' || row[5]=='Sachet' || row[5]=='box' || row[5]=='Set' || row[5]=='ROLLS' || row[5]=='PIECES' || row[5]=='pack' || row[5]=='Diskus'){
+             return val+" units";
+           }
+          
+            
+          },
+        },
+          { "targets" : [6],
+             "width": "15%",
+          "render" : function (data, type, row) {
+            var data2 = row[8];
+            var val = data;
+            if(data=='' || data==null) { val = 0;}
+               if(row[5]=='TABLETS'){
+               var strips = parseInt(val/JSON.parse(data2).tabletsperstrip);
+             return val+" tablets("+ strips+" strips)";
+           }
+               if(row[5]=='Vial / per cc' || row[5]=='Vial / per cc' || row[5]=='Vial / per 0.5 cc'  || row[5]=='vial per cc'){
+               var vials = parseInt(val/JSON.parse(data2).mlpervial);
+             return val+" CC ("+ vials+" vials)";
+           }
+              if(row[5]=='per vial' || row[5]=='Per vial'){
+            
+             return val+" vials";
+           }
+                    if(row[5]=='per ampule'){
+             return val+" ampules";
+           }
+              if(row[5]=='BOTTLE'){
+          var bottles = parseInt(val/JSON.parse(data2).perbottle);
+             return val+JSON.parse(data2).unitperbottle+" ("+ bottles+" bottles)";
+           }
+  
+             if(row[5]=='TUBE'){
+          //     console.log(JSON.parse(data))
+             //return JSON.parse(data).tablets +' tablets OR ' +JSON.parse(data).strips + ' strips';
+           
+              var tubes = parseInt(val/JSON.parse(data2).pertube);
+             return val+JSON.parse(data2).unitpertube+" ("+ tubes+" tubes)";
+           }
+             if(data=='' || data==null) { val = 0;}
+                    if(row[5]=='Per supp' || row[5]=='SACHET' || row[5]=='Sachet' || row[5]=='box' || row[5]=='Set' || row[5]=='ROLLS' || row[5]=='PIECES' || row[5]=='pack' || row[5]=='Diskus'){
+             return val+" units";
+           }
+          
+           
+         
+            
+          },
+        }			
+	
+  ]
+  } );
+
 
 var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
 		"processing": true,
@@ -572,7 +885,11 @@ var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
    
     },
 		"columnDefs": [
-
+ {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
      {
         "targets": [4],
         "width": "25%",
@@ -787,7 +1104,11 @@ var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
    
     },
 		"columnDefs": [
-
+ {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
      {
         "targets": [4],
         "width": "25%",
@@ -991,7 +1312,11 @@ var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
         "serverSide": true,
           "dom": 'frtip',
 		"ajax": "https://backend.medicodesolution.com/development/single/checkout/today/admin/"+userInfo.clinicId,
-		"columnDefs": [
+		"columnDefs": [ {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
     {
       "data": null,
       "defaultContent": "<button id='expand2' class='btn'><i class='fa fa-home'></i>Quick View</button></i></button>",
@@ -1036,6 +1361,28 @@ var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
       });
   },
     methods: {
+      dataPointSelectionHandler(e, chartContext, config) {
+        var self=this;
+
+    if(config.dataPointIndex==0){
+        self.$refs["fastMovingTable"].toggleContent();
+  self.$refs["fastMovingTable"].$el.scrollIntoView({ behavior: 'smooth'});
+ 
+    }
+     if(config.dataPointIndex==1){
+  self.$refs["slowMovingTable"].$el.scrollIntoView({ behavior: 'smooth'});
+   self.$refs["slowMovingTable"].toggleContent();
+    }
+     if(config.dataPointIndex==2){
+  self.$refs["nonMovingTable"].$el.scrollIntoView({ behavior: 'smooth'});
+      self.$refs["nonMovingTable"].toggleContent();
+    }
+  },
+      scrolltocheckouts(){
+        this.$refs["checkoutsTable"].$el.scrollIntoView({ behavior: 'smooth'});
+     this.$refs["checkoutsTable"].toggleContent();
+      
+      },
       hideCheckoutTable(){
    
         this.showCheckout=false;
@@ -1056,6 +1403,15 @@ var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
                   self.checkouts = response.data.checkouts;
                   self.sales = response.data.sales;
                   self.medicines = response.data.medicines;
+                  self.barChart.series = response.data.barSeries;
+                  self.efficiency = response.data.efficiency;
+                  self.activeTimeFrame = response.data.activeTimeFrame;
+                  self.onDutyNurse = response.data.onDutyNurse;
+                  self.$refs["checkoutsTable"].toggleContent();
+                   self.$refs["nonMovingTable"].toggleContent();
+                   self.$refs["slowMovingTable"].toggleContent();
+                   self.$refs["fastMovingTable"].toggleContent();
+                   self.$refs["incomingTable"].toggleContent();
                 //  console.log(response.data.checkouts.length);
                 }
                 else {

@@ -66,7 +66,7 @@ export default {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
-          "dom": 'Bfrtip',
+          "dom": 'frtip',
     "ajax": "https://backend.medicodesolution.com/development/single/checkin/admin/"+ userInfo.clinicId,
       "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
@@ -93,6 +93,11 @@ export default {
    
     },
 		"columnDefs": [
+       {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
     {
       "data": null,
       "defaultContent": "<button id='edit' class='btn'><i class='fa fa-home'></i>View</button>",

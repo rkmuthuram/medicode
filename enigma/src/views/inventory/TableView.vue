@@ -152,6 +152,11 @@ export default {
    
     },
 		"columnDefs": [
+       {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
     {
       "data": null,
       "defaultContent": "<button id='edit' class='btn'><i class='fa fa-home'></i>Manage</button>",

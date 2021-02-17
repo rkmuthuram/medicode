@@ -897,6 +897,9 @@ export default {
   },
   
   methods: {
+    updatePreferences(){
+      console.log(this.selection.timeRange)
+    },
      navigate(function_name){
       this [function_name]() 
     },
@@ -1333,7 +1336,7 @@ if(data.length==i){
       "targets": -1,
        "searchable": false,
       "orderable": false,
-    },	{ "targets" : 3,
+    },	{ "targets" : 4,
           "render" : function (data, type, row) {
            
             if(data == 1) return 'Active';
@@ -1735,7 +1738,11 @@ if(data.length==i){
     },
 	  { "targets" : 6,
           "render" : function (data, type, row) {
-        if(data == 'true') return 'ROLLED BACK';
+                 var data2 = row[7];
+                 if(data2==null){
+                   data2='Not specified';
+                 }
+        if(data == 'true') return 'ROLLED BACK (Reason:'+data2+')';
            else return '-';
             
           },

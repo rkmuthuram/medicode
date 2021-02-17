@@ -57,7 +57,7 @@
                         <h6>Ingredient/Color</h6>
                         <p>{{productData.ingredient}}/{{productData.color}}</p>
                     </div>
-                    <div class="mt-5">
+                 <!--   <div class="mt-5">
                         <h6>QR Code</h6>
                         <p><qrcode :value="productData.internal_qrcode" :options="{ height:100 }"></qrcode></p>
                     </div>
@@ -74,7 +74,7 @@
 </barcode></p>
                     </div>
 
-                 
+                 -->
                  
                 </vx-card>
 
@@ -104,7 +104,7 @@
                  <thead class="thead-dark">
                  <tr>
                   <th>#</th>
-                 <th>Check In </th>
+              
                   <th>Quantity</th>
                   <th>Timestamp</th>
                   <th>Actions</th>       
@@ -128,7 +128,7 @@
                  <thead class="thead-dark">
                   <tr>
                   <th>#</th>
-                  <th>Check Out </th>
+              
                   <th>Quantity</th>
                   <th>Timestamp</th>
                   <th>Actions</th>       
@@ -354,7 +354,7 @@ this.suggestion.stockCount  = 'SUFFICIENT BALANCE STOCK';
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
-          "dom": 'Bfrtip',
+          "dom": 'frtip',
 		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/checkins/"+clinicId+"/"+productId,
 		"columnDefs": [
     {
@@ -363,6 +363,12 @@ this.suggestion.stockCount  = 'SUFFICIENT BALANCE STOCK';
       "targets": -1,
        "searchable": false,
       "orderable": false,
+    },
+        {
+   
+      "targets": 1,
+       "searchable":true,
+      "visible": false,
     }
 	
   ]
@@ -373,7 +379,7 @@ this.suggestion.stockCount  = 'SUFFICIENT BALANCE STOCK';
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
-          "dom": 'Bfrtip',
+          "dom": 'frtip',
 		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/checkouts/"+clinicId+"/"+productId,
 		"columnDefs": [
     {
@@ -382,6 +388,12 @@ this.suggestion.stockCount  = 'SUFFICIENT BALANCE STOCK';
       "targets": -1,
        "searchable": false,
       "orderable": false,
+    },
+        {
+   
+      "targets": 1,
+       "searchable":true,
+      "visible": false,
     }
 	
   ]
@@ -391,7 +403,7 @@ this.suggestion.stockCount  = 'SUFFICIENT BALANCE STOCK';
       var table7 =  $('#myclinicinventorydatatable3').DataTable( {
 		"processing": true,
         "serverSide": true,
-          "dom": 'Bfrtip',
+          "dom": 'frtip',
 		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/product3/admin/"+clinicId+"/"+productId,
 	
   } );

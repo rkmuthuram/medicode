@@ -37,8 +37,8 @@
           Total Amount (RM)
           </div>
               <div class="mb-lg">
-            <h3 class="text-success mb-0">{{data.staffId}}</h3>
-          Staff Id
+            <h3 class="text-success mb-0">{{data.staffName}}(UID:{{data.staffId}})</h3>
+          Staff 
           </div>
             <div class="mb-lg" v-if="data.rollback=='true'">
             <h3 class="text-success mb-0">ROLLED BACK</h3>

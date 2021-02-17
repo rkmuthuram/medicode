@@ -33,11 +33,12 @@
             Total Amount (RM)
           </div>
            <div class="mb-lg">
-            <h3 class="text-success mb-0">{{data.comments}}</h3>
+               <h3 class="text-success mb-0" v-if="data.comments==''">-</h3>
+            <h3 class="text-success mb-0"  v-if="data.comments!=''">{{data.comments}}</h3>
             Comments
           </div>
             <div class="mb-lg">
-            <h3 class="text-success mb-0">{{data.attachments}}</h3>
+            <h3 class="text-success mb-0"><a :href="data.attachments">Download File</a></h3>
             Attachments
           </div>
 

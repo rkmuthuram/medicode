@@ -61,8 +61,9 @@ import MedicineListing from '@/pages/Medicine/MedicineListing';
 import MedicineView from '@/pages/Medicine/MedicineView';
 import MedicineUpdate from '@/pages/Medicine/MedicineUpdate';
 
+// 7. Notifications
 
-
+import NotificationView from '@/pages/Accounts/NotificationView';
 
 Vue.use(Router);
 const router = new Router({
@@ -194,6 +195,14 @@ const router = new Router({
           path: 'account-view-clinic/:clinicId',
           name: 'ClinicAccountView',
           component: ClinicAccountView,
+            meta:{
+            requiresAuth: true
+          }
+        },
+        {
+          path: 'notification-view/:notificationId',
+          name: 'NotificationView',
+          component: NotificationView,
             meta:{
             requiresAuth: true
           }

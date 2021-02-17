@@ -22,8 +22,10 @@
           
             <div class="vx-col w-full md:w-2/5 lg:w-1/4 rounded-lg">
                 <vx-card>
+                   <h1 class="mb-1">Contact Us</h1><br>
+                      <h4> <a href="https://api.whatsapp.com/send?phone=60183988649&text=Report%20Issue%20to%20Enigma%20Support" target="_blank">WHATSAPP</a></h4><br>
+                    <h4> <a href = "mailto:jeg@medicodesolution.com?subject = Report Issue&body = Issue Details" target="_blank">EMAIL</a></h4>
                  
-                    <h4> <a href="https://forms.gle/dhZbnQ8xoAawpiJe9" target="_blank">CLICK HERE TO REPORT BUGS/ISSUES</a></h4>
                     <ul class="faq-topics mt-4">
                         <li v-for="category in categories" :key="category.id" class="p-2 font-medium flex items-center" @click="faqFilter = category.id">
                             <div class="h-3 w-3 rounded-full mr-2" :class="'bg-' + category.color"></div><span class="cursor-pointer">{{ category.name }}</span>
@@ -71,7 +73,7 @@ export default{
       categories: [
         {
           id: 1,
-          name: 'All',
+          name: 'All Categories',
           color: 'grey'
         },
       /*  {

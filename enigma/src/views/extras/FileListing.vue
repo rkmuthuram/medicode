@@ -4,8 +4,13 @@
 <template>
   <div id="checkin-tableview">
     
+      <div class="demo-alignment">
 
-    
+            <vs-button color="primary" type="filled" icon-pack="feather" icon="icon-download"    @click="$router.push({name: 'file-manager-add'}).catch(err => {})">UPLOAD NEW FILE</vs-button>
+     
+
+        </div>
+
    <div class="table-responsive">
             <table class="table table-striped table-bordered table-responsive" id="filesdatatable">
              
@@ -65,10 +70,14 @@ export default {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
-          "dom": 'Bfrtip',
+       "dom": 'frtip',
 		"ajax": "https://backend.medicodesolution.com/development/single/fileManager/admin/"+ userInfo.clinicId,
 		"columnDefs": [
-
+ {
+        "targets": [0],
+        "visible": false,
+        "searchable": true
+    },
 
 	  { "targets" : 4,
           "render" : function (data, type, row) {

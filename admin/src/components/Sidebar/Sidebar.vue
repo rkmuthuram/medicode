@@ -17,7 +17,7 @@
           isHeader
         />
        <NavLink
-       v-if="username=='Medicode Administrator'" 
+       v-if="username=='ENIGMA Administrator'" 
           :activeItem="activeItem"
           header="Accounts"
           link="/app/account-listing"
@@ -26,7 +26,7 @@
           isHeader
         />
          <NavLink
-            v-if="username=='Medicode Administrator'" 
+            v-if="username=='ENIGMA Administrator'" 
           :activeItem="activeItem"
           header="Vendors"
           link="/app/vendor-listing"
@@ -39,7 +39,7 @@
         />
         
           <NavLink
-           v-if="username=='Medicode Administrator'" 
+           v-if="username=='ENIGMA Administrator'" 
           :activeItem="activeItem"
           header="Medicines"
           link="/app/medicine-listing"
@@ -48,7 +48,7 @@
           isHeader
         />
          <NavLink
-          v-if="username=='Medicode Administrator'"  
+          v-if="username=='ENIGMA Administrator'"  
           :activeItem="activeItem"
           header="Pre Check Ins"
           link="/app/precheckin-listing"
@@ -57,7 +57,7 @@
           isHeader
         />
           <NavLink
-           v-if="username=='Medicode Administrator'"  
+           v-if="username=='ENIGMA Administrator'"  
           :activeItem="activeItem"
           header="Check Ins"
           link="/app/checkin-listing"
@@ -66,7 +66,7 @@
           isHeader
         />
            <NavLink
-        v-if="username=='Medicode Administrator'" 
+        v-if="username=='ENIGMA Administrator'" 
           :activeItem="activeItem"
           header="Settings"
           link="/app/settings"
