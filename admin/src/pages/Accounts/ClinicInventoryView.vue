@@ -263,7 +263,7 @@
               <b-tab title="Check In History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="myclinicinventorydatatablecheckin">
+           <table class="table table-hover" id="ggtabl1">
              <thead>
                <tr>
                   <th>#</th>
@@ -284,7 +284,7 @@
                <b-tab title="Check Out History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="myclinicinventorydatatable2checkin">
+           <table class="table table-hover" id="ggtabl2">
              <thead>
                <tr>
                   <th>#</th>
@@ -304,7 +304,7 @@
                <b-tab title="Ammend History">
         
               <div class="table-responsive">
-           <table class="table table-hover" id="myclinicinventorydatatable3checkin">
+           <table class="table table-hover" id="ggtabl3">
              <thead>
                <tr>
                  <th>Before</th>
@@ -436,7 +436,7 @@ export default {
   
           
 
-      var table5 =  $('#myclinicinventorydatatablecheckin').DataTable( {
+      var table5 =  $('#ggtabl1').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
@@ -455,7 +455,7 @@ export default {
   } );
 
 
-    var table6 =  $('#myclinicinventorydatatable2checkin').DataTable( {
+    var table6 =  $('#ggtabl2').DataTable( {
 		"processing": true,
 		"order": [[ 0, "id" ]],
         "serverSide": true,
@@ -474,7 +474,7 @@ export default {
   } );
 
 
-      var table7 =  $('#myclinicinventorydatatable3checkin').DataTable( {
+      var table7 =  $('#ggtabl3').DataTable( {
 		"processing": true,
         "serverSide": true,
           "dom": 'Bfrtip',
@@ -483,14 +483,14 @@ export default {
   } );
 
 
-    $('#myclinicinventorydatatablecheckin tbody').on( 'click', '#edit', function () {
+    $('#ggtabl1 tbody').on( 'click', '#edit', function () {
 		var data = table5.row( $(this).parents('tr') ).data();
-		 window.open('https://admin.medicodesolution.com/app/checkin-view/' + data[1]);
+		 window.open('https://admin.medicodesolution.com/app/checkin-view/'+data[1]+'/' + clinicId);
     } );
 
-        $('#myclinicinventorydatatable2checkin tbody').on( 'click', '#edit', function () {
+        $('#ggtabl2 tbody').on( 'click', '#edit', function () {
 		var data = table6.row( $(this).parents('tr') ).data();
-		 window.open('https://admin.medicodesolution.com/app/checkout-view/' + data[1]);
+		 window.open('https://admin.medicodesolution.com/app/checkout-view/'+data[1]+'/' + clinicId);
     } );
   
    

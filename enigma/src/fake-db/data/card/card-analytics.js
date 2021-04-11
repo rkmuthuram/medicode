@@ -184,28 +184,28 @@ const data = {
   browserAnalytics: [
     {
       id: 1,
-      name: 'Google Chrome',
+      name: 'Mediviron',
       ratio: 73,
       time: 'Mon Dec 10 2018 07:46:05 GMT+0000 (GMT)',
       comparedResult: '800'
     },
     {
       id: 3,
-      name: 'Opera',
+      name: 'Klinik Kayu Ara',
       ratio: 8,
       time: 'Mon Dec 10 2018 07:46:05 GMT+0000 (GMT)',
       comparedResult: '-200'
     },
     {
       id: 2,
-      name: 'Firefox',
+      name: 'Pantai Medicals',
       ratio: 19,
       time: 'Mon Dec 10 2018 07:46:05 GMT+0000 (GMT)',
       comparedResult: '100'
     },
     {
       id: 4,
-      name: 'Internet Explorer',
+      name: 'Sri Kota',
       ratio: 27,
       time: 'Mon Dec 10 2018 07:46:05 GMT+0000 (GMT)',
       comparedResult: '-450'

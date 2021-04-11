@@ -59,7 +59,7 @@ export default {
            window.localStorage.setItem('username',null);
       window.localStorage.setItem('id', null);
        window.localStorage.setItem('access', null);
-
+  localStorage.clear()
       this.$router.push('/login');
   } else {
  

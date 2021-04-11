@@ -130,6 +130,19 @@ const router = new Router({
           }
         },
         {
+          path: '/warehouse',
+          name: 'warehouse',
+          component: () => import('@/views/pages/Warehouse.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Warehouse', active: true }
+            ],
+            pageTitle: 'Warehouse Mode',
+            rule: 'isLoggedInAdmin'
+          }
+        },
+        {
           path: '/listing-check-in',
           name: 'listing-check-in',
           component: () => import('@/views/extras/ListingCheckIn.vue'),

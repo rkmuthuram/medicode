@@ -196,6 +196,7 @@
 import { Validator } from 'vee-validate';
 import vSelect from 'vue-select';
 import DatePicker from "vue2-datepicker";
+  import 'vue2-datepicker/index.css';
 export default {
   data () {
     return {

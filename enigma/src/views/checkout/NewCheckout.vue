@@ -629,6 +629,16 @@ export default {
   methods: {
      submit(){
     var self=this;  
+    if(self.isLoading==true){
+      return           self.$vs.notify({
+          title: 'Processing',
+          text: 'Kindly wait',
+          iconPack: 'feather',
+          icon: 'icon-alert-circle',
+          color: 'primary'
+        })
+    }
+    self.isLoading=true;
    var finalProducts = new Array();
 
   var index=0;var length = self.allSelectedProducts.length;
