@@ -17,7 +17,7 @@
           <span>Main Clients</span>
         <div class="link-container">
         
-          <div class="linkD" v-for="link in links2" :key="link.id" @click="navigate(link.function)"><i class="fa link-icon" :class="link.icon" :style="{color:link.color}"/><div class="link-text" :style="{color:link.color}"> <strong>{{link.name}}</strong> </div></div>
+          <div class="linkD" v-for="link in links2" :key="link.id" @click="navigateToClinicAccountView(link.id)"><i class="fa link-icon" :class="link.icon" :style="{color:link.color}"/><div class="link-text" :style="{color:link.color}"> <strong>{{link.name}}</strong> </div></div>
         </div>
 
       
@@ -42,6 +42,7 @@ export default {
     Widget,  },
   data() {
     return {
+      clinics:[],
       links2:[],
       staffId:window.localStorage.getItem('id'),
       access:window.localStorage.getItem('access'),
@@ -97,10 +98,11 @@ export default {
     navigate(function_name){
       this [function_name]() 
     },
-    navigateToClinicAccountView() {
+    navigateToClinicAccountView(id) {
+
       return this.$router.push({
         name: "ClinicAccountView",
-        params: { clinicId: '5' }
+        params: { clinicId: id }
       });
     },
        navigateToAccounts() {
@@ -173,7 +175,29 @@ export default {
   }
 
     },
+         async getAccounts() {
+           var self=this;
+  try {
+   const response = await this.axios.get('https://backend.medicodesolution.com/development/all/clinics');
    
+  var clinics = response.data.clinics;
+ clinics.forEach(function(entry) {
+   self.links2.push(    {
+          name: entry.name,
+          id:entry.id,
+          accountId:entry.accountId,
+          color: '#46CD5F',
+          icon: 'fa-user',
+          function: 'navigateToClinicAccountView'
+        } )
+});
+    
+    
+    
+  } catch (error) {
+    console.error(error);
+  }
+},
 
   },
    mounted(){
@@ -230,19 +254,9 @@ export default {
         },
         
       ];
-        this.links2 = [
-    
-        {
-          name: 'KLINIK KAYU ARA ',
-          color: '#46CD5F',
-          icon: 'fa-user',
-          function: 'navigateToClinicAccountView'
-        }, 
-     
-        
-      ];
+        this.links2 = [];
           }
-       
+       this.getAccounts();
   
   
       

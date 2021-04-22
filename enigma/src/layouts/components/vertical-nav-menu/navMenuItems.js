@@ -645,13 +645,13 @@ export default [
         icon: 'HelpCircleIcon',
         i18n: 'FAQ/Report Issue'
       },
-      {
+/*    {
         url: '/warehouse',
         slug: 'warehouse',
         name: 'Warehouse',
         icon: 'HelpCircleIcon',
         i18n: 'Warehouse Mode'
-      },
+      }, */
 
       {
         url: 'https://api.whatsapp.com/send?phone=60183988649&text=Report%20Issue%20to%20Enigma%20Support',

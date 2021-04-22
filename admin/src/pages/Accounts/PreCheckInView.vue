@@ -37,7 +37,7 @@
                  </fieldset>
           </b-tab>
          
-        
+       
           
            <table  class="table table-bordered table-lg mt-lg mb-0" v-if="data.allProducts.length!=0">
               <thead>
@@ -66,7 +66,9 @@
                 </tr>
               </tbody>
             </table> 
-          
+               <b-button type="submit" variant="danger" class="btn-rounded" @click="deleteRecord">
+               Delete Record (This action is permanent & not reversible)
+              </b-button>
           
         </b-tabs>
       </b-col>
@@ -156,6 +158,21 @@ export default {
   },
   
   methods: {
+    async deleteRecord(){
+  try {
+   const response = await this.axios.delete('https://backend.medicodesolution.com/development/precheckin/'+ this.preCheckInId)
+
+  if(response.data.success){
+          return this.$router.push({
+        name: "ClinicAccountView",
+        params: { clinicId:this.clinicId }
+      });
+  }
+ 
+  } catch (error) {
+    console.error(error);
+  }
+    },
        async getAccount() {
   try {
    const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
@@ -170,7 +187,6 @@ export default {
    const response = await this.axios.get('https://backend.medicodesolution.com/development/precheckin/'+ this.preCheckInId)
    this.data = response.data.preCheckInInfo[0];
   this.data.allProducts = JSON.parse(this.data.allProducts);
-  console.log(this.data);
  
   } catch (error) {
     console.error(error);
