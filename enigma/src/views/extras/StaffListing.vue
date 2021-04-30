@@ -5,7 +5,12 @@
   <div id="staff-tableview">
     
     
+<div class="demo-alignment">
 
+            <vs-button color="primary" type="filled" icon-pack="feather" icon="icon-download"    @click="$router.push({name: 'staffs-add'}).catch(err => {})">NEW NURSE ACCOUNT</vs-button>
+     
+
+        </div>
    <div class="table-responsive">
             <table class="table table-striped table-bordered table-responsive"  id="staffadmindatatable2">
              
@@ -16,6 +21,7 @@
                   <th>Email</th> 
                    <th>Role</th> 
                    <th>Status</th>
+                   <th>Action</th>
                 
                </tr>
              </thead>
@@ -34,8 +40,7 @@
 
 <script>
 
-import moment from 'moment';
-
+ 
 
 export default {
   components: {
@@ -53,7 +58,10 @@ export default {
 
   },
   methods: {
- 
+    async deleteRecord(){
+       var self=this;
+console.log('kk')
+    },
   },
   mounted () {
     
@@ -66,12 +74,19 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
              "dom": 'frtip',
-		"ajax": "https://backend.medicodesolution.com/development/workforce/clinic/admin/"+ userInfo.clinicId,
+		"ajax": "https://backend.enigmedsvcs.com/development/workforce/clinic/admin/"+ userInfo.clinicId,
 		"columnDefs": [
        {
         "targets": [0],
         "visible": false,
         "searchable": true
+    },
+        {
+      "data": null,
+      "defaultContent": "<button id='edit' class='btn'><i class='fa fa-home'></i>Delete</button>",
+      "targets": -1,
+       "searchable": false,
+      "orderable": false,
     },
 	{ "targets" : 4,
           "render" : function (data, type, row) {
@@ -87,6 +102,19 @@ export default {
   } );
 
 
+       $('#staffadmindatatable2 tbody').on('click', '#edit', (evt) => {
+       
+         //  const data = $(evt.target).data('logId');
+           	var data = stafftable.row( $(evt.target).parents('tr') ).data();
+           if(data[3]!="Nurse"){
+        alert("No authorization to delete Admins/Doctors.")
+    }
+    if(data[3]=="Nurse"){
+  	window.location.href = 'staff-delete/' + data[0] ;
+	
+    }
+          // this.logData(data); 
+      });
 
   	
       });

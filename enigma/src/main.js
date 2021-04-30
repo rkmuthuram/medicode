@@ -133,7 +133,7 @@ Vue.use(IdleVue, {
 
 import VueSocketIOExt from 'vue-socket.io-extended';
 import { io } from 'socket.io-client';
-const socket = io('https://backend.medicodesolution.com', { transport : ['websocket'],query: {
+const socket = io('https://backend.enigmedsvcs.com', { transport : ['websocket'],query: {
   auth: "123"
 } });
 Vue.use(VueSocketIOExt, socket);

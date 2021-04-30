@@ -878,7 +878,7 @@ export default {
     },
     
             dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/development/precheckin/attachments/upload',
+          url: 'https://backend.enigmedsvcs.com/development/precheckin/attachments/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 3,
@@ -896,7 +896,7 @@ export default {
   methods: {
          async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic/'+ this.clinicId)
    this.clinicName= response.data.accountInfo[0].name;
     
   } catch (error) {
@@ -940,7 +940,7 @@ async onSearch(search, loading) {
    return this.medicineInfo;
   }
     loading(true);
-    const response = await this.axios.get(`https://backend.medicodesolution.com/development/search/medicines/${escape(search)}`);
+    const response = await this.axios.get(`https://backend.enigmedsvcs.com/development/search/medicines/${escape(search)}`);
     this.medicineInfo = response.data.medicineInfo;
     loading(false);
     },
@@ -1190,7 +1190,7 @@ getTabletValue(){
    //no validation
  
     
-    self.axios.post('https://backend.medicodesolution.com/development/precheckin/submit', {
+    self.axios.post('https://backend.enigmedsvcs.com/development/precheckin/submit', {
           clinicId:self.clinicId,
           vendorId:self.data.vendor.id,
           orderId:self.data.order_number,
@@ -1228,7 +1228,7 @@ getTabletValue(){
   },
  async getVendors() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/all/vendors');
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/all/vendors');
 
    this.vendorInfo = response.data.vendorInfo;
    

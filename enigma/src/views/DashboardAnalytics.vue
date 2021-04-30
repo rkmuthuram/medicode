@@ -426,7 +426,7 @@ if(data.length==i){
 		"order": [[ 9, "movementPct" ]],
         "serverSide": true,
           "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/fast/inventory/clinic/admin/"+userInfo.clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/fast/inventory/clinic/admin/"+userInfo.clinicId,
     "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
       var val;
@@ -649,7 +649,7 @@ if(data.length==i){
 		"order": [[ 9, "movementPct" ]],
         "serverSide": true,
           "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/zero/inventory/clinic/admin/"+userInfo.clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/zero/inventory/clinic/admin/"+userInfo.clinicId,
     "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
       var val;
@@ -872,7 +872,7 @@ var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
 		"order": [[ 9, "movementPct" ]],
         "serverSide": true,
           "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/incoming/inventory/clinic/admin/"+userInfo.clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/incoming/inventory/clinic/admin/"+userInfo.clinicId,
     "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
       var val;
@@ -1093,7 +1093,7 @@ var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
 		"order": [[ 9, "movementPct" ]],
         "serverSide": true,
           "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/slow/inventory/clinic/admin/"+userInfo.clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/slow/inventory/clinic/admin/"+userInfo.clinicId,
     "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
       var val;
@@ -1311,7 +1311,7 @@ var incomingInventorytable =  $('#incomingstockdatatable').DataTable( {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'frtip',
-		"ajax": "https://backend.medicodesolution.com/development/single/checkout/today/admin/"+userInfo.clinicId,
+		"ajax": "https://backend.enigmedsvcs.com/development/single/checkout/today/admin/"+userInfo.clinicId,
 		"columnDefs": [ {
         "targets": [0],
         "visible": false,

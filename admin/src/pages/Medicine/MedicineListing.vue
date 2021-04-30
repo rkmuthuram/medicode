@@ -72,7 +72,7 @@ export default {
 		"processing": true,
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/medicine/admin",
+		"ajax": "https://backend.enigmedsvcs.com/development/medicine/admin",
 		"columnDefs": [
     {
       "data": null,

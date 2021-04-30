@@ -70,7 +70,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/vendor-private/admin",
+		"ajax": "https://backend.enigmedsvcs.com/development/vendor-private/admin",
 		"columnDefs": [
     {
       "data": null,

@@ -66,7 +66,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
          "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/admin/clinicHistory/"+ userInfo.clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/admin/clinicHistory/"+ userInfo.clinicId,
     	"columnDefs": [
     {
       "targets": 0,

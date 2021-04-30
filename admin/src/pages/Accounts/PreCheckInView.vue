@@ -160,7 +160,7 @@ export default {
   methods: {
     async deleteRecord(){
   try {
-   const response = await this.axios.delete('https://backend.medicodesolution.com/development/precheckin/'+ this.preCheckInId)
+   const response = await this.axios.delete('https://backend.enigmedsvcs.com/development/precheckin/'+ this.preCheckInId)
 
   if(response.data.success){
           return this.$router.push({
@@ -175,7 +175,7 @@ export default {
     },
        async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic/'+ this.clinicId)
    this.clinicName= response.data.accountInfo[0].name;
     
   } catch (error) {
@@ -184,7 +184,7 @@ export default {
 },
    async getPreCheckIn() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/precheckin/'+ this.preCheckInId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/precheckin/'+ this.preCheckInId)
    this.data = response.data.preCheckInInfo[0];
   this.data.allProducts = JSON.parse(this.data.allProducts);
  

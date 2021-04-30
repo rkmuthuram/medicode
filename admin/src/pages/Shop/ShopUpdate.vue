@@ -231,7 +231,7 @@ export default {
       locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
       isLoading:false,
        dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/development/shop/upload',
+          url: 'https://backend.enigmedsvcs.com/development/shop/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
            maxFiles: 5,
@@ -240,7 +240,7 @@ export default {
           
       },
       dropzoneOptions2: {
-          url: 'https://backend.medicodesolution.com/development/shop/upload',
+          url: 'https://backend.enigmedsvcs.com/development/shop/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
           maxFiles: 1,
@@ -309,7 +309,7 @@ export default {
     completeSubmission(){
         var self = this;
       
- self.axios.patch('https://backend.medicodesolution.com/development/shop/'+ this.shopId, {
+ self.axios.patch('https://backend.enigmedsvcs.com/development/shop/'+ this.shopId, {
                     title: self.data.title,
                     description:self.data.description,
                     time_taken: self.data.time_taken,
@@ -374,7 +374,7 @@ export default {
 
 async getService() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/shop/'+ this.shopId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/shop/'+ this.shopId)
    this.data = response.data.shopInfo[0];
    this.images = response.data.shopInfo[0].images.split(',');
    this.cover_image[0] = response.data.shopInfo[0].cover_image_url;

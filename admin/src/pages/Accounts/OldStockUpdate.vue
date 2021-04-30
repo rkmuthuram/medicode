@@ -518,7 +518,7 @@ export default {
   
     async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic/'+ this.clinicId)
    this.data= response.data.accountInfo[0];
  
     
@@ -534,7 +534,7 @@ export default {
       self.$validator.validateAll().then((result) => {
 		  if (result) {
      
-                self.axios.patch('https://backend.medicodesolution.com/development/clinic/liveInventory/'+ self.data.id, {
+                self.axios.patch('https://backend.enigmedsvcs.com/development/clinic/liveInventory/'+ self.data.id, {
              
                 postChange:JSON.stringify(self.postChange),
         
@@ -573,7 +573,7 @@ export default {
    return this.medicineInfo;
   }
     loading(true);
-    const response = await this.axios.get(`https://backend.medicodesolution.com/development/search/liveInventory/`+ this.clinicId +`/${escape(search)}`);
+    const response = await this.axios.get(`https://backend.enigmedsvcs.com/development/search/liveInventory/`+ this.clinicId +`/${escape(search)}`);
     this.medicineInfo = response.data.medicineInfo;
    // console.log(this.medicineInfo)
     loading(false);

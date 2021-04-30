@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios'
 
-const baseURL = 'https://backend.medicodesolution.com/development';
+const baseURL = 'https://backend.enigmedsvcs.com/development';
 
 export default axios.create({
   baseURL

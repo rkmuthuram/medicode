@@ -193,7 +193,7 @@ export default {
   methods: {
      async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic/'+ this.clinicId)
    this.clinicName= response.data.accountInfo[0].name;
     
   } catch (error) {
@@ -210,7 +210,7 @@ export default {
   },
    async getCheckIn() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/checkin/'+ this.checkInId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/checkin/'+ this.checkInId)
    this.data = response.data.checkInInfo[0];
   this.data.allProducts = JSON.parse(this.data.allProducts);
  
@@ -306,7 +306,7 @@ export default {
      //no validation
    if(index==length){
    
-    self.axios.post('https://backend.medicodesolution.com/development/clinicInventory/approve/submit', {
+    self.axios.post('https://backend.enigmedsvcs.com/development/clinicInventory/approve/submit', {
           
         finalProducts:finalProducts,
         clinicId:self.data.clinicId
@@ -348,7 +348,7 @@ export default {
 
 
   
-    self.axios.post('https://backend.medicodesolution.com/development/clinicInventory/approve/reject/'+self.data.id, {
+    self.axios.post('https://backend.enigmedsvcs.com/development/clinicInventory/approve/reject/'+self.data.id, {
           
        
 

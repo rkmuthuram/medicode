@@ -187,7 +187,7 @@ export default {
   methods: {
         async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic/'+ this.clinicId)
    this.clinicName= response.data.accountInfo[0].name;
     
   } catch (error) {
@@ -203,7 +203,7 @@ export default {
       e.preventDefault();
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/development/clinic_ipv4', {
+                self.axios.post('https://backend.enigmedsvcs.com/development/clinic_ipv4', {
         accountId:self.accountId,
         clinicId:self.clinicId,
         ipv4:self.data.ipv4,

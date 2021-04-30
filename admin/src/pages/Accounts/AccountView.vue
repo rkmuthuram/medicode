@@ -675,7 +675,7 @@ export default {
          var self = this;
        self.isLoading = true;
    
-                self.axios.patch('https://backend.medicodesolution.com/development/account/status/'+this.accountId, {
+                self.axios.patch('https://backend.enigmedsvcs.com/development/account/status/'+this.accountId, {
                    status:1
                 })
                 .then(function (response) {
@@ -707,7 +707,7 @@ export default {
          var self = this;
        self.isLoading = true;
 
-                self.axios.patch('https://backend.medicodesolution.com/development/account/status/'+this.accountId, {
+                self.axios.patch('https://backend.enigmedsvcs.com/development/account/status/'+this.accountId, {
                    status:0
                 })
                 .then(function (response) {
@@ -738,7 +738,7 @@ export default {
     async getAccount() {
      
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/account/'+ this.accountId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/account/'+ this.accountId)
    this.data = response.data.accountInfo[0];
    this.data.attachments = response.data.accountInfo[0].attachments.split(',');
  
@@ -759,7 +759,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/workforce/onlyAccountAdmin/admin/"+accountId,
+		"ajax": "https://backend.enigmedsvcs.com/development/workforce/onlyAccountAdmin/admin/"+accountId,
 		"columnDefs": [
     {
       "data": null,
@@ -786,7 +786,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/onlyClinic/admin/"+accountId,
+		"ajax": "https://backend.enigmedsvcs.com/development/onlyClinic/admin/"+accountId,
 		"columnDefs": [
     {
       "data": null,
@@ -811,7 +811,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-    "ajax": "https://backend.medicodesolution.com/development/admin/accountHistory/"+accountId,
+    "ajax": "https://backend.enigmedsvcs.com/development/admin/accountHistory/"+accountId,
     	"columnDefs": [
     {
       "targets": 0,
@@ -826,12 +826,12 @@ export default {
 
     $('#accadmindatatable tbody').on( 'click', '#edit', function () {
     var data = table.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.medicodesolution.com/app/workforce-view/' + data[0]);
+    	  window.open('https://admin.enigmedsvcs.com/app/workforce-view/' + data[0]);
 	
     } );
        $('#clinicadmindatatable tbody').on( 'click', '#edit', function () {
     var data2 = table2.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.medicodesolution.com/app/account-view-clinic/' + data2[0]);
+    	  window.open('https://admin.enigmedsvcs.com/app/account-view-clinic/' + data2[0]);
 	
     } );
 	

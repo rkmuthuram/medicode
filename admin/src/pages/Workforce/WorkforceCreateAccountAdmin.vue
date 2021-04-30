@@ -262,7 +262,7 @@ export default {
       locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
       isLoading:false,
        dropzoneOptions2: {
-          url: 'https://backend.medicodesolution.com/development/workforce/photo/upload',
+          url: 'https://backend.enigmedsvcs.com/development/workforce/photo/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
           maxFiles: 1,
@@ -276,7 +276,7 @@ export default {
   methods: {
       async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/account/'+ this.accountId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/account/'+ this.accountId)
    this.accName= response.data.accountInfo[0].company_name;
  
     
@@ -297,7 +297,7 @@ export default {
       e.preventDefault();
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/development/workforce/admin', {
+                self.axios.post('https://backend.enigmedsvcs.com/development/workforce/admin', {
                     username: self.data.username,
                     email:self.data.email,
                     tel_no: self.data.tel_no,

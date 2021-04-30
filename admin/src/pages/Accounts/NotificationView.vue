@@ -146,7 +146,7 @@ export default {
      async getNotification() {
          var self=this;
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/admin/single-notifications/'+ this.notificationId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/admin/single-notifications/'+ this.notificationId)
            self.alertDetails = response.data.alertDetails;
              //   self.affectedJson = response.data.alertDetails.affectedJson;
              self.affectedJson = response.data.affectedJson;

@@ -932,7 +932,7 @@ export default {
          var self = this;
        self.isLoading = true;
    
-                self.axios.patch('https://backend.medicodesolution.com/development/clinic/status/'+this.clinicId, {
+                self.axios.patch('https://backend.enigmedsvcs.com/development/clinic/status/'+this.clinicId, {
                    status:1,
                    accountId:self.data.accountId
                 })
@@ -965,7 +965,7 @@ export default {
          var self = this;
        self.isLoading = true;
 
-                self.axios.patch('https://backend.medicodesolution.com/development/clinic/status/'+this.clinicId, {
+                self.axios.patch('https://backend.enigmedsvcs.com/development/clinic/status/'+this.clinicId, {
                    status:0,
                    accountId:self.data.accountId
                 })
@@ -998,7 +998,7 @@ export default {
          var self = this;
        self.isLoading = true;
 
-                self.axios.patch('https://backend.medicodesolution.com/development/clinic_settings/'+this.clinicId, {
+                self.axios.patch('https://backend.enigmedsvcs.com/development/clinic_settings/'+this.clinicId, {
                   staffCount:self.settingsData.staffCount,
                   ip_status:self.settingsData.ip_status,
                    accountId:self.data.accountId
@@ -1030,7 +1030,7 @@ export default {
     },
         downloadInventory(){
       var self=this;
-         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportInventory/'+self.clinicId, {
+         self.axios.post('https://backend.enigmedsvcs.com/development/clinic/download/reportInventory/'+self.clinicId, {
            
                 })
                 .then(function (response) {
@@ -1061,7 +1061,7 @@ export default {
 
      downloadLowStock(){
       var self=this;
-         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportLowStock/'+self.clinicId, {
+         self.axios.post('https://backend.enigmedsvcs.com/development/clinic/download/reportLowStock/'+self.clinicId, {
            
                 })
                 .then(function (response) {
@@ -1090,7 +1090,7 @@ export default {
     },
      downloadMovementPct(){
       var self=this;
-         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportMovementPct/'+self.clinicId, {
+         self.axios.post('https://backend.enigmedsvcs.com/development/clinic/download/reportMovementPct/'+self.clinicId, {
               lowRange:self.movementPct.lowRange,
               highRange:self.movementPct.highRange
                 })
@@ -1120,7 +1120,7 @@ export default {
     },
       downloadSummary(){
       var self=this;
-         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportSummary/'+self.clinicId, {
+         self.axios.post('https://backend.enigmedsvcs.com/development/clinic/download/reportSummary/'+self.clinicId, {
            
                 })
                 .then(function (response) {
@@ -1149,7 +1149,7 @@ export default {
     },
       downloadInventory2(){
       var self=this;
-         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportInventory2/'+self.clinicId, {
+         self.axios.post('https://backend.enigmedsvcs.com/development/clinic/download/reportInventory2/'+self.clinicId, {
            
                 })
                 .then(function (response) {
@@ -1184,7 +1184,7 @@ export default {
        timeRange = 'All';
      }
    
-         self.axios.post('https://backend.medicodesolution.com/development/clinic/download/reportCheckout/'+self.clinicId, {
+         self.axios.post('https://backend.enigmedsvcs.com/development/clinic/download/reportCheckout/'+self.clinicId, {
            type:type,
            timeRange:timeRange
                 })
@@ -1214,7 +1214,7 @@ export default {
     },
     async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId);
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic/'+ this.clinicId);
    this.data = response.data.accountInfo[0];
  
   } catch (error) {
@@ -1224,7 +1224,7 @@ export default {
 ,    
     async getSettings() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic_settings/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic_settings/'+ this.clinicId)
    this.settingsData = response.data.settingsInfo[0];
  
   } catch (error) {
@@ -1329,7 +1329,7 @@ if(data.length==i){
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/workforce/clinic/admin/"+clinicId,
+		"ajax": "https://backend.enigmedsvcs.com/development/workforce/clinic/admin/"+clinicId,
 		"columnDefs": [
     {
       "data": null,
@@ -1357,7 +1357,7 @@ if(data.length==i){
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/clinic/approvedId/admin/"+clinicId,
+		"ajax": "https://backend.enigmedsvcs.com/development/clinic/approvedId/admin/"+clinicId,
 	
   } );
   
@@ -1366,7 +1366,7 @@ if(data.length==i){
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/single/precheckin/admin/"+clinicId,
+		"ajax": "https://backend.enigmedsvcs.com/development/single/precheckin/admin/"+clinicId,
 		"columnDefs": [
     {
       "data": null,
@@ -1392,7 +1392,7 @@ if(data.length==i){
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-    "ajax": "https://backend.medicodesolution.com/development/single/checkin/admin/"+clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/single/checkin/admin/"+clinicId,
       "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
       var val;
@@ -1442,7 +1442,7 @@ if(data.length==i){
 		"order": [[ 9, "movementPct" ]],
         "serverSide": true,
           "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/inventory/clinic/admin/"+clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/inventory/clinic/admin/"+clinicId,
     "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
       var val;
@@ -1723,7 +1723,7 @@ if(data.length==i){
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/single/checkout/admin/"+clinicId,
+		"ajax": "https://backend.enigmedsvcs.com/development/single/checkout/admin/"+clinicId,
 		"columnDefs": [
     {
       "data": null,
@@ -1775,7 +1775,7 @@ if(data.length==i){
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/single/fileManager/admin/"+clinicId,
+		"ajax": "https://backend.enigmedsvcs.com/development/single/fileManager/admin/"+clinicId,
 		"columnDefs": [
 
 
@@ -1806,7 +1806,7 @@ if(str.length==i){
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-    "ajax": "https://backend.medicodesolution.com/development/admin/clinicHistory/"+clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/admin/clinicHistory/"+clinicId,
     	"columnDefs": [
     {
       "targets": 0,
@@ -1820,26 +1820,26 @@ if(str.length==i){
 
     $('#checkindatatable tbody').on( 'click', '#edit', function () {
 		var data = table4.row( $(this).parents('tr') ).data();
-		 window.open('https://admin.medicodesolution.com/app/checkin-view/' + data[0]+ '/' +clinicId);
+		 window.open('https://admin.enigmedsvcs.com/app/checkin-view/' + data[0]+ '/' +clinicId);
     } );
 
 
     $('#precheckdatatable tbody').on( 'click', '#edit', function () {
     var data = table3.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.medicodesolution.com/app/precheckin-view/' + data[0] + '/' +clinicId);
+    	  window.open('https://admin.enigmedsvcs.com/app/precheckin-view/' + data[0] + '/' +clinicId);
 	
     } );
 
      $('#inventorydatatable tbody').on( 'click', '#edit', function () {
     var data = table5.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.medicodesolution.com/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
+    	  window.open('https://admin.enigmedsvcs.com/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
 	
     } );
    
 
        $('#checkoutdatatable tbody').on( 'click', '#edit', function () {
     var data = table6.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.medicodesolution.com/app/checkout-view/'+ data[0]+ '/' +clinicId);
+    	  window.open('https://admin.enigmedsvcs.com/app/checkout-view/'+ data[0]+ '/' +clinicId);
 	
     } );
    
@@ -1850,7 +1850,7 @@ if(str.length==i){
 
     $('#staffadmindatatable2 tbody').on( 'click', '#edit', function () {
     var data = table.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.medicodesolution.com/app/workforce-view/' + data[0]);
+    	  window.open('https://admin.enigmedsvcs.com/app/workforce-view/' + data[0]);
 	
     } );
    

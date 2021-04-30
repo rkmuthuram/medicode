@@ -130,7 +130,7 @@ export default {
          var self = this;
        self.isLoading = true;
     
-                self.axios.patch('https://backend.medicodesolution.com/development/coresettings/1', {
+                self.axios.patch('https://backend.enigmedsvcs.com/development/coresettings/1', {
                    whatsapp:self.settingsdata.whatsapp
                 })
                 .then(function (response) {
@@ -162,7 +162,7 @@ export default {
 
    async getCoreSettings() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/coresettings')
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/coresettings')
    this.settingsdata = response.data.settingsInfo[0];
 
  

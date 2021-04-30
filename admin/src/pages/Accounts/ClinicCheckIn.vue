@@ -957,7 +957,7 @@ export default {
     },
     
             dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/development/checkin/attachments/upload',
+          url: 'https://backend.enigmedsvcs.com/development/checkin/attachments/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 3,
@@ -979,7 +979,7 @@ export default {
   methods: {
          async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic/'+ this.clinicId)
    this.clinicName= response.data.accountInfo[0].name;
     
   } catch (error) {
@@ -1172,7 +1172,7 @@ async onSearch(search, loading) {
    return this.medicineInfo;
   }
     loading(true);
-    const response = await this.axios.get(`https://backend.medicodesolution.com/development/search/medicines/${escape(search)}`);
+    const response = await this.axios.get(`https://backend.enigmedsvcs.com/development/search/medicines/${escape(search)}`);
     this.medicineInfo = response.data.medicineInfo;
     loading(false);
     },
@@ -1277,7 +1277,7 @@ async onSearch(search, loading) {
    //no validation
    self.$validator.validateAll().then((result) => {
 		  if (result) {
-          self.axios.post('https://backend.medicodesolution.com/development/checkin/submit', {
+          self.axios.post('https://backend.enigmedsvcs.com/development/checkin/submit', {
         clinicId:self.clinicId,
           preCheckInId:self.selectedPreCheckIn.preId,
           invoiceId:self.data.invoiceId,
@@ -1324,7 +1324,7 @@ async onSearch(search, loading) {
   },
  async getPreCheckIns() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/all/precheckins/'+this.clinicId);
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/all/precheckins/'+this.clinicId);
   
    this.preInfo = response.data.preInfo;
    
@@ -1336,7 +1336,7 @@ async onSearch(search, loading) {
 
  async getPreSelectedVendor(id) {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/vendor/'+id);
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/vendor/'+id);
    this.selectedVendorInfo = response.data.vendorInfo[0];
  
    
@@ -1347,7 +1347,7 @@ async onSearch(search, loading) {
 },
   async getManufacturerBarcodes() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/manufacturerBarcodes')
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/manufacturerBarcodes')
    this.manufacturerBarcodes = response.data.manufacturerBarcodes;
   } catch (error) {
     console.error(error);

@@ -235,6 +235,34 @@ const router = new Router({
           }
         },
         {
+          path: '/staffs/add',
+          name: 'staffs-add',
+          component: () => import('@/views/extras/StaffNew.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Staff Listing', url:'/staffs' },
+              { title: 'New Staff', active:true }
+            ],
+            pageTitle: 'New Staff',
+            rule: 'isLoggedIn'
+          }
+        },
+        {
+          path: '/staff-delete/:workforceId',
+          name: 'staff-delete',
+          component: () => import('@/views/extras/StaffDelete.vue'),
+          meta: {
+            breadcrumb: [
+              { title: 'Home', url: '/' },
+              { title: 'Staff Listing', url:'/staffs' },
+              { title: 'New Staff', active:true }
+            ],
+            pageTitle: 'Delete Staff',
+            rule: 'isLoggedIn'
+          }
+        },
+        {
           path: '/staffs',
           name: 'staffs',
           component: () => import('@/views/extras/StaffListing.vue'),

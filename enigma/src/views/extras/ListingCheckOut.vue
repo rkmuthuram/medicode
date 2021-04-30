@@ -155,7 +155,7 @@ if(data.length==i){
 		"order": [[ 0, "id" ]],
         "serverSide": true,
          "dom": 'frtip',
-		"ajax": "https://backend.medicodesolution.com/development/single/checkout/admin/"+ userInfo.clinicId,
+		"ajax": "https://backend.enigmedsvcs.com/development/single/checkout/admin/"+ userInfo.clinicId,
 		"columnDefs": [
        {
         "targets": [0],
@@ -205,7 +205,7 @@ if(data.length==i){
 
   $('#checkoutdatatable tbody').on( 'click', '#edit', function () {
 		var data = table6.row( $(this).parents('tr') ).data();
-		 window.open('https://enigma.medicodesolution.com/view-check-out/'+ data[0]);
+		 window.open('https://enigma.enigmedsvcs.com/view-check-out/'+ data[0]);
     } );
 
   	

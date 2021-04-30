@@ -67,7 +67,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/single/checkin/admin/"+ userInfo.clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/single/checkin/admin/"+ userInfo.clinicId,
       "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
       var val;
@@ -118,7 +118,7 @@ export default {
 
   $('#checkindatatable tbody').on( 'click', '#edit', function () {
 		var data = table4.row( $(this).parents('tr') ).data();
-		 window.open('https://enigma.medicodesolution.com/view-check-in/'+ data[0]);
+		 window.open('https://enigma.enigmedsvcs.com/view-check-in/'+ data[0]);
     } );
 
   	

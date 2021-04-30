@@ -69,7 +69,7 @@ export default {
        async getNotifications() {
      var self=this;
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/admin/notifications/'+ this.uid)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/admin/notifications/'+ this.uid)
    self.unreadNotifications = response.data.allNotifications;
                  self.unreadNotif = response.data.unreadNotifications;
             

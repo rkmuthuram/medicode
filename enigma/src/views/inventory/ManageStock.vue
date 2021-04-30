@@ -355,7 +355,7 @@ this.suggestion.stockCount  = 'SUFFICIENT BALANCE STOCK';
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'frtip',
-		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/checkins/"+clinicId+"/"+productId,
+		"ajax": "https://backend.enigmedsvcs.com/development/inventory/clinic/checkins/"+clinicId+"/"+productId,
 		"columnDefs": [
     {
       "data": null,
@@ -380,7 +380,7 @@ this.suggestion.stockCount  = 'SUFFICIENT BALANCE STOCK';
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'frtip',
-		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/checkouts/"+clinicId+"/"+productId,
+		"ajax": "https://backend.enigmedsvcs.com/development/inventory/clinic/checkouts/"+clinicId+"/"+productId,
 		"columnDefs": [
     {
       "data": null,
@@ -404,19 +404,19 @@ this.suggestion.stockCount  = 'SUFFICIENT BALANCE STOCK';
 		"processing": true,
         "serverSide": true,
           "dom": 'frtip',
-		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/product3/admin/"+clinicId+"/"+productId,
+		"ajax": "https://backend.enigmedsvcs.com/development/inventory/clinic/product3/admin/"+clinicId+"/"+productId,
 	
   } );
 
 
     $('#myclinicinventorydatatable tbody').on( 'click', '#edit', function () {
 		var data = table5.row( $(this).parents('tr') ).data();
-		 window.open('https://enigma.medicodesolution.com/view-check-in/' + data[1]);
+		 window.open('https://enigma.enigmedsvcs.com/view-check-in/' + data[1]);
     } );
 
         $('#myclinicinventorydatatable2 tbody').on( 'click', '#edit', function () {
 		var data = table6.row( $(this).parents('tr') ).data();
-		 window.open('https://enigma.medicodesolution.com/view-check-out/' + data[1]);
+		 window.open('https://enigma.enigmedsvcs.com/view-check-out/' + data[1]);
     } );
   
   

@@ -139,7 +139,7 @@ export default {
 		"order": [[ 9, "movementPct" ]],
         "serverSide": true,
           "dom": 'frtip',
-    "ajax": "https://backend.medicodesolution.com/development/inventory/clinic/admin/"+ userInfo.clinicId,
+    "ajax": "https://backend.enigmedsvcs.com/development/inventory/clinic/admin/"+ userInfo.clinicId,
     "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
    
       var val;
@@ -363,7 +363,7 @@ export default {
 
   $('#inventorytable2 tbody').on( 'click', '#edit', function () {
     var data = inventorytable2.row( $(this).parents('tr') ).data();
-    	  window.open('https://enigma.medicodesolution.com/manage-stock/'+ userInfo.clinicId +'/'+ data[0]);
+    	  window.open('https://enigma.enigmedsvcs.com/manage-stock/'+ userInfo.clinicId +'/'+ data[0]);
 	
     } );
   	

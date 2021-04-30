@@ -589,7 +589,7 @@ export default {
     },
     
             dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/development/precheckin/attachments/upload',
+          url: 'https://backend.enigmedsvcs.com/development/precheckin/attachments/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 3,

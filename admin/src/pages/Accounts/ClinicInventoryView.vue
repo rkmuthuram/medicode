@@ -414,7 +414,7 @@ export default {
  
    async getMedicine() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/medicine/'+ this.inventoryId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/medicine/'+ this.inventoryId)
   this.data = response.data.medicineInfo[0];
  
  
@@ -441,7 +441,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/checkins/"+clinicId+"/"+productId,
+		"ajax": "https://backend.enigmedsvcs.com/development/inventory/clinic/checkins/"+clinicId+"/"+productId,
 		"columnDefs": [
     {
       "data": null,
@@ -460,7 +460,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/checkouts/"+clinicId+"/"+productId,
+		"ajax": "https://backend.enigmedsvcs.com/development/inventory/clinic/checkouts/"+clinicId+"/"+productId,
 		"columnDefs": [
     {
       "data": null,
@@ -478,19 +478,19 @@ export default {
 		"processing": true,
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/inventory/clinic/product3/admin/"+clinicId+"/"+productId,
+		"ajax": "https://backend.enigmedsvcs.com/development/inventory/clinic/product3/admin/"+clinicId+"/"+productId,
 	
   } );
 
 
     $('#ggtabl1 tbody').on( 'click', '#edit', function () {
 		var data = table5.row( $(this).parents('tr') ).data();
-		 window.open('https://admin.medicodesolution.com/app/checkin-view/'+data[1]+'/' + clinicId);
+		 window.open('https://admin.enigmedsvcs.com/app/checkin-view/'+data[1]+'/' + clinicId);
     } );
 
         $('#ggtabl2 tbody').on( 'click', '#edit', function () {
 		var data = table6.row( $(this).parents('tr') ).data();
-		 window.open('https://admin.medicodesolution.com/app/checkout-view/'+data[1]+'/' + clinicId);
+		 window.open('https://admin.enigmedsvcs.com/app/checkout-view/'+data[1]+'/' + clinicId);
     } );
   
    

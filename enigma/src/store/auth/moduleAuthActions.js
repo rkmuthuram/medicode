@@ -336,7 +336,7 @@ export default {
 
       return new Promise((resolve, reject) => {
 
-      axios.post('https://backend.medicodesolution.com/development/enigma/login',{
+      axios.post('https://backend.enigmedsvcs.com/development/enigma/login',{
         email:payload.userDetails.email,
         password:payload.userDetails.password
      })

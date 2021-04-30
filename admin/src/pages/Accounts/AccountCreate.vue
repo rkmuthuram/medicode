@@ -560,7 +560,7 @@ export default {
       locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
       isLoading:false,
           dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/development/account/documents/upload',
+          url: 'https://backend.enigmedsvcs.com/development/account/documents/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 15,
@@ -569,7 +569,7 @@ export default {
           
       },
        dropzoneOptions2: {
-          url: 'https://backend.medicodesolution.com/development/account/photo/upload',
+          url: 'https://backend.enigmedsvcs.com/development/account/photo/upload',
           thumbnailWidth: 150,
           maxFilesize: 5.0,
           maxFiles: 1,
@@ -654,7 +654,7 @@ export default {
    
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/development/account', {
+                self.axios.post('https://backend.enigmedsvcs.com/development/account', {
         company_name:self.data.company_name,
         ref_id:self.data.ref_id,
         pic_name:self.data.pic_name,

@@ -178,7 +178,7 @@ export default {
          async getAccounts() {
            var self=this;
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/all/clinics');
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/all/clinics');
    
   var clinics = response.data.clinics;
  clinics.forEach(function(entry) {

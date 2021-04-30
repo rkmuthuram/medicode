@@ -68,7 +68,7 @@ export default {
 		"order": [[ 0, "id" ]],
         "serverSide": true,
           "dom": 'Bfrtip',
-		"ajax": "https://backend.medicodesolution.com/development/checkin/admin",
+		"ajax": "https://backend.enigmedsvcs.com/development/checkin/admin",
 		"columnDefs": [
     {
       "data": null,

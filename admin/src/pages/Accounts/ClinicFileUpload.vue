@@ -181,7 +181,7 @@ export default {
       locationClasses: 'messenger-fixed messenger-on-top messenger-on-right',
       isLoading:false,
           dropzoneOptions: {
-          url: 'https://backend.medicodesolution.com/development/fileManager/attachments/upload',
+          url: 'https://backend.enigmedsvcs.com/development/fileManager/attachments/upload',
           thumbnailWidth: 150,
           maxFilesize: 10.0,
            maxFiles: 15,
@@ -194,7 +194,7 @@ export default {
   methods: {
        async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/clinic/'+ this.clinicId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/clinic/'+ this.clinicId)
    this.clinicName= response.data.accountInfo[0].name;
     
   } catch (error) {
@@ -247,7 +247,7 @@ export default {
    
       self.$validator.validateAll().then((result) => {
 		  if (result) {
-                self.axios.post('https://backend.medicodesolution.com/development/fileManager', {
+                self.axios.post('https://backend.enigmedsvcs.com/development/fileManager', {
         title:self.data.title,
         staffId:self.staffId,
         staffName:self.staffName,

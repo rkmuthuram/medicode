@@ -347,7 +347,7 @@ export default {
     },
     async getAccount() {
   try {
-   const response = await this.axios.get('https://backend.medicodesolution.com/development/vendor/'+ this.vendorId)
+   const response = await this.axios.get('https://backend.enigmedsvcs.com/development/vendor/'+ this.vendorId)
    this.data= response.data.vendorInfo[0];
     
   } catch (error) {
@@ -362,7 +362,7 @@ export default {
       self.$validator.validateAll().then((result) => {
 		  if (result) {
      
-                self.axios.patch('https://backend.medicodesolution.com/development/vendor/'+ self.data.id, {
+                self.axios.patch('https://backend.enigmedsvcs.com/development/vendor/'+ self.data.id, {
               
         name:self.data.name,
         ref_id:self.data.ref_id,

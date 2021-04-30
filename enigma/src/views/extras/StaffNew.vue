@@ -9,15 +9,26 @@
           <form >
        
             <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="File Title" v-model="data.title" class="w-full" name="file-title" v-validate="'required|min:5'" />
-              <span class="text-danger">{{ errors.first('file-title') }}</span>
+              <vs-input label="Name" v-model="data.username" class="w-full" name="user-name" v-validate="'required|min:5'" />
+              <span class="text-danger">{{ errors.first('user-name') }}</span>
+            </div>
+               <div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input label="Email" v-model="data.email" class="w-full" name="user-email" v-validate="'required|email'" />
+              <span class="text-danger">{{ errors.first('user-email') }}</span>
             </div>
               <div class="vx-col md:w-1/2 w-full mt-5">
-              <vs-input label="File Description (optional)" v-model="data.desc" class="w-full" name="file-title"  />
+              <vs-input label="Tel-no" v-model="data.tel_no" class="w-full" name="user-tel" v-validate="'required|min:10'" />
+              <span class="text-danger">{{ errors.first('user-tel') }}</span>
             </div>
+               <div class="vx-col md:w-1/2 w-full mt-5">
+              <vs-input label="IC-no" v-model="data.ic_no" class="w-full" name="user-ic" v-validate="'required|min:10'" />
+              <span class="text-danger">{{ errors.first('user-ic') }}</span>
+            </div>
+        
       
       <br>
-                <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions" v-on:vdropzone-file-added="checkOtherImage" v-on:vdropzone-queue-complete="onDropzoneUploadComplete"></vue-dropzone>
+      Profile Image
+                 <vue-dropzone ref="myVueDropzone2" id="dropzone2" :options="dropzoneOptions2" v-on:vdropzone-success="successEvent2"></vue-dropzone>
         <!--    <div class="vx-col md:w-1/2 w-full mt-5">
               <vs-select v-model="city" class="w-full select-large" label="City">
                 <vs-select-item :key="index" :value="item.value" :text="item.text" v-for="(item,index) in cityOptions" class="w-full" />
@@ -50,17 +61,22 @@ vueDropzone: vue2Dropzone
     return {
     userInfo:JSON.parse(localStorage.getItem('userInfo')),
     data:{
-       title:'',
-       desc:'',
-       attachments:[],
-
+           username:'',
+        email:'',
+        tel_no:'',
+        password:'123456',
+        position:'Nurse',
+        center:'',
+        photoUrl:'',
+        ic_no:''
       },
-           dropzoneOptions: {
-          url: 'https://backend.enigmedsvcs.com/development/fileManager/attachments/upload',
+           dropzoneOptions2: {
+      url: 'https://backend.enigmedsvcs.com/development/workforce/photo/upload',
           thumbnailWidth: 150,
-          maxFilesize: 10.0,
-           maxFiles: 15,
+          maxFilesize: 5.0,
+          maxFiles: 1,
           addRemoveLinks: true,
+          acceptedFiles:'image/*'
           //autoProcessQueue: false
           
       },
@@ -75,10 +91,10 @@ vueDropzone: vue2Dropzone
   methods: {
    submit(){
     var self=this;  
-    if(self.data.attachments.length==0){
+    if(self.data.photoUrl==''){
                return    self.$vs.notify({
           title: 'Error',
-          text: 'Upload any file to continue..',
+          text: 'Upload profile image to continue..',
           iconPack: 'feather',
           icon: 'icon-alert-circle',
           color: 'danger'
@@ -87,15 +103,17 @@ vueDropzone: vue2Dropzone
     }
      self.$validator.validateAll().then(result => {
         if (result) {
-      self.$http.post('fileManager', {
-          title:self.data.title,
-        staffId:self.userInfo.uid,
-        staffName:self.userInfo.displayName,
-        clinicId:self.userInfo.clinicId,
-        desc:self.data.desc,
-        attachments:self.data.attachments.join(),
-          
-
+      self.$http.post('workforce/non-admin', {
+         username: self.data.username,
+                    email:self.data.email,
+                    tel_no: self.data.tel_no,
+                    password:'123456',
+                    position:self.data.position,
+                    center:self.data.center,
+                     photoUrl:self.data.photoUrl,
+                     ic_no:self.data.ic_no,
+                     accountId:self.userInfo.accountId,
+                     clinicId:self.userInfo.clinicId
     })
                 .then(function (response) {
                 if(response.status == 200 && response.data.success){
@@ -149,41 +167,11 @@ vueDropzone: vue2Dropzone
  
    
   },
-        removeOtherImage(i){
-      this.data.attachments.splice(i,1);
-    },
-       removeImage(){
-      this.data.photoUrl='';
-    },
-        checkOtherImage(file){
-  
-      if((this.data.attachments.length +  this.$refs.myVueDropzone.getQueuedFiles().length) > 14){
-         this.$refs.myVueDropzone.removeAllFiles();
-            this.$vs.notify({
-          title: 'Error',
-          text: '"Maximum 15 items total. Remove at least one existing attachment before uploading new document!',
-          iconPack: 'feather',
-          icon: 'icon-alert-circle',
-          color: 'warning'
-        })
-  
-      }
-    },
-        onDropzoneUploadComplete(file){
-    //    console.log(this.images);
-    var myfiles = this.$refs.myVueDropzone.getAcceptedFiles();
-    var i = 0;
-  for(i=0; i < myfiles.length;i++){
- // console.log(myfiles[i].xhr.response);
-  this.data.attachments.push(myfiles[i].xhr.response);
-   if(i == myfiles.length){
-  
-  }
-  }
-    this.upload++;
-     //    console.log(this.upload);
- // console.log(this.images);
-    },
+         successEvent2 (file) {
+        this.data.photoUrl =file.xhr.response;
+      
+      },
+
   },
   mounted () {
     

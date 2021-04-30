@@ -65,7 +65,7 @@ export default {
       }
       if(readStatus==0){
         var self=this;
-       self.axios.patch('https://backend.medicodesolution.com/development/admin/single-notifications/'+ notificationId+'/'+ self.uid, {
+       self.axios.patch('https://backend.enigmedsvcs.com/development/admin/single-notifications/'+ notificationId+'/'+ self.uid, {
          
                 })
                 .then(function (response) {
