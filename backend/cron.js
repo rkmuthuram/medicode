@@ -60,7 +60,7 @@ var readHTMLFile = function(path, callback) {
 
 
 
-axios.get('https://backend.medicodesolution.com/development/crons')
+axios.get('https://backend.enigmedsvcs.com/development/crons')
   .then(function (response) {
     // handle success
     console.log(response);

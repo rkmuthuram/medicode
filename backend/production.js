@@ -5790,7 +5790,7 @@ app.route('/development/crons')
               
               let promises = []; 
               for (let i = 0; i < Array.length; i++) {        
-                promises.push(axios.post('https://backend.medicodesolution.com/development/dailyReport/'+Array[i].id ,{
+                promises.push(axios.post('https://backend.enigmedsvcs.com/development/dailyReport/'+Array[i].id ,{
                   emailPrimary:Array[i].pic_email,
                   namePrimary:Array[i].pic_name,
                   clinicName:Array[i].name,
@@ -5837,7 +5837,7 @@ app.route('/development/crons2')
               
               let promises = []; 
               for (let i = 0; i < Array.length; i++) {        
-                promises.push(axios.get('https://backend.medicodesolution.com/development/cron/lowStockAlert/'+Array[i].id ,{
+                promises.push(axios.get('https://backend.enigmedsvcs.com/development/cron/lowStockAlert/'+Array[i].id ,{
                
                 } ));
             }
