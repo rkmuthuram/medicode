@@ -1820,26 +1820,26 @@ if(str.length==i){
 
     $('#checkindatatable tbody').on( 'click', '#edit', function () {
 		var data = table4.row( $(this).parents('tr') ).data();
-		 window.open('https://admin.enigmedsvcs.com/app/checkin-view/' + data[0]+ '/' +clinicId);
+		 window.open('http://localhost:8080/app/checkin-view/' + data[0]+ '/' +clinicId);
     } );
 
 
     $('#precheckdatatable tbody').on( 'click', '#edit', function () {
     var data = table3.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.enigmedsvcs.com/app/precheckin-view/' + data[0] + '/' +clinicId);
+    	  window.open('http://localhost:8080/app/precheckin-view/' + data[0] + '/' +clinicId);
 	
     } );
 
      $('#inventorydatatable tbody').on( 'click', '#edit', function () {
     var data = table5.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.enigmedsvcs.com/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
+    	  window.open('http://localhost:8080/app/clinic-inventory-view/'+clinicId +'/'+ data[0]);
 	
     } );
    
 
        $('#checkoutdatatable tbody').on( 'click', '#edit', function () {
     var data = table6.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.enigmedsvcs.com/app/checkout-view/'+ data[0]+ '/' +clinicId);
+    	  window.open('http://localhost:8080/app/checkout-view/'+ data[0]+ '/' +clinicId);
 	
     } );
    
@@ -1850,7 +1850,7 @@ if(str.length==i){
 
     $('#staffadmindatatable2 tbody').on( 'click', '#edit', function () {
     var data = table.row( $(this).parents('tr') ).data();
-    	  window.open('https://admin.enigmedsvcs.com/app/workforce-view/' + data[0]);
+    	  window.open('http://localhost:8080/app/workforce-view/' + data[0]);
 	
     } );
    

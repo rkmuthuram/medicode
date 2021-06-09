@@ -485,12 +485,12 @@ export default {
 
     $('#ggtabl1 tbody').on( 'click', '#edit', function () {
 		var data = table5.row( $(this).parents('tr') ).data();
-		 window.open('https://admin.enigmedsvcs.com/app/checkin-view/'+data[1]+'/' + clinicId);
+		 window.open('http://localhost:8080/app/checkin-view/'+data[1]+'/' + clinicId);
     } );
 
         $('#ggtabl2 tbody').on( 'click', '#edit', function () {
 		var data = table6.row( $(this).parents('tr') ).data();
-		 window.open('https://admin.enigmedsvcs.com/app/checkout-view/'+data[1]+'/' + clinicId);
+		 window.open('http://localhost:8080/app/checkout-view/'+data[1]+'/' + clinicId);
     } );
   
    
